@@ -9,8 +9,16 @@ class Body extends StatelessWidget {
       height: size.height,
       width: double.infinity,
       child: Stack(
+        alignment: Alignment.center,
         children: <Widget>[
-          Positioned(child: Image.asset('assets/images/LPTopRight.png'))
+          Positioned(
+              top: 0,
+              right: -10,
+              child: Image.asset('assets/images/LPTopRight.png',
+              width: size.width * 0.3,
+            )
+          ),
+          Positioned(child: Image.asset('assets/images/LPBottomLeft.jpg'))
         ],
       ),
     );
