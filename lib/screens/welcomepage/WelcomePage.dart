@@ -13,7 +13,7 @@ class WelcomePage extends StatelessWidget {
         child: ListView(
           children: <Widget>[
             //Images section
-            Padding(padding: EdgeInsets.only(left: 16, right: 16, top: 100),
+            Padding(padding: EdgeInsets.only(left: 16, right: 16, top: 130),
               child: Container(
                 alignment: Alignment.topCenter,
                 width: 350,
@@ -46,7 +46,7 @@ class WelcomePage extends StatelessWidget {
 
             ),
             //Button Section
-            Padding(padding: EdgeInsets.only(left: 55, right: 25, top: 70),
+            Padding(padding: EdgeInsets.only(left: 55, right: 25, top: 45),
               child: Container(
                 alignment: Alignment.bottomRight,
                 padding: EdgeInsets.all(3),
