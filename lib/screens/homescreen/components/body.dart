@@ -23,7 +23,7 @@ class Body extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Image.asset('assets/images/loginpage.png'),
+                Image.asset('assets/images/loginpage/loginpage.png'),
                 Container(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
