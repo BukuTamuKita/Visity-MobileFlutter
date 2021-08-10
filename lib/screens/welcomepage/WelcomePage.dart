@@ -19,7 +19,7 @@ class WelcomePage extends StatelessWidget {
                 width: 350,
                 height: 350,
                 padding: EdgeInsets.all(3),
-                  child: Image(image: AssetImage('assets/images/welcomepage.png'),
+                  child: Image(image: AssetImage('assets/images/welcomepage/welcomepage.png'),
                     ),
               ),
             ),
