@@ -14,6 +14,7 @@ class RoundedInputField extends StatelessWidget {
       child: Center(
         child: TextField(
           decoration: InputDecoration(
+            contentPadding: EdgeInsets.all(10),
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(
                     Radius.circular(12),

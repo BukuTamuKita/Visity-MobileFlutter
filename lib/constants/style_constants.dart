@@ -11,3 +11,4 @@ var HTextStyle3 = GoogleFonts.nunito(fontWeight: FontWeight.w700, color: TextCol
 var LPTextStyle1 = GoogleFonts.nunito(fontWeight: FontWeight.w700, color: TextColor1, fontSize: 32);
 var LPTextStyle2 = GoogleFonts.nunito(fontWeight: FontWeight.w500, color: TextColor1, fontSize: 14);
 var LPTextStyle3 = GoogleFonts.nunito(fontWeight: FontWeight.w700, color: TextColor2, fontSize: 14);
+var LPTextStyle4 = GoogleFonts.nunito(fontWeight: FontWeight.w700, color: MainColor, fontSize: 20);

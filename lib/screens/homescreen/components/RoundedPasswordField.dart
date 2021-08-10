@@ -15,6 +15,7 @@ class RoundedPasswordField extends StatelessWidget {
         child: TextField(
           obscureText: true,
           decoration: InputDecoration(
+              contentPadding: EdgeInsets.all(10),
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(
                     Radius.circular(12),
