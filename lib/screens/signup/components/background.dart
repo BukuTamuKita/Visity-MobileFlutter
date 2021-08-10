@@ -20,7 +20,7 @@ class Background extends StatelessWidget {
               top: 0,
               bottom: 590,
               right: 280,
-              child: Image.asset('assets/images/signuppage/SPTopLeft.png',
+              child: Image.asset('assets/images/signuppage/SPTopLeft2.png',
                 width: size.width * 0.3,
               )
           ),
