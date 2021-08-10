@@ -1,4 +1,5 @@
 import 'package:bukutamu_android/constants/style_constants.dart';
+import 'package:bukutamu_android/screens/signup/components/background.dart';
 import 'package:flutter/material.dart';
 
 class Body extends StatelessWidget {
@@ -6,22 +7,9 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-            title: const Text('AppBar Demo'),
-            actions: <Widget>[
-              IconButton(
-                icon: const Icon(Icons.add_alert),
-                tooltip: 'Show Snackbar',
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('This is a snackbar')
-                      )
-                  );
-                },
-              ),
-            ]
-        ),
+    Size size = MediaQuery.of(context).size;
+    return Background(
+      child: Text("Hello"),
     );
   }
 }

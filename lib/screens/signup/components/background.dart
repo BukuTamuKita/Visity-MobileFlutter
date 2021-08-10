@@ -18,14 +18,15 @@ class Background extends StatelessWidget {
         children: <Widget>[
           Positioned(
               top: 0,
-              right: -30,
+              bottom: 590,
+              right: 280,
               child: Image.asset('assets/images/signuppage/SPTopLeft.png',
                 width: size.width * 0.3,
               )
           ),
           Positioned(
               bottom: 0,
-              left: -20,
+              left: 195,
               child: Image.asset('assets/images/signuppage/SPBottomRight.png',
               )
           ),
