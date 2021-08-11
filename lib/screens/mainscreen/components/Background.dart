@@ -19,16 +19,9 @@ class Background extends StatelessWidget {
             alignment: Alignment.center,
             children: <Widget>[
               Positioned(
-                  top: 0,
-                  right: -30,
-                  child: Image.asset('assets/images/loginpage/LPTopRight.png',
-                    width: size.width * 0.3,
-                  )
-              ),
-              Positioned(
-                  bottom: 0,
-                  left: -20,
-                  child: Image.asset('assets/images/loginpage/LPBottomLeft.png',
+                top: -10,
+                  child: Image.asset('assets/images/mainpage/Background.png',
+                    width: size.width * 1,
                   )
               ),
               child
