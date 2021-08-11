@@ -21,14 +21,17 @@ class Body extends StatelessWidget {
                         width: 20,
                       ),
                       Text(
-                        "Hello, Santoso",
+                        "Hello, Santoso!",
                         style: MainSTextStyle1,
+                      ),
+                      SizedBox(
+                        width: 110,
                       ),
                       IconButton(
                           onPressed: () {
 
                           },
-                          icon: Image.asset(''))
+                          icon: Image.asset('assets/icons/mainscreen/SettingsIcon.png'))
                     ],
                   )
               ),
