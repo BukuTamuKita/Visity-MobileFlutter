@@ -1,4 +1,5 @@
 import 'package:bukutamu_android/constants/style_constants.dart';
+import 'package:bukutamu_android/screens/mainscreen/MainScreen.dart';
 import 'package:flutter/material.dart';
 
 class LoginButton extends StatelessWidget {
@@ -12,7 +13,11 @@ class LoginButton extends StatelessWidget {
       padding: EdgeInsets.only (top: 30),
       child: ElevatedButton(
         onPressed: () {
-
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => MainScreen()
+            ),
+          );
         },
         style: ElevatedButton.styleFrom(
             primary: Color.fromRGBO(119, 202, 178, 10),
