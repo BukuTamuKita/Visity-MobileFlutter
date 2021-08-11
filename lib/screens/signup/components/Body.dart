@@ -1,8 +1,11 @@
 import 'package:bukutamu_android/constants/style_constants.dart';
+import 'package:bukutamu_android/screens/signup/components/LoginTextButton.dart';
+import 'package:bukutamu_android/screens/signup/components/RegisterButton.dart';
 import 'package:bukutamu_android/screens/signup/components/RoundedInputField.dart';
 import 'package:bukutamu_android/screens/signup/components/RoundedPasswordField.dart';
-import 'package:bukutamu_android/screens/signup/components/background.dart';
+import 'package:bukutamu_android/screens/signup/components/Background.dart';
 import 'package:flutter/material.dart';
+
 
 class Body extends StatelessWidget {
   const Body({Key? key}) : super(key: key);
@@ -47,7 +50,6 @@ class Body extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     RoundedInputField(
-                        onChanged: (value) {}
                     )
                   ],
                 ),
@@ -70,7 +72,6 @@ class Body extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       RoundedInputField(
-                          onChanged: (value) {}
                       )
                     ],
                   ),
@@ -93,10 +94,29 @@ class Body extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       RoundedPasswordField(
-                          onChanged: (value) {}
                       )
                     ],
                   ),
+                ),
+                Container(
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 25),
+                    child: Column(
+                      children: <Widget>[
+                        RegisterButton()
+                    ],
+                  ),
+                )
+              ),
+                Container(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 60),
+                      child: Column(
+                        children: <Widget>[
+                          LoginTextButton()
+                        ],
+                      ),
+                    )
                 ),
             ],
             ),

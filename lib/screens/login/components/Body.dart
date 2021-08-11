@@ -1,10 +1,10 @@
 import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
-import 'package:bukutamu_android/screens/homescreen/components/LPButtonRegister.dart';
-import 'package:bukutamu_android/screens/homescreen/components/LoginButton.dart';
-import 'package:bukutamu_android/screens/homescreen/components/RoundedInputField.dart';
-import 'package:bukutamu_android/screens/homescreen/components/RoundedPasswordField.dart';
-import 'package:bukutamu_android/screens/homescreen/components/background.dart';
+import 'package:bukutamu_android/screens/login/components/RegisterTextButton.dart';
+import 'package:bukutamu_android/screens/login/components/LoginButton.dart';
+import 'package:bukutamu_android/screens/login/components/RoundedInputField.dart';
+import 'package:bukutamu_android/screens/login/components/RoundedPasswordField.dart';
+import 'package:bukutamu_android/screens/login/components/Background.dart';
 import 'package:bukutamu_android/screens/signup/SignUpScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -56,7 +56,6 @@ class Body extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       RoundedInputField(
-                      onChanged: (value) {},
                       ),
                     ],
                   ),
@@ -100,9 +99,10 @@ class Body extends StatelessWidget {
                 ),
                 LoginButton(),
                 Container(
-                  padding:
-                  EdgeInsets.only(top: 40),
-                  child: LPButtonRegister(),
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 40),
+                    child: LPButtonRegister(),
+                  ),
                 ),
               ],
             ),

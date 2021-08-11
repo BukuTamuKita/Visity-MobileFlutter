@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:bukutamu_android/screens/homescreen/components/body.dart';
+import 'package:bukutamu_android/screens/login/components/Body.dart';
 import 'package:bukutamu_android/constants/color_constants.dart';
 
-class HomeScreen extends StatelessWidget {
+class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
