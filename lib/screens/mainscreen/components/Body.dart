@@ -16,13 +16,19 @@ class Body extends StatelessWidget {
                 Container(
                   child: Row(
                     children: [
-                      Icon(Icons.account_box_rounded,
-                        color: Colors.white,
+                      Image.asset('assets/icons/mainscreen/ProfileIcon.png'),
+                      SizedBox(
+                        width: 20,
                       ),
                       Text(
                         "Hello, Santoso",
                         style: MainSTextStyle1,
                       ),
+                      IconButton(
+                          onPressed: () {
+
+                          },
+                          icon: Image.asset(''))
                     ],
                   )
               ),

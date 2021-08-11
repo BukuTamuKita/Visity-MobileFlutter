@@ -49,6 +49,7 @@ flutter:
 
   assets:
     - assets/icons/
+    - assets/icons/mainscreen/ProfileIcon.png
     - assets/images/
     - assets/images/welcomepage/welcomepage.png
     - assets/images/loginpage/
