@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TextFieldContainer extends StatelessWidget {
   final Widget child;
@@ -10,12 +11,14 @@ class TextFieldContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
-      padding: EdgeInsets.symmetric(vertical: 2),
-      width: size.width * 0.8,
-      height: 40,
-      child: child,
+    return ScreenUtilInit(
+        builder: () => Container(
+          margin: EdgeInsets.symmetric(vertical: 10),
+          padding: EdgeInsets.symmetric(vertical: 2),
+          width: size.width * 0.8,
+          height: 40,
+          child: child,
+        )
     );
   }
 }

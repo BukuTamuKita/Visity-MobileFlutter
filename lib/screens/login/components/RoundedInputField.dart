@@ -1,5 +1,6 @@
 import 'package:bukutamu_android/screens/login/components/TextFieldContainer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RoundedInputField extends StatelessWidget {
   const RoundedInputField({
@@ -8,19 +9,21 @@ class RoundedInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFieldContainer(
-      child: Center(
-        child: TextField(
-          decoration: InputDecoration(
-            contentPadding: EdgeInsets.all(10),
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(12),
+    return ScreenUtilInit(
+        builder: () =>TextFieldContainer(
+          child: Center(
+            child: TextField(
+              decoration: InputDecoration(
+                  contentPadding: EdgeInsets.all(10),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(12.r),
+                      )
                   )
-              )
+              ),
+            ),
           ),
-        ),
-      ),
+        )
     );
   }
 }

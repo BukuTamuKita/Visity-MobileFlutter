@@ -3,74 +3,87 @@ import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/screens/login/LoginScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
-      body: Container(
-        child: ListView(
-          children: <Widget>[
-            //Images section
-            Padding(padding: EdgeInsets.only(left: 16, right: 16, top: 130),
-              child: Container(
-                alignment: Alignment.topCenter,
-                width: 350,
-                height: 350,
-                padding: EdgeInsets.all(3),
-                  child: Image(image: AssetImage('assets/images/welcomepage/welcomepage.png'),
+    return ScreenUtilInit(
+        builder: () => Scaffold(
+            body: Container(
+              child: ListView(
+                children: <Widget>[
+                  //Images section
+                  SizedBox(
+                    height: 130.h,
+                  ),
+                  Padding(padding: EdgeInsets.only(left: 16.w, right: 16.w),
+                    child: Container(
+                      alignment: Alignment.topCenter,
+                      width: 350.w,
+                      height: 350.h,
+                      padding: EdgeInsets.all(3),
+                      child: Image(image: AssetImage('assets/images/welcomepage/welcomepage.png'),
+                      ),
                     ),
-              ),
-            ),
-            //Text section
-            Padding(padding: EdgeInsets.only(left: 55, right: 16, top: 45),
-              child: Container(
-                alignment: Alignment.bottomLeft,
-                // padding: EdgeInsets.all(3),
-                child: Text(
-                  'Welcome !',
-                  style: HTextStyle1,
-                ),
-                ),
-              ),
-            Padding(padding: EdgeInsets.only(left: 55, right: 16),
-              child: Container(
-                alignment: Alignment.bottomLeft,
-                // padding: EdgeInsets.all(3),
-                child: Text(
-                  'Have a nice day',
-                  style: HTextStyle2,
-                ),
-              ),
+                  ),
+                  //Text section
+                  SizedBox(
+                    height: 45.h,
+                  ),
+                  Padding(padding: EdgeInsets.only(left: 55.w, right: 16.w),
+                    child: Container(
+                      alignment: Alignment.bottomLeft,
+                      // padding: EdgeInsets.all(3),
+                      child: Text(
+                        'Welcome !',
+                        style: HTextStyle1,
+                      ),
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.only(left: 55.w, right: 16.w),
+                    child: Container(
+                      alignment: Alignment.bottomLeft,
+                      // padding: EdgeInsets.all(3),
+                      child: Text(
+                        'Have a nice day',
+                        style: HTextStyle2,
+                      ),
+                    ),
 
-            ),
-            //Button Section
-            Padding(padding: EdgeInsets.only(left: 55, right: 25, top: 45),
-              child: Container(
-                alignment: Alignment.bottomRight,
-                padding: EdgeInsets.all(3),
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                    primary: Color.fromRGBO(65, 183, 149, 10),
                   ),
-                  child: Text('Get Started ➜',
-                  style: HTextStyle3,
+                  //Button Section
+                  SizedBox(
+                    height: 45.h,
                   ),
-                  onPressed: () {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) {
-                          return LoginScreen();
-                        }
-                      )
-                    );
-                  },
-                ),
+                  Padding(padding: EdgeInsets.only(left: 55.w, right: 25.w),
+                    child: Container(
+                      alignment: Alignment.bottomRight,
+                      padding: EdgeInsets.all(3),
+                      child: TextButton(
+                        style: TextButton.styleFrom(
+                          primary: Color.fromRGBO(65, 183, 149, 10),
+                        ),
+                        child: Text('Get Started ➜',
+                          style: HTextStyle3,
+                        ),
+                        onPressed: () {
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) {
+                                return LoginScreen();
+                              }
+                              )
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
         ),
-      )
+            designSize: const Size(414, 736),
     );
   }
 }

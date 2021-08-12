@@ -5,6 +5,7 @@ import 'package:bukutamu_android/screens/signup/components/RoundedInputField.dar
 import 'package:bukutamu_android/screens/signup/components/RoundedPasswordField.dart';
 import 'package:bukutamu_android/screens/signup/components/Background.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 
 class Body extends StatelessWidget {
@@ -13,116 +14,113 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Background(
-      child: SingleChildScrollView(// Optional
-        child: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.all(35),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
+    return ScreenUtilInit(
+        builder: () => Background(
+          child: SingleChildScrollView(// Optional
+              child: SafeArea(
+                child: Padding(
+                  padding: EdgeInsets.all(35),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text("Register",
-                    style: SUTextStyle1,
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Padding(padding:
-                      EdgeInsets.only(top: 40)
+                      Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Text("Register",
+                              style: SUTextStyle1,
+                            )
+                          ],
+                        ),
                       ),
-                      Text("Full name",
-                        style: SUTextStyle2,
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    RoundedInputField(
-                    )
-                  ],
-                ),
-              ),
-                Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Padding(padding:
-                      EdgeInsets.only()
+                      Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            SizedBox(
+                              height: 40.h,
+                            ),
+                            Text("Full name",
+                              style: SUTextStyle2,
+                            )
+                          ],
+                        ),
                       ),
-                      Text("Email",
-                        style: SUTextStyle2,
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      RoundedInputField(
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Padding(padding:
-                      EdgeInsets.only()
+                      Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            RoundedInputField(
+                            )
+                          ],
+                        ),
                       ),
-                      Text("Password",
-                        style: SUTextStyle2,
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      RoundedPasswordField(
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 25),
-                    child: Column(
-                      children: <Widget>[
-                        RegisterButton()
-                    ],
-                  ),
-                )
-              ),
-                Container(
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 60),
-                      child: Column(
-                        children: <Widget>[
-                          LoginTextButton()
-                        ],
+                      Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Text("Email",
+                              style: SUTextStyle2,
+                            )
+                          ],
+                        ),
                       ),
-                    )
+                      Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            RoundedInputField(
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Text("Password",
+                              style: SUTextStyle2,
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            RoundedPasswordField(
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 25.h,
+                      ),
+                      Container(
+                          child: Column(
+                            children: <Widget>[
+                              RegisterButton()
+                            ],
+                          ),
+                      ),
+                      SizedBox(
+                        height: 60.h,
+                      ),
+                      Container(
+                          child: Column(
+                            children: <Widget>[
+                              LoginTextButton()
+                            ],
+                          ),
+                      ),
+                    ],
+                  ),
                 ),
-            ],
-            ),
+              )
           ),
-        )
-      ),
+        ),
+        designSize: const Size(414, 736),
     );
   }
 }
