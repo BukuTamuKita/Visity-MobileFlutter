@@ -23,13 +23,12 @@ class Body extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                      color: Colors.red,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Image.asset(
-                              'assets/icons/mainscreen/ProfileIcon.png'
+                              'assets/icons/mainscreen/ProfileIcon.png',
                           ),
                           SizedBox(
                               width: 20.w
@@ -41,13 +40,19 @@ class Body extends StatelessWidget {
                           SizedBox(
                             width: 90.w,
                           ),
-                          IconButton(
-                              onPressed: () {
+                          Padding(
+                            padding: EdgeInsets.only(),
+                            child: Transform.scale(
+                              scale: 1.1,
+                              child: IconButton(
+                                  onPressed: () {
 
-                              },
-                              icon: Image.asset(
-                                'assets/icons/mainscreen/Settings.png',
-                              )
+                                  },
+                                  icon: Image.asset(
+                                    'assets/icons/mainscreen/Settings.png',
+                                  )
+                              ),
+                            ),
                           ),
                         ],
                       )
