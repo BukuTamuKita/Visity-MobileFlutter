@@ -3,6 +3,7 @@ import 'package:bukutamu_android/screens/mainscreen/components/Background.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class Body extends StatelessWidget {
   const Body({Key? key}) : super(key: key);
@@ -23,6 +24,7 @@ class Body extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
+                      height: 50.h,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -57,6 +59,7 @@ class Body extends StatelessWidget {
                         ],
                       )
                   ),
+                  
                 ],
               ),
             ),
