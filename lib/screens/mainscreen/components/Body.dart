@@ -3,7 +3,8 @@ import 'package:bukutamu_android/screens/mainscreen/components/Background.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
+
+import 'CalendarWidget.dart';
 
 class Body extends StatelessWidget {
   const Body({Key? key}) : super(key: key);
@@ -59,8 +60,13 @@ class Body extends StatelessWidget {
                         ],
                       )
                   ),
-                  
-                ],
+                  Container(
+                        child: Text(
+                          "Monday, 18 June"
+                        ),
+                      ),
+                      CalendarWidget(),
+                    ],
               ),
             ),
           ),
