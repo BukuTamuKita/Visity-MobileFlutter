@@ -69,10 +69,10 @@ class Body extends StatelessWidget {
                       child: Column(
                         children: [
                           Padding(
-                            padding: EdgeInsets.only(right: 5.h, left: 17.h),
+                            padding: EdgeInsets.only(left: 17.w),
                             child: Text(
                               formattedDate,
-                              style: MainSTextStyle2,
+                              style: DateTextStyle,
                             ),
                           ),
                         ],

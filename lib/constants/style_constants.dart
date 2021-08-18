@@ -24,11 +24,17 @@ var LPTextStyle4 = GoogleFonts.nunito(fontWeight: FontWeight.w700,
 //signup text
 var SUTextStyle1 = GoogleFonts.nunito(fontWeight: FontWeight.w900,
     color: TextColor1, fontSize: 32.sp);
-var SUTextStyle2 = GoogleFonts.nunito(fontWeight: FontWeight.w900,
-    color: TextColor1, fontSize: 24.sp);
+var SUTextStyle2 = GoogleFonts.nunito(fontWeight: FontWeight.w600,
+    color: TextColor1, fontSize: 14.sp);
 
 //mainscreen
 var MainSTextStyle1 = GoogleFonts.nunito(fontWeight: FontWeight.bold,
     color: MainColor, fontSize: 20.sp);
-var MainSTextStyle2 = GoogleFonts.nunito(fontWeight: FontWeight.bold,
-    color: MainColor, fontSize: 20.sp);
+var DateTextStyle = GoogleFonts.nunito(fontWeight: FontWeight.bold,
+    color: MainColor, fontSize: 24.sp);
+var calendarTextStyle1 = GoogleFonts.nunito(fontWeight: FontWeight.normal,
+    color: TextColor1, fontSize: 24.sp);
+var calendarTextStyle2 = GoogleFonts.nunito(fontWeight: FontWeight.normal,
+    color: MainColor, fontSize: 24.sp);
+var calendarTextStyle3 = GoogleFonts.nunito(fontWeight: FontWeight.bold,
+    color: MainColor, fontSize: 16.sp);
