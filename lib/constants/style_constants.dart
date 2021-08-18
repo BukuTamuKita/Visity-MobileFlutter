@@ -24,9 +24,11 @@ var LPTextStyle4 = GoogleFonts.nunito(fontWeight: FontWeight.w700,
 //signup text
 var SUTextStyle1 = GoogleFonts.nunito(fontWeight: FontWeight.w900,
     color: TextColor1, fontSize: 32.sp);
-var SUTextStyle2 = GoogleFonts.nunito(fontWeight: FontWeight.w700,
-    color: TextColor1, fontSize: 14.sp);
+var SUTextStyle2 = GoogleFonts.nunito(fontWeight: FontWeight.w900,
+    color: TextColor1, fontSize: 24.sp);
 
 //mainscreen
 var MainSTextStyle1 = GoogleFonts.nunito(fontWeight: FontWeight.bold,
+    color: MainColor, fontSize: 20.sp);
+var MainSTextStyle2 = GoogleFonts.nunito(fontWeight: FontWeight.bold,
     color: MainColor, fontSize: 20.sp);

@@ -3,6 +3,7 @@ import 'package:bukutamu_android/screens/mainscreen/components/Background.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 
 import 'CalendarWidget.dart';
 
@@ -12,6 +13,9 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final DateTime now = DateTime.now();
+    String formattedDate = DateFormat('EEE, d MMM y').format(now);
+
     return ScreenUtilInit(
         builder: () => Background(
           child: SafeArea(
@@ -22,7 +26,7 @@ class Body extends StatelessWidget {
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Container(
                       height: 50.h,
@@ -60,13 +64,23 @@ class Body extends StatelessWidget {
                         ],
                       )
                   ),
+                  SizedBox(height: 20.h),
                   Container(
-                        child: Text(
-                          "Monday, 18 June"
-                        ),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(right: 5.h, left: 17.h),
+                            child: Text(
+                              formattedDate,
+                              style: MainSTextStyle2,
+                            ),
+                          ),
+                        ],
                       ),
+                  ),
+                  SizedBox(height: 20.h),
                       CalendarWidget(),
-                    ],
+                ],
               ),
             ),
           ),
