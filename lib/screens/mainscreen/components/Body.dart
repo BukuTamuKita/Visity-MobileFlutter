@@ -19,23 +19,22 @@ class Body extends StatelessWidget {
     return ScreenUtilInit(
         builder: () => Background(
           child: SafeArea(
-            child: Padding(
-              padding: EdgeInsets.only(
-                  right: 16,
-                  left: 16
-              ),
+            child: Container(
+              margin: EdgeInsets.only(left: 16.w, right: 16.w),
+              width: MediaQuery.of(context).size.width,
+              alignment: Alignment.center,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
                       height: 50.h,
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Image.asset(
-                              'assets/icons/mainscreen/ProfileIcon.png',
+                            'assets/icons/mainscreen/ProfileIcon.png',
                           ),
                           SizedBox(
                               width: 20.w
@@ -47,18 +46,15 @@ class Body extends StatelessWidget {
                           SizedBox(
                             width: 90.w,
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(),
-                            child: Transform.scale(
-                              scale: 1.1,
-                              child: IconButton(
-                                  onPressed: () {
+                          Transform.scale(
+                            scale: 1.1,
+                            child: IconButton(
+                                onPressed: () {
 
-                                  },
-                                  icon: Image.asset(
-                                    'assets/icons/mainscreen/Settings.png',
-                                  )
-                              ),
+                                },
+                                icon: Image.asset(
+                                  'assets/icons/mainscreen/Settings.png',
+                                )
                             ),
                           ),
                         ],
@@ -66,21 +62,28 @@ class Body extends StatelessWidget {
                   ),
                   SizedBox(height: 20.h),
                   Container(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: 17.w),
-                            child: Text(
-                              formattedDate,
-                              style: DateTextStyle,
-                            ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(),
+                          child: Text(
+                            formattedDate,
+                            style: DateTextStyle,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
+                    ),
                   ),
                   SizedBox(height: 20.h),
-                      CalendarWidget(),
-                ],
+                  Container(
+                        child: Column(
+                          children: [
+                            CalendarWidget(),
+                          ],
+                        ),
+                      ),
+                    ],
               ),
             ),
           ),

@@ -15,31 +15,36 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
         builder: () => Padding(
-          padding: EdgeInsets.only(left: 10.w, right: 10.w),
-          child: TableCalendar(
-              headerVisible: false,
-              calendarFormat: CalendarFormat.week,
-              firstDay: DateTime.utc(2010, 10, 16),
-              lastDay: DateTime.utc(2030, 3, 14),
-              focusedDay: DateTime.now(),
-              startingDayOfWeek: StartingDayOfWeek.sunday,
-              daysOfWeekStyle: DaysOfWeekStyle(
-                  weekdayStyle: calendarTextStyle3,
-                  weekendStyle: calendarTextStyle3
-              ),
-              calendarStyle: CalendarStyle(
-                  withinRangeTextStyle: calendarTextStyle2,
-                  weekendTextStyle: calendarTextStyle2,
-                  defaultTextStyle: calendarTextStyle2,
-                  todayTextStyle: calendarTextStyle1,
-                  todayDecoration: BoxDecoration(
-                      color: Color.fromRGBO(255, 255, 255, 10),
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
-                      )
-                  )
-              )
+          padding: EdgeInsets.only(),
+          child: SizedBox(
+            width: 350,
+            child: TableCalendar(
+                rowHeight: 50.w,
+                daysOfWeekHeight: 27,
+                headerVisible: false,
+                calendarFormat: CalendarFormat.week,
+                firstDay: DateTime.utc(2010, 10, 16),
+                lastDay: DateTime.utc(2030, 3, 14),
+                focusedDay: DateTime.now(),
+                startingDayOfWeek: StartingDayOfWeek.sunday,
+                daysOfWeekStyle: DaysOfWeekStyle(
+                    weekdayStyle: calendarTextStyle3,
+                    weekendStyle: calendarTextStyle3
+                ),
+                calendarStyle: CalendarStyle(
+                    withinRangeTextStyle: calendarTextStyle2,
+                    weekendTextStyle: calendarTextStyle2,
+                    defaultTextStyle: calendarTextStyle2,
+                    todayTextStyle: calendarTextStyle1,
+                    todayDecoration: BoxDecoration(
+                        color: Color.fromRGBO(255, 255, 255, 10),
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        )
+                    )
+                )
+            ),
           ),
         ),
     );

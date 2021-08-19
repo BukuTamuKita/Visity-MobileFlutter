@@ -36,5 +36,5 @@ var calendarTextStyle1 = GoogleFonts.nunito(fontWeight: FontWeight.normal,
     color: TextColor1, fontSize: 24.sp);
 var calendarTextStyle2 = GoogleFonts.nunito(fontWeight: FontWeight.normal,
     color: MainColor, fontSize: 24.sp);
-var calendarTextStyle3 = GoogleFonts.nunito(fontWeight: FontWeight.bold,
-    color: MainColor, fontSize: 16.sp);
+var calendarTextStyle3 = GoogleFonts.nunito(fontWeight: FontWeight.normal,
+    color: MainColor, fontSize: 24.sp);
