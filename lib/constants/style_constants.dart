@@ -29,12 +29,42 @@ var SUTextStyle2 = GoogleFonts.nunito(fontWeight: FontWeight.w600,
 
 //mainscreen
 var MainSTextStyle1 = GoogleFonts.nunito(fontWeight: FontWeight.bold,
-    color: MainColor, fontSize: 20.sp);
+    color: MainColor, fontSize: 20.sp, shadows: [
+      Shadow(
+          color: Color.fromRGBO(0, 0, 0, 0.2),
+          blurRadius: 8.0,
+          offset: Offset(2,2.5)
+      )
+    ]);
 var DateTextStyle = GoogleFonts.nunito(fontWeight: FontWeight.bold,
-    color: MainColor, fontSize: 24.sp);
+    color: MainColor, fontSize: 24.sp, shadows: [
+      Shadow(
+          color: Color.fromRGBO(0, 0, 0, 0.2),
+          blurRadius: 8.0,
+          offset: Offset(2,2.5)
+      )
+    ]);
 var calendarTextStyle1 = GoogleFonts.nunito(fontWeight: FontWeight.normal,
-    color: TextColor1, fontSize: 24.sp);
+    color: TextColor1, fontSize: 24.sp, shadows: [
+      Shadow(
+          color: Color.fromRGBO(0, 0, 0, 0.2),
+          blurRadius: 8.0,
+          offset: Offset(2,2.5)
+      )
+    ]);
 var calendarTextStyle2 = GoogleFonts.nunito(fontWeight: FontWeight.normal,
-    color: MainColor, fontSize: 24.sp);
+    color: MainColor, fontSize: 24.sp, shadows: [
+      Shadow(
+          color: Color.fromRGBO(0, 0, 0, 0.2),
+          blurRadius: 8.0,
+          offset: Offset(2,2.5)
+      )
+    ]);
 var calendarTextStyle3 = GoogleFonts.nunito(fontWeight: FontWeight.normal,
-    color: MainColor, fontSize: 24.sp);
+    color: MainColor, fontSize: 24.sp, shadows: [
+      Shadow(
+        color: Color.fromRGBO(0, 0, 0, 0.2),
+        blurRadius: 8.0,
+        offset: Offset(2,2.5)
+      )
+    ]);

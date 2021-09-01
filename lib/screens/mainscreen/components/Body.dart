@@ -30,11 +30,30 @@ class Body extends StatelessWidget {
                   Container(
                       height: 50.h,
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Image.asset(
-                            'assets/icons/mainscreen/ProfileIcon.png',
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(
+                                  10)
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color.fromRGBO(78, 78, 78, 0.1),
+                                  blurRadius: 8.0,
+                                  offset: Offset(2,2.5), // changes position of shadow
+                                ),
+                              ]
+                            ),
+                            child: SizedBox(
+                              width: 33.w,
+                              height: 33.h,
+                              child: Image.asset(
+                                'assets/icons/mainscreen/ProfileIcon.png',
+                              ),
+                            )
+
                           ),
                           SizedBox(
                               width: 20.w
@@ -46,15 +65,29 @@ class Body extends StatelessWidget {
                           SizedBox(
                             width: 90.w,
                           ),
-                          Transform.scale(
-                            scale: 1.1,
-                            child: IconButton(
-                                onPressed: () {
-
-                                },
-                                icon: Image.asset(
-                                  'assets/icons/mainscreen/Settings.png',
+                          Container(
+                            width: 33.w,
+                            height: 33.w,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color.fromRGBO(78, 78, 78, 0.1),
+                                  blurRadius: 8,
+                                  offset: Offset(0,0),
                                 )
+                              ]
+                            ),
+                            child: Transform.scale(
+                              scale: 2,
+                              child: IconButton(
+                                  onPressed: () {
+
+                                  },
+                                  icon: Image.asset(
+                                    'assets/icons/mainscreen/Settings.png',
+                                  )
+                              ),
                             ),
                           ),
                         ],
@@ -66,7 +99,7 @@ class Body extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(),
+                          padding: EdgeInsets.only(left: 10.w),
                           child: Text(
                             formattedDate,
                             style: DateTextStyle,
@@ -83,11 +116,13 @@ class Body extends StatelessWidget {
                           ],
                         ),
                       ),
-                    ],
+                  SizedBox(height: 20.h),
+
+              ],
               ),
             ),
           ),
-        )
+        ),
     );
   }
 }
