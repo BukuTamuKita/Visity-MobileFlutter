@@ -29,7 +29,7 @@ class Body extends StatelessWidget {
                     Container(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
+                          children: [ 
                             SizedBox(
                               height: 20.h,
                             ),
