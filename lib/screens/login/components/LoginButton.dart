@@ -32,7 +32,7 @@ class LoginButton extends StatelessWidget {
             ),
             child: Text(
               "Login",
-              style: LPTextStyle4,
+              style: lPTextStyle4,
             ),
           ),
         )

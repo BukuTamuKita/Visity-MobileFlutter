@@ -12,7 +12,6 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     final DateTime now = DateTime.now();
     String formattedDate = DateFormat('EEE, d MMM y').format(now);
 
@@ -60,7 +59,7 @@ class Body extends StatelessWidget {
                           ),
                           Text(
                             "Hello, Santoso!",
-                            style: MainSTextStyle1,
+                            style: mainSTextStyle1,
                           ),
                           SizedBox(
                             width: 90.w,
@@ -102,7 +101,7 @@ class Body extends StatelessWidget {
                           padding: EdgeInsets.only(left: 10.w),
                           child: Text(
                             formattedDate,
-                            style: DateTextStyle,
+                            style: dateTextStyle,
                           ),
                         ),
                       ],

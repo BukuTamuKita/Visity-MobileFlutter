@@ -53,8 +53,10 @@ flutter:
     - assets/icons/
     - assets/icons/mainscreen/ProfileIcon.png
     - assets/icons/mainscreen/Settings.png
+    - assets/icons/welcomepage/Arrow.png
     - assets/images/
     - assets/images/welcomepage/welcomepage.png
+    - assets/images/welcomepage/welcomepagepurple.png
     - assets/images/loginpage/
     - assets/images/signuppage/
     - assets/images/signuppage/SPTopLeft2.png

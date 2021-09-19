@@ -1,11 +1,9 @@
-import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/screens/login/components/RegisterTextButton.dart';
 import 'package:bukutamu_android/screens/login/components/LoginButton.dart';
 import 'package:bukutamu_android/screens/login/components/RoundedInputField.dart';
 import 'package:bukutamu_android/screens/login/components/RoundedPasswordField.dart';
 import 'package:bukutamu_android/screens/login/components/Background.dart';
-import 'package:bukutamu_android/screens/signup/SignUpScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -15,7 +13,6 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return ScreenUtilInit(
         builder: () => Background(
           child: SingleChildScrollView(
@@ -35,7 +32,7 @@ class Body extends StatelessWidget {
                             ),
                             Text(
                               "Login",
-                              style: LPTextStyle1,)
+                              style: lPTextStyle1,)
                           ],
                         )
                     ),
@@ -49,7 +46,7 @@ class Body extends StatelessWidget {
                             ),
                             Text(
                               "Email",
-                              style: LPTextStyle2,)
+                              style: lPTextStyle2,)
                           ],
                         )
                     ),
@@ -68,7 +65,7 @@ class Body extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Text("Password",
-                              style: LPTextStyle2,)
+                              style: lPTextStyle2,)
                           ],
                         )
                     ),
@@ -93,19 +90,13 @@ class Body extends StatelessWidget {
                               },
                               child: Text(
                                 "Forgot Password?",
-                                style: LPTextStyle2,
+                                style: lPTextStyle2,
                               )
                           )
                         ],
                       ),
                     ),
-                    LoginButton(
-
-                    ),
-                    SizedBox(
-                      height: 35.h,
-                    ),
-                    LPButtonRegister()
+                    LoginButton(),
                   ],
                 ),
               )
