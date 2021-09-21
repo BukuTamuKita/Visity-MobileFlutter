@@ -14,8 +14,7 @@ class Body extends StatelessWidget {
     String formattedDate = DateFormat('EEE, d MMM y').format(now);
 
     return ScreenUtilInit(
-        builder: () => Background(
-          child: SafeArea(
+        builder: () => SafeArea(
             child: Container(
               margin: EdgeInsets.only(left: 16.w, right: 16.w, top: 10.w),
               width: MediaQuery.of(context).size.width,
@@ -62,31 +61,6 @@ class Body extends StatelessWidget {
                           SizedBox(
                             width: 90.w,
                           ),
-                          Container(
-                            width: 33.w,
-                            height: 33.w,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Color.fromRGBO(78, 78, 78, 0.1),
-                                  blurRadius: 8,
-                                  offset: Offset(0,0),
-                                )
-                              ]
-                            ),
-                            child: Transform.scale(
-                              scale: 2,
-                              child: IconButton(
-                                  onPressed: () {
-
-                                  },
-                                  icon: Image.asset(
-                                    'assets/icons/mainscreen/Settings.png',
-                                  )
-                              ),
-                            ),
-                          ),
                         ],
                       )
                   ),
@@ -114,12 +88,10 @@ class Body extends StatelessWidget {
                         ),
                       ),
                   SizedBox(height: 20.h),
-
               ],
               ),
             ),
           ),
-        ),
     );
   }
 }
