@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
-import 'CalendarWidget.dart';
-
 class Body extends StatelessWidget {
   const Body({Key? key}) : super(key: key);
 
@@ -19,7 +17,7 @@ class Body extends StatelessWidget {
         builder: () => Background(
           child: SafeArea(
             child: Container(
-              margin: EdgeInsets.only(left: 16.w, right: 16.w),
+              margin: EdgeInsets.only(left: 16.w, right: 16.w, top: 10.w),
               width: MediaQuery.of(context).size.width,
               alignment: Alignment.center,
               child: Column(
@@ -49,7 +47,7 @@ class Body extends StatelessWidget {
                               width: 33.w,
                               height: 33.h,
                               child: Image.asset(
-                                'assets/icons/mainscreen/ProfileIcon.png',
+                                'profileIcon_black.png',
                               ),
                             )
 

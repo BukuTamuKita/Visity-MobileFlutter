@@ -28,7 +28,12 @@ var sUTextStyle2 = GoogleFonts.nunito(fontWeight: FontWeight.w600,
     color: TextColor1, fontSize: 14.sp);
 
 //mainscreen
+<<<<<<< Updated upstream
 var mainSTextStyle1 = GoogleFonts.nunito(fontWeight: FontWeight.bold,
+=======
+<<<<<<< Updated upstream
+var MainSTextStyle1 = GoogleFonts.nunito(fontWeight: FontWeight.bold,
+>>>>>>> Stashed changes
     color: MainColor, fontSize: 20.sp, shadows: [
       Shadow(
           color: Color.fromRGBO(0, 0, 0, 0.2),
@@ -68,3 +73,7 @@ var calendarTextStyle3 = GoogleFonts.nunito(fontWeight: FontWeight.normal,
         offset: Offset(2,2.5)
       )
     ]);
+=======
+var mainSTextStyle1 = GoogleFonts.nunito(fontWeight: FontWeight.bold,
+    color: MainColor, fontSize: 20.sp);
+>>>>>>> Stashed changes
