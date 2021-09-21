@@ -29,26 +29,13 @@ class Body extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(
-                                  10)
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Color.fromRGBO(78, 78, 78, 0.1),
-                                  blurRadius: 8.0,
-                                  offset: Offset(2,2.5), // changes position of shadow
-                                ),
-                              ]
-                            ),
                             child: SizedBox(
                               width: 33.w,
                               height: 33.h,
                               child: Image.asset(
-                                'assets/icons/mainscreen/ProfileIcon.png',
+                                'assets/icons/mainscreen/ProfileIcon_black.png',
                               ),
                             )
-
                           ),
                           SizedBox(
                               width: 20.w
@@ -59,31 +46,6 @@ class Body extends StatelessWidget {
                           ),
                           SizedBox(
                             width: 90.w,
-                          ),
-                          Container(
-                            width: 33.w,
-                            height: 33.w,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Color.fromRGBO(78, 78, 78, 0.1),
-                                  blurRadius: 8,
-                                  offset: Offset(0,0),
-                                )
-                              ]
-                            ),
-                            child: Transform.scale(
-                              scale: 2,
-                              child: IconButton(
-                                  onPressed: () {
-
-                                  },
-                                  icon: Image.asset(
-                                    'assets/icons/mainscreen/Settings.png',
-                                  )
-                              ),
-                            ),
                           ),
                         ],
                       )
