@@ -52,6 +52,7 @@ flutter:
   assets:
     - assets/icons/
     - assets/icons/mainscreen/ProfileIcon.png
+    - assets/icons/mainscreen/ProfileIcon_black.png
     - assets/icons/mainscreen/Settings.png
     - assets/icons/welcomepage/Arrow.png
     - assets/images/
