@@ -25,6 +25,7 @@ var lPTextStyle2 = GoogleFonts.nunito(fontWeight: FontWeight.w500,
 var lPTextStyle3 = GoogleFonts.nunito(fontWeight: FontWeight.w700,
     color: TextColor2, fontSize: 14.sp);
 var lPTextStyle4 = GoogleFonts.nunito(fontWeight: FontWeight.w700,
+    color: textColor2, fontSize: 14.sp);
 var LPTextStyle3 = GoogleFonts.nunito(fontWeight: FontWeight.w700,
     color: textColor2, fontSize: 14.sp);
 var LPTextStyle4 = GoogleFonts.nunito(fontWeight: FontWeight.w700,
@@ -80,5 +81,3 @@ var calendarTextStyle3 = GoogleFonts.nunito(fontWeight: FontWeight.normal,
         offset: Offset(2,2.5)
       )
     ]);
-var mainSTextStyle1 = GoogleFonts.nunito(fontWeight: FontWeight.bold,
-    color: MainColor, fontSize: 20.sp);
