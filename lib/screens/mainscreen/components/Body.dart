@@ -51,6 +51,22 @@ class Body extends StatelessWidget {
                       )
                   ),
                   SizedBox(height: 20.h),
+                  Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left: 10.w),
+                          child: Text(
+                            formattedDate,
+                            style: dateTextStyle,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 20.h),
+                  SizedBox(height: 20.h),
               ],
               ),
             ),

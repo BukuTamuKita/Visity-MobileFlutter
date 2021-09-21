@@ -1,5 +1,4 @@
 import 'package:bukutamu_android/constants/style_constants.dart';
-import 'package:bukutamu_android/screens/login/components/RegisterTextButton.dart';
 import 'package:bukutamu_android/screens/login/components/LoginButton.dart';
 import 'package:bukutamu_android/screens/login/components/RoundedInputField.dart';
 import 'package:bukutamu_android/screens/login/components/RoundedPasswordField.dart';
