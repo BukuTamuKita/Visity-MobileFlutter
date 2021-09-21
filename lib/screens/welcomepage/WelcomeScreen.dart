@@ -1,4 +1,12 @@
+<<<<<<< Updated upstream
+import 'dart:ffi';
+
+=======
+<<<<<<< Updated upstream
 import 'package:bukutamu_android/constants/color_constants.dart';
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/screens/login/LoginScreen.dart';
 import 'package:flutter/cupertino.dart';
@@ -24,7 +32,7 @@ class WelcomePage extends StatelessWidget {
                       width: 350.w,
                       height: 350.h,
                       padding: EdgeInsets.all(3),
-                      child: Image(image: AssetImage('assets/images/welcomepage/welcomepage.png'),
+                      child: Image(image: AssetImage('assets/images/welcomepage/welcomepagepurple.png'),
                       ),
                     ),
                   ),
@@ -38,7 +46,7 @@ class WelcomePage extends StatelessWidget {
                       // padding: EdgeInsets.all(3),
                       child: Text(
                         'Welcome !',
-                        style: HTextStyle1,
+                        style: hTextStyle1,
                       ),
                     ),
                   ),
@@ -48,7 +56,7 @@ class WelcomePage extends StatelessWidget {
                       // padding: EdgeInsets.all(3),
                       child: Text(
                         'Have a nice day',
-                        style: HTextStyle2,
+                        style: hTextStyle2,
                       ),
                     ),
 
@@ -66,7 +74,7 @@ class WelcomePage extends StatelessWidget {
                           primary: Color.fromRGBO(65, 183, 149, 10),
                         ),
                         child: Text('Get Started ➜',
-                          style: HTextStyle3,
+                          style: hTextStyle3,
                         ),
                         onPressed: () {
                           Navigator.pushReplacement(context,

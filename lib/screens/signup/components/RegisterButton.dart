@@ -25,7 +25,7 @@ class RegisterButton extends StatelessWidget {
         ),
         child: Text(
           "Register",
-          style: LPTextStyle4,
+          style: lPTextStyle4,
         ),
       ),
     );

@@ -13,7 +13,6 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return ScreenUtilInit(
         builder: () => Background(
           child: SingleChildScrollView(// Optional
@@ -29,7 +28,7 @@ class Body extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Text("Register",
-                              style: SUTextStyle1,
+                              style: sUTextStyle1,
                             )
                           ],
                         ),
@@ -42,7 +41,7 @@ class Body extends StatelessWidget {
                               height: 40.h,
                             ),
                             Text("Full name",
-                              style: SUTextStyle2,
+                              style: sUTextStyle2,
                             )
                           ],
                         ),
@@ -61,7 +60,7 @@ class Body extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Text("Email",
-                              style: SUTextStyle2,
+                              style: sUTextStyle2,
                             )
                           ],
                         ),
@@ -80,7 +79,7 @@ class Body extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Text("Password",
-                              style: SUTextStyle2,
+                              style: sUTextStyle2,
                             )
                           ],
                         ),

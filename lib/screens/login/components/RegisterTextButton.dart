@@ -15,7 +15,7 @@ class LPButtonRegister extends StatelessWidget {
       children: <Widget>[
         Text(
           "Don't have an Account ?",
-          style: LPTextStyle2,
+          style: lPTextStyle2,
         ),
         GestureDetector(
           onTap: () {
@@ -27,7 +27,7 @@ class LPButtonRegister extends StatelessWidget {
           },
           child: Text(
             " Register",
-            style: LPTextStyle3,
+            style: lPTextStyle3,
           ),
         ),
       ],
