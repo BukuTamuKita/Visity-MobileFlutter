@@ -1,5 +1,4 @@
 import 'package:bukutamu_android/constants/style_constants.dart';
-import 'package:bukutamu_android/screens/mainscreen/components/Background.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,8 +13,7 @@ class Body extends StatelessWidget {
     String formattedDate = DateFormat('EEE, d MMM y').format(now);
 
     return ScreenUtilInit(
-        builder: () => Background(
-          child: SafeArea(
+        builder: () => SafeArea(
             child: Container(
               margin: EdgeInsets.only(left: 16.w, right: 16.w),
               width: MediaQuery.of(context).size.width,
@@ -91,28 +89,10 @@ class Body extends StatelessWidget {
                       )
                   ),
                   SizedBox(height: 20.h),
-                  Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(left: 10.w),
-                          child: Text(
-                            formattedDate,
-                            style: dateTextStyle,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 20.h),
-                  SizedBox(height: 20.h),
-
               ],
               ),
             ),
           ),
-        ),
     );
   }
 }
