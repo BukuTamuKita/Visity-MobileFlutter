@@ -1,18 +1,9 @@
 import 'package:bukutamu_android/constants/style_constants.dart';
-import 'package:bukutamu_android/screens/login/components/RegisterTextButton.dart';
 import 'package:bukutamu_android/screens/login/components/LoginButton.dart';
 import 'package:bukutamu_android/screens/login/components/RoundedInputField.dart';
 import 'package:bukutamu_android/screens/login/components/RoundedPasswordField.dart';
 import 'package:bukutamu_android/screens/login/components/Background.dart';
-<<<<<<< Updated upstream
-=======
-<<<<<<< Updated upstream
-import 'package:bukutamu_android/screens/signup/SignUpScreen.dart';
->>>>>>> Stashed changes
 import 'package:flutter/cupertino.dart';
-=======
-
->>>>>>> Stashed changes
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -34,7 +25,7 @@ class Body extends StatelessWidget {
                     Container(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [ 
+                          children: [
                             SizedBox(
                               height: 20.h,
                             ),
