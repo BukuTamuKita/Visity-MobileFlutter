@@ -106,13 +106,6 @@ class Body extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 20.h),
-                  Container(
-                        child: Column(
-                          children: [
-                            CalendarWidget(),
-                          ],
-                        ),
-                      ),
                   SizedBox(height: 20.h),
 
               ],
