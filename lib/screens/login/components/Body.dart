@@ -1,9 +1,9 @@
+import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/screens/login/components/LoginButton.dart';
 import 'package:bukutamu_android/screens/login/components/RoundedInputField.dart';
 import 'package:bukutamu_android/screens/login/components/RoundedPasswordField.dart';
 import 'package:bukutamu_android/screens/login/components/Background.dart';
-import 'package:bukutamu_android/screens/signup/SignUpScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -13,6 +13,7 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return ScreenUtilInit(
         builder: () => Background(
           child: SingleChildScrollView(
@@ -55,6 +56,7 @@ class Body extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           RoundedInputField(
+
                           ),
                         ],
                       ),
@@ -96,7 +98,9 @@ class Body extends StatelessWidget {
                         ],
                       ),
                     ),
-                    LoginButton(),
+                    LoginButton(
+
+                    ),
                   ],
                 ),
               )

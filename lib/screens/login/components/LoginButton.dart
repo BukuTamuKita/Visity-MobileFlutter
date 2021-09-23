@@ -22,10 +22,10 @@ class LoginButton extends StatelessWidget {
               );
             },
             style: ElevatedButton.styleFrom(
-                primary: Color.fromRGBO(119, 202, 178, 10),
+                primary: Color.fromRGBO(46, 77, 167, 10),
                 minimumSize: Size(130, 45),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.r)
+                    borderRadius: BorderRadius.circular(8.r)
                 ),
                 elevation: 3,
                 shadowColor: Color.fromRGBO(0, 0, 0, 1)

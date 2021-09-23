@@ -1,4 +1,4 @@
-import 'package:bukutamu_android/screens/signup/components/TextFieldContainer.dart';
+import 'package:bukutamu_android/screens/login/components/TextFieldContainer.dart';
 import 'package:flutter/material.dart';
 
 
@@ -22,10 +22,16 @@ class _RoundedPasswordFieldState extends State<RoundedPasswordField> {
         child: TextField(
           obscureText: isHiddenPassword,
           decoration: InputDecoration(
+              fillColor: Color.fromRGBO(218, 218, 218, 0.35),
+              filled: true,
               contentPadding: EdgeInsets.all(10),
+              enabledBorder: const OutlineInputBorder(
+                borderSide: const BorderSide(color: Color.fromRGBO(255, 255, 255, 0)),
+              ),
               border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
+                  borderRadius: BorderRadius.only(
+                    topLeft: const Radius.circular(4.0),
+                    topRight: const Radius.circular(4.0),
                   )
               ),
               suffixIcon: InkWell(
