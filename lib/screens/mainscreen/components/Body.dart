@@ -35,7 +35,7 @@ class _BodyState extends State<Body> {
                             child: SizedBox(
                           child: Image.asset(
                             'assets/icons/mainscreen/ProfileIcon_black.png',
-                          ),
+                               ),
                         )),
                         SizedBox(width: 20.w),
                         Text(
