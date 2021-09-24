@@ -1,4 +1,3 @@
-import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/screens/login/LoginScreen.dart';
 import 'package:flutter/cupertino.dart';
