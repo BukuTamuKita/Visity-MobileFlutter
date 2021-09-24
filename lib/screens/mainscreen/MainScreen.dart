@@ -1,3 +1,4 @@
+import 'package:bukutamu_android/navbar/navbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bukutamu_android/screens/mainscreen/components/Body.dart';
@@ -7,6 +8,7 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: (Body()),
+      bottomNavigationBar: Navbar(),
     );
   }
 }
