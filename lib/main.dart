@@ -3,7 +3,7 @@
 import 'package:bukutamu_android/screens/welcomepage/WelcomeScreen.dart';
 import 'package:flutter/material.dart';
 
-void main()=>runApp(MyApp());
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
@@ -15,4 +15,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

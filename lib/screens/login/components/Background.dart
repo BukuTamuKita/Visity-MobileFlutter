@@ -11,7 +11,8 @@ class Background extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-      child: SingleChildScrollView(// Optional
+      child: SingleChildScrollView(
+        // Optional
         child: Container(
           height: size.height,
           width: double.infinity,
@@ -19,18 +20,18 @@ class Background extends StatelessWidget {
             alignment: Alignment.center,
             children: <Widget>[
               Positioned(
-                  top: 0,
+                  top: -320,
                   right: -30,
-                  child: Image.asset('assets/images/loginpage/LPTopRight.png',
+                  child: Image.asset(
+                    'assets/images/loginpage/LPTopRight.png',
                     width: size.width * 0.3,
-                  )
-              ),
+                  )),
               Positioned(
                   bottom: 0,
                   left: -20,
-                  child: Image.asset('assets/images/loginpage/LPBottomLeft.png',
-                  )
-              ),
+                  child: Image.asset(
+                    'assets/images/loginpage/LPBottomLeft.png',
+                  )),
               child
             ],
           ),
