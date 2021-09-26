@@ -15,9 +15,9 @@ class main_screen extends StatefulWidget {
 class _main_screenState extends State<main_screen> {
   int currentIndex = 1;
   final screens = [
-    ProfileScreen(),
-    HomeScreen(),
     HistoryScreen(),
+    HomeScreen(),
+    ProfileScreen(),
   ];
 
   @override
