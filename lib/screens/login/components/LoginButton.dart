@@ -1,5 +1,6 @@
 import 'package:bukutamu_android/constants/style_constants.dart';
-import 'package:bukutamu_android/screens/mainscreen/MainScreen.dart';
+import 'package:bukutamu_android/screens/home/HomeScreen.dart';
+import 'package:bukutamu_android/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -17,7 +18,7 @@ class LoginButton extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => MainScreen()
+                MaterialPageRoute(builder: (context) => main_screen()
                 ),
               );
             },
