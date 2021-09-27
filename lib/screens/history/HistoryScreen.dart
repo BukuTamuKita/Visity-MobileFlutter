@@ -1,17 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:bukutamu_android/screens/history/components/Body.dart';
 
-class HistoryScreen extends StatefulWidget {
-  HistoryScreen({Key? key}) : super(key: key);
-
-  @override
-  _HistoryScreenState createState() => _HistoryScreenState();
-}
-
-class _HistoryScreenState extends State<HistoryScreen> {
+class HistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(child: Text("History Screen"),),
+    return Scaffold(
+      body: (Body()),
     );
   }
 }
