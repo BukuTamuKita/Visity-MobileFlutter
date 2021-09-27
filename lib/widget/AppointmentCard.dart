@@ -9,7 +9,7 @@ class AppointmentCard extends StatelessWidget {
   }) : super(key: key);
 
   final Size size;
-  
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -36,10 +36,8 @@ class AppointmentCard extends StatelessWidget {
                 Container(
                   width: 40,
                   height: 40,
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    shape: BoxShape.circle
-                  ),
+                  decoration:
+                      BoxDecoration(color: Colors.red, shape: BoxShape.circle),
                 ),
                 SizedBox(
                   width: 20,
@@ -48,13 +46,14 @@ class AppointmentCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Ardy Putra Utama",
-                    style: mainSTextStyle1,
+                    Text(
+                      "Ardy Putra Utama",
+                      style: mainSTextStyle1,
                     ),
-                    Text("08.00 - 10.00",
-                    style: mainSTextStyle3,
+                    Text(
+                      "08.00 - 10.00",
+                      style: mainSTextStyle3,
                     )
-                    
                   ],
                 ),
               ],
@@ -63,48 +62,50 @@ class AppointmentCard extends StatelessWidget {
               height: 20,
             ),
             Column(
-                  children: [
-                    Text(
-                      "Laper pingin makan dan beli truk terus beli ice ceream di indomaret",
-                      maxLines: 2,
-                    )
-                  ],
+              children: [
+                Text(
+                  "Laper pingin makan dan beli truk terus beli ice ceream di indomaret",
+                  maxLines: 2,
+                )
+              ],
+            ),
+            Column(
+              children: [
+                SizedBox(
+                  height: 10,
                 ),
-                Column(
+                Row(
                   children: [
-                    SizedBox(
-                      height: 10,
+                    Container(
+                      width: 125,
+                      height: 32,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: lightblueColor,
+                        ),
+                        onPressed: () {},
+                        child: Text(
+                          "ACCEPT",
+                          style: buttonMainStyle1,
+                        ),
+                      ),
                     ),
-                    Row(
-                      children: [
-                        Container(
-                          width: 125,
-                          height: 32,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              primary: blueColor,
-                            ),
-                            onPressed: () { },
-                            child: Text("Accept",
-                            style: buttonMainStyle1,
-                            ),
-                          ),
+                    SizedBox(
+                      width: 67,
+                    ),
+                    Container(
+                      child: TextButton(
+                        child: Text(
+                          "DECLINE",
+                          style: buttonMainStyle2,
                         ),
-                        SizedBox(
-                          width: 67,
-                        ),
-                        Container(
-                          child: TextButton(
-                            child: Text("DECLINE",
-                            style: buttonMainStyle2,
-                            ),
-                            onPressed: () {},
-                            ),
-                        )
-                      ],
+                        onPressed: () {},
+                      ),
                     )
                   ],
                 )
+              ],
+            )
           ],
         ),
       ),

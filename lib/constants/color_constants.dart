@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 const MainColor = Color.fromRGBO(0, 0, 0, 10);
 const WhiteColor = Color.fromRGBO(255, 255, 255, 10);
 const blueColor = Color.fromRGBO(46, 77, 167, 10);
+const lightblueColor = Color.fromRGBO(125, 140, 240, 10);
 const TextColor1 = Color.fromRGBO(63, 61, 86, 10);
 const TextColor2 = Color.fromRGBO(46, 77, 167, 10);
 const textColor2 = Color.fromRGBO(255, 255, 255, 10);

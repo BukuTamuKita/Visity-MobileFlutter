@@ -4,6 +4,7 @@ import 'package:bukutamu_android/screens/home/HomeScreen.dart';
 import 'package:bukutamu_android/screens/profile/ProfileScreen.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 
 class main_screen extends StatefulWidget {
   const main_screen({Key? key}) : super(key: key);
@@ -15,9 +16,9 @@ class main_screen extends StatefulWidget {
 class _main_screenState extends State<main_screen> {
   int currentIndex = 1;
   final screens = [
-    ProfileScreen(),
-    HomeScreen(),
     HistoryScreen(),
+    HomeScreen(),
+    ProfileScreen(),
   ];
 
   @override
@@ -36,23 +37,20 @@ class _main_screenState extends State<main_screen> {
         }),
         items: [
           BottomNavyBarItem(
-            icon: Icon(Icons.history),
-            title: Text("History"),
-            activeColor: Colors.white,
-            textAlign: TextAlign.center
-          ),
+              icon: Icon(Icons.history),
+              title: Text("History"),
+              activeColor: Colors.white,
+              textAlign: TextAlign.center),
           BottomNavyBarItem(
-            icon: Icon(Icons.home),
-            title: Text("Home"),
-            activeColor: Colors.white,
-            textAlign: TextAlign.center
-          ),
+              icon: Icon(Icons.home),
+              title: Text("Home"),
+              activeColor: Colors.white,
+              textAlign: TextAlign.center),
           BottomNavyBarItem(
-            icon: Icon(Icons.account_circle),
-            title: Text("Profile"),
-            activeColor: Colors.white,
-            textAlign: TextAlign.center
-          ),
+              icon: Icon(Icons.account_circle),
+              title: Text("Profile"),
+              activeColor: Colors.white,
+              textAlign: TextAlign.center),
         ],
       ),
     );
