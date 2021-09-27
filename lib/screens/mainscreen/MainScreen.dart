@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:bukutamu_android/screens/home/components/Body.dart';
+import 'package:bukutamu_android/screens/mainscreen/components/Body.dart';
 
-class HomeScreen extends StatelessWidget {
+class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

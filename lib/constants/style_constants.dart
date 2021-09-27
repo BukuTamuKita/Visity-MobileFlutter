@@ -30,11 +30,3 @@ var sUTextStyle2 = GoogleFonts.nunito(fontWeight: FontWeight.w600,
 //mainscreen
 var mainSTextStyle1 = GoogleFonts.nunito(fontWeight: FontWeight.w700,
     color: MainColor, fontSize: 20.sp);
-var mainSTextStyle2 = GoogleFonts.nunito(fontWeight: FontWeight.w700,
-    color: MainColor, fontSize: 36.sp);
-var mainSTextStyle3 = GoogleFonts.nunito(fontWeight: FontWeight.w500,
-    color: MainColor, fontSize: 14.sp);
-var buttonMainStyle1 = GoogleFonts.nunito(fontWeight: FontWeight.bold,
-    color: WhiteColor, fontSize: 14.sp);
-var buttonMainStyle2 = GoogleFonts.nunito(fontWeight: FontWeight.bold,
-    color: textColor4, fontSize: 14.sp);
