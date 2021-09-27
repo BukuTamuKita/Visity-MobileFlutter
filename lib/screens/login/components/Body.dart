@@ -56,7 +56,6 @@ class Body extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           RoundedInputField(
-
                           ),
                         ],
                       ),
