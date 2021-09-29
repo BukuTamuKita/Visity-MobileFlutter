@@ -1,4 +1,3 @@
-import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:flutter/material.dart';
 
