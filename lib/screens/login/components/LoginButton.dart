@@ -1,5 +1,5 @@
 import 'package:bukutamu_android/constants/style_constants.dart';
-import 'package:bukutamu_android/screens/main_screen.dart';
+import 'package:bukutamu_android/screens/mainScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
