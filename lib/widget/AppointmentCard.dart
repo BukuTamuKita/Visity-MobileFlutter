@@ -1,6 +1,8 @@
 import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
+import 'package:bukutamu_android/screens/mainScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 
 class AppointmentCard extends StatelessWidget {
   const AppointmentCard({
@@ -83,7 +85,9 @@ class AppointmentCard extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                           primary: lightblueColor,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          showCustomDialog(context);
+                        },
                         child: Text(
                           "ACCEPT",
                           style: buttonMainStyle1,
@@ -99,7 +103,9 @@ class AppointmentCard extends StatelessWidget {
                           "DECLINE",
                           style: buttonMainStyle2,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          showCustomDialog(context);
+                        },
                       ),
                     )
                   ],
@@ -111,4 +117,71 @@ class AppointmentCard extends StatelessWidget {
       ),
     );
   }
+
+  void showCustomDialog(BuildContext context) => showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => Dialog(
+            backgroundColor: Color.fromRGBO(239, 239, 239, 20),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  top: 24, left: 16, right: 16, bottom: 16),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text('Noted', style: mainSTextStyle4),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  TextField(
+                      maxLines: 5,
+                      decoration: InputDecoration(
+                          fillColor: WhiteColor,
+                          filled: true,
+                          contentPadding: EdgeInsets.all(8),
+                          border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.0)),
+                          ))),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          primary: lightblueColor,
+                          minimumSize: Size(91, 34),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          elevation: 3,
+                          shadowColor: Color.fromRGBO(0, 0, 0, 1),
+                        ),
+                        child: Text(
+                          'Send',
+                          style: buttonMainStyle1,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 16,
+                      ),
+                      TextButton(
+                          onPressed: () {},
+                          child: Text(
+                            'Cancel',
+                            style: buttonMainStyle4,
+                          ))
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ));
 }
