@@ -1,5 +1,6 @@
+import 'dart:convert';
+
 import 'package:bukutamu_android/constants/style_constants.dart';
-import 'package:bukutamu_android/screens/home/HomeScreen.dart';
 import 'package:bukutamu_android/screens/login/components/Background.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+
+import '../../mainScreen.dart';
 
 class Body extends StatefulWidget {
   @override
@@ -16,7 +19,8 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  bool visible = false;
+
+  bool isLoading = false;
   bool isHiddenPassword = true;
 
   @override
@@ -176,15 +180,16 @@ class _BodyState extends State<Body> {
 
   Future<void> login() async {
     if (emailController.text.isNotEmpty && emailController.text.isNotEmpty) {
-      final response = await http.post(Uri.parse("https://reqres.in/api/login"),
+      final response = await http.post(
+          Uri.parse("http://10.0.2.2:8000/api/auth/loginHost"),
           body: ({
-            'email' : emailController.text,
-            'passwrd' : passwordController.text
+            'email': emailController.text,
+            'password': passwordController.text
           }));
       if (response.statusCode == 200) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
+          MaterialPageRoute(builder: (context) => mainScreen()),
         );
       } else {
         ScaffoldMessenger.of(context)
