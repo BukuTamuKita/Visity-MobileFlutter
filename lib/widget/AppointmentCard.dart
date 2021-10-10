@@ -2,7 +2,7 @@ import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:flutter/material.dart';
 
-class AppointmentCard extends StatelessWidget {
+class AppointmentCard extends StatefulWidget {
   const AppointmentCard({
     Key? key,
     required this.size,
@@ -11,9 +11,14 @@ class AppointmentCard extends StatelessWidget {
   final Size size;
 
   @override
+  _AppointmentCardState createState() => _AppointmentCardState();
+}
+
+class _AppointmentCardState extends State<AppointmentCard> {
+  @override
   Widget build(BuildContext context) {
     return Container(
-      width: size.width,
+      width: widget.size.width,
       height: 196,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -33,15 +38,15 @@ class AppointmentCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                Container(
-                  width: 40,
-                  height: 40,
-                  decoration:
-                      BoxDecoration(color: Colors.red, shape: BoxShape.circle),
-                ),
-                SizedBox(
-                  width: 20,
-                ),
+                // Container(
+                //   width: 40,
+                //   height: 40,
+                //   decoration:
+                //       BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+                // ),
+                // SizedBox(
+                //   width: 20,
+                // ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,7 +69,7 @@ class AppointmentCard extends StatelessWidget {
             Column(
               children: [
                 Text(
-                  "Laper pingin makan dan beli truk terus beli ice ceream di indomaret",
+                  "Laper pingin makan dan beli truk terus beli ice cream di indomaret",
                   maxLines: 2,
                 )
               ],

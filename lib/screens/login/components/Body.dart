@@ -6,6 +6,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+<<<<<<< HEAD
+=======
+import 'package:shared_preferences/shared_preferences.dart';
+>>>>>>> 0638bd4829a464dd028905d6c366ad459ed2ac65
 import 'package:http/http.dart' as http;
 
 import '../../mainScreen.dart';
@@ -188,7 +192,11 @@ class _BodyState extends State<Body> {
       if (response.statusCode == 200) {
         Navigator.push(
           context,
+<<<<<<< HEAD
           MaterialPageRoute(builder: (context) => main_screen()),
+=======
+          MaterialPageRoute(builder: (context) => mainScreen()),
+>>>>>>> 0638bd4829a464dd028905d6c366ad459ed2ac65
         );
       } else {
         ScaffoldMessenger.of(context)

@@ -5,14 +5,14 @@ import 'package:bukutamu_android/screens/profile/ProfileScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
-class main_screen extends StatefulWidget {
-  const main_screen({Key? key}) : super(key: key);
+class mainScreen extends StatefulWidget {
+  const mainScreen({Key? key}) : super(key: key);
 
   @override
-  _main_screenState createState() => _main_screenState();
+  _mainScreenState createState() => _mainScreenState();
 }
 
-class _main_screenState extends State<main_screen> {
+class _mainScreenState extends State<mainScreen> {
   int currentIndex = 1;
   final screens = [
     HistoryScreen(),
