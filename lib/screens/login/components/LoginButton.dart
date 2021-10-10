@@ -17,7 +17,7 @@ class LoginButton extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => mainScreen()
+                MaterialPageRoute(builder: (context) => main_screen()
                 ),
               );
             },
