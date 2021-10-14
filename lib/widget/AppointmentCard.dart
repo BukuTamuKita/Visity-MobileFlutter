@@ -86,7 +86,6 @@ class AppointmentCard extends StatelessWidget {
                           primary: lightblueColor,
                         ),
                         onPressed: () {
-                          showCustomDialog(context);
                         },
                         child: Text(
                           "ACCEPT",
