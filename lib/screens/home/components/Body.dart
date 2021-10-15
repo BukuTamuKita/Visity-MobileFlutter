@@ -83,18 +83,18 @@ class _BodyState extends State<Body> {
                 SizedBox(
                   height: 22,
                 ),
-                ListView.separated(
-                  itemBuilder: (context, index) {
-                    return Container(
-                      child: Text(listAppointment[index].name),
-                    );
-                  }, 
-                  separatorBuilder: (context, index) {
-                    return Divider();
-                  }, 
-                  itemCount: listAppointment.length
-                  ),
-              ],
+                // ListView.separated(
+                //   itemBuilder: (context, index) {
+                //     return Container(
+                //       child: Text(listAppointment[index].name),
+                //     );
+                //   }, 
+                //   separatorBuilder: (context, index) {
+                //     return Divider();
+                //   }, 
+                //   itemCount: listAppointment.length
+                //   ),
+               ],
             ),
           ),
         ]),

@@ -201,12 +201,6 @@ class _BodyState extends State<Body> {
         }),
       );
       if (response.statusCode == 200) {
-<<<<<<< Updated upstream
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => mainScreen()),
-        );
-=======
         jsonData = json.decode(response.body);
         setState(() {
           isLoading = false;
@@ -217,7 +211,6 @@ class _BodyState extends State<Body> {
             MaterialPageRoute(builder: (context) => mainScreen()),
           );
         });
->>>>>>> Stashed changes
       } else {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text("Invalid Credentials")));
