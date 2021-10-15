@@ -1,4 +1,6 @@
+import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
+import 'package:bukutamu_android/model/appointment_model.dart';
 import 'package:bukutamu_android/widget/AppointmentCard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +19,11 @@ class _BodyState extends State<Body> {
   APIservice apiservice = APIservice();
 
   getData() async {
+<<<<<<< HEAD
     listAppointment = await apiservice.getData("");
+=======
+    listAppointment = await apiservice.getData();
+>>>>>>> c4d61b934f3ef0a6ac54068ac6bfe449a5b8710a
   }
 
   @override
@@ -92,7 +98,11 @@ class _BodyState extends State<Body> {
                 //   }, 
                 //   itemCount: listAppointment.length
                 //   ),
+<<<<<<< HEAD
               ],
+=======
+               ],
+>>>>>>> c4d61b934f3ef0a6ac54068ac6bfe449a5b8710a
             ),
           ),
         ]),

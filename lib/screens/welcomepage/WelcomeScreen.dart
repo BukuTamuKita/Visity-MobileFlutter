@@ -1,10 +1,25 @@
+
+
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/screens/login/LoginScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class WelcomePage extends StatelessWidget {
+class WelcomePage extends StatefulWidget {
+  @override
+  _WelcomePageState createState() => _WelcomePageState();
+}
+
+class _WelcomePageState extends State<WelcomePage> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+  
   @override
   Widget build(BuildContext context) {
 
