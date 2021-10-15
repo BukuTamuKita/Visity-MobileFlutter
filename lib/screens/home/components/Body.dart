@@ -1,4 +1,6 @@
+import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
+import 'package:bukutamu_android/model/appointment_model.dart';
 import 'package:bukutamu_android/widget/AppointmentCard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +13,21 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+
+  late final Appointment appointment;
+  List<Appointment> listAppointment = [];
+  APIservice apiservice = APIservice();
+
+  getData() async {
+    listAppointment = await apiservice.getData();
+  }
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
+  
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -66,19 +83,17 @@ class _BodyState extends State<Body> {
                 SizedBox(
                   height: 22,
                 ),
-                AppointmentCard(size: size),
-                SizedBox(
-                  height: 16,
-                ),
-                AppointmentCard(size: size),
-                SizedBox(
-                  height: 16,
-                ),
-                AppointmentCard(size: size),
-                SizedBox(
-                  height: 16,
-                ),
-                AppointmentCard(size: size),
+                ListView.separated(
+                  itemBuilder: (context, index) {
+                    return Container(
+                      child: Text(listAppointment[index].name),
+                    );
+                  }, 
+                  separatorBuilder: (context, index) {
+                    return Divider();
+                  }, 
+                  itemCount: listAppointment.length
+                  ),
               ],
             ),
           ),

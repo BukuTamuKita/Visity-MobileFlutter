@@ -4,6 +4,9 @@ import 'package:bukutamu_android/screens/home/HomeScreen.dart';
 import 'package:bukutamu_android/screens/profile/ProfileScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'login/LoginScreen.dart';
 
 class mainScreen extends StatefulWidget {
   const mainScreen({Key? key}) : super(key: key);
@@ -14,11 +17,19 @@ class mainScreen extends StatefulWidget {
 
 class _mainScreenState extends State<mainScreen> {
   int currentIndex = 1;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    checkLoginStatus();
+  }
   final screens = [
     HistoryScreen(),
     HomeScreen(),
     ProfileScreen(),
   ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -76,5 +87,15 @@ class _mainScreenState extends State<mainScreen> {
         ),
       )
     );
+  }
+  checkLoginStatus() async {
+    SharedPreferences sharedPreferences;
+    sharedPreferences = await SharedPreferences.getInstance();
+    if (sharedPreferences.getString("token") == null) {
+      Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => LoginScreen()),
+          );
+    }
   }
 }

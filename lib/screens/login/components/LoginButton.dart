@@ -23,11 +23,19 @@ class _LoginButtonState extends State<LoginButton> {
           padding: EdgeInsets.only (top: 30),
           child: ElevatedButton(
             onPressed: () {
+<<<<<<< Updated upstream
               // Navigator.push(
               //   context,
               //   MaterialPageRoute(builder: (context) => mainScreen()
               //   ),
               // );
+=======
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => mainScreen()
+                ),
+              );
+>>>>>>> Stashed changes
             },
             style: ElevatedButton.styleFrom(
                 primary: Color.fromRGBO(46, 77, 167, 10),

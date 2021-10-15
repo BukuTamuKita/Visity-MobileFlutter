@@ -1,24 +1,17 @@
 import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
+import 'package:bukutamu_android/model/appointment_model.dart';
 import 'package:flutter/material.dart';
+class AppointmentCard extends StatelessWidget {
 
-class AppointmentCard extends StatefulWidget {
-  const AppointmentCard({
-    Key? key,
-    required this.size,
-  }) : super(key: key);
-
-  final Size size;
-
-  @override
-  _AppointmentCardState createState() => _AppointmentCardState();
-}
-
-class _AppointmentCardState extends State<AppointmentCard> {
+  final Appointment appointment;
+  AppointmentCard(this.appointment);
+  
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Container(
-      width: widget.size.width,
+      width: size.width,
       height: 196,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -52,7 +45,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Ardy Putra Utama",
+                      appointment.name,
                       style: mainSTextStyle1,
                     ),
                     Text(
@@ -69,7 +62,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
             Column(
               children: [
                 Text(
-                  "Laper pingin makan dan beli truk terus beli ice cream di indomaret",
+                  appointment.purpose,
                   maxLines: 2,
                 )
               ],
