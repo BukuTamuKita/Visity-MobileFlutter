@@ -77,4 +77,15 @@ class _mainScreenState extends State<mainScreen> {
       )
     );
   }
+
+  checkLoginStatus() async {
+    SharedPreferences sharedPreferences;
+    sharedPreferences = await SharedPreferences.getInstance();
+    if (sharedPreferences.getString("tokenLogin") == null) {
+      Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => LoginScreen()),
+          );
+    }
+  }
 }

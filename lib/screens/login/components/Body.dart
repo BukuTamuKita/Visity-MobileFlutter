@@ -6,10 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-<<<<<<< HEAD
-=======
 import 'package:shared_preferences/shared_preferences.dart';
->>>>>>> 0638bd4829a464dd028905d6c366ad459ed2ac65
 import 'package:http/http.dart' as http;
 
 import '../../mainScreen.dart';
@@ -25,6 +22,7 @@ class _BodyState extends State<Body> {
 
   bool isLoading = false;
   bool isHiddenPassword = true;
+
 
   @override
   void initState() {
@@ -182,6 +180,7 @@ class _BodyState extends State<Body> {
   }
 
   Future<void> login() async {
+    final jsonData;
     if (emailController.text.isNotEmpty && emailController.text.isNotEmpty) {
       final response = await http.post(
           Uri.parse("http://10.0.2.2:8000/api/auth/loginHost"),
@@ -192,12 +191,21 @@ class _BodyState extends State<Body> {
       if (response.statusCode == 200) {
         Navigator.push(
           context,
-<<<<<<< HEAD
-          MaterialPageRoute(builder: (context) => main_screen()),
-=======
           MaterialPageRoute(builder: (context) => mainScreen()),
->>>>>>> 0638bd4829a464dd028905d6c366ad459ed2ac65
+
         );
+        jsonData = json.decode(response.body);
+        print(jsonData["token"]);
+        setState(() {
+          isLoading = false;
+
+          final loginToken = sharedPreferences.setString("tokenLogin", jsonData['token']);
+          print(loginToken);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => mainScreen()),
+          );
+        });
       } else {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text("Invalid Credentials")));
