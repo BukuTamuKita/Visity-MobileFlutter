@@ -1,22 +1,33 @@
+import 'dart:convert';
+
+import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
+import 'package:bukutamu_android/controller/visity_controller.dart';
+import 'package:bukutamu_android/model/updateStatus_model.dart';
 import 'package:bukutamu_android/screens/mainScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:http/http.dart' as http;
 
 class AppointmentCard extends StatefulWidget {
-  const AppointmentCard({
+  AppointmentCard({
     Key? key,
     required this.size,
   }) : super(key: key);
 
   final Size size;
-
   @override
   _AppointmentCardState createState() => _AppointmentCardState();
 }
 
 class _AppointmentCardState extends State<AppointmentCard> {
+  final TextEditingController _notesController = TextEditingController();
+  bool isAccepted = true;
+  String notes = "";
+  String status = "";
+  var visityController = VisityController(APIservice());
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -91,6 +102,9 @@ class _AppointmentCardState extends State<AppointmentCard> {
                           primary: lightblueColor,
                         ),
                         onPressed: () {
+                          isAccepted = true;
+                          status = 'accepted';
+                          notes = '';
                         },
                         child: Text(
                           "ACCEPT",
@@ -143,6 +157,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
                     height: 8,
                   ),
                   TextField(
+                      controller: _notesController,
                       maxLines: 5,
                       decoration: InputDecoration(
                           fillColor: WhiteColor,
@@ -159,7 +174,10 @@ class _AppointmentCardState extends State<AppointmentCard> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          isAccepted = false;
+                          updateStatus();
+                        },
                         style: ElevatedButton.styleFrom(
                           primary: lightblueColor,
                           minimumSize: Size(91, 34),
@@ -177,7 +195,9 @@ class _AppointmentCardState extends State<AppointmentCard> {
                         width: 16,
                       ),
                       TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
                           child: Text(
                             'Cancel',
                             style: buttonMainStyle4,
@@ -188,4 +208,36 @@ class _AppointmentCardState extends State<AppointmentCard> {
               ),
             ),
           ));
+
+  Future updateStatus() async {
+    final String baseUrl = "http://10.0.2.2:8000";
+    int id = 1;
+    if (isAccepted) {
+      status = "accepted";
+      notes = "";
+    } else {
+      status = "declined";
+      notes = _notesController.text.toString();
+    }
+
+    Map data = {
+      'status': status,
+      'notes': notes,
+    };
+
+    final response = await http.put(
+      '$baseUrl//api/appointments/16/$id',
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(data),
+    );
+    if (response.statusCode == 200) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Appointment Status Updated")));
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Invalid Appointment")));
+    }
+  }
 }
