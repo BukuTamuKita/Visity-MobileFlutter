@@ -1,12 +1,16 @@
 import 'dart:convert';
+import 'dart:js';
 
 import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/model/appointment_model.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class AppointmentCard extends StatelessWidget {
+  TextEditingController _notescontroller = TextEditingController();
+  bool isAccepted = false;
   final Appointment appointment;
   AppointmentCard(this.appointment);
 
@@ -84,7 +88,10 @@ class AppointmentCard extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                           primary: lightblueColor,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          isAccepted = true;
+                          updateStatus();
+                        },
                         child: Text(
                           "ACCEPT",
                           style: buttonMainStyle1,
@@ -135,7 +142,8 @@ class AppointmentCard extends StatelessWidget {
                   SizedBox(
                     height: 8,
                   ),
-                  TextField(
+                  TextFormField(
+                      controller: _notescontroller,
                       maxLines: 5,
                       decoration: InputDecoration(
                           fillColor: WhiteColor,
@@ -153,7 +161,7 @@ class AppointmentCard extends StatelessWidget {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          //updateStatus();
+                          updateStatus();
                         },
                         style: ElevatedButton.styleFrom(
                           primary: lightblueColor,
@@ -186,15 +194,15 @@ class AppointmentCard extends StatelessWidget {
             ),
           ));
 
-  /*Future updateStatus() async {
+  Future<void> updateStatus() async {
+    String status, notes;
     final String baseUrl = "http://10.0.2.2:8000";
-    int id = 1;
-    if (isAccepted) {
+    if (isAccepted == true) {
       status = "accepted";
       notes = "";
     } else {
       status = "declined";
-      notes = _notesController.text.toString();
+      notes = _notescontroller.text.toString();
     }
 
     Map data = {
@@ -203,18 +211,13 @@ class AppointmentCard extends StatelessWidget {
     };
 
     final response = await http.put(
-      '$baseUrl//api/appointments/16/$id',
+      '$baseUrl//api/appointments/16/',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(data),
     );
     if (response.statusCode == 200) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Appointment Status Updated")));
-    } else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Invalid Appointment")));
-    }
-  }*/
+    } else {}
+  }
 }
