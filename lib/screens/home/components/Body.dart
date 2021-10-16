@@ -19,7 +19,7 @@ class _BodyState extends State<Body> {
   APIservice apiservice = APIservice();
 
   getData() async {
-    //listAppointment = await apiservice.getData();
+    listAppointment = await apiservice.getData("");
   }
 
   @override
@@ -94,7 +94,7 @@ class _BodyState extends State<Body> {
                 //   }, 
                 //   itemCount: listAppointment.length
                 //   ),
-               ],
+              ],
             ),
           ),
         ]),

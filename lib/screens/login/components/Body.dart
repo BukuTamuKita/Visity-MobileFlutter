@@ -30,7 +30,7 @@ class _BodyState extends State<Body> {
 
   @override
   void initState() {
-    super.initState();  
+    super.initState();
   }
 
   @override
@@ -192,7 +192,7 @@ class _BodyState extends State<Body> {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     sharedPreferences.setString('email', emailController.text);
-    if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty) {
+    if (emailController.text.isNotEmpty && emailController.text.isNotEmpty) {
       final response = await http.post(
         Uri.parse("http://10.0.2.2:8000/api/auth/loginHost"),
         body: ({
@@ -204,7 +204,7 @@ class _BodyState extends State<Body> {
         jsonData = json.decode(response.body);
         setState(() {
           isLoading = false;
-
+          print(jsonData['token'].toString());
           sharedPreferences.setString("token", jsonData['token']);
           Navigator.push(
             context,
@@ -220,5 +220,4 @@ class _BodyState extends State<Body> {
           .showSnackBar(SnackBar(content: Text("Blank Fild Not Allowed")));
     }
   }
-
 }
