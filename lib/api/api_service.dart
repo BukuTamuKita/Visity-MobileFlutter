@@ -1,6 +1,5 @@
 import 'package:bukutamu_android/model/appointment_model.dart';
 import 'package:bukutamu_android/model/login_model.dart';
-import 'package:bukutamu_android/model/updateStatus_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -8,7 +7,7 @@ import 'dart:convert';
 class APIservice {
   final String baseUrl = "http://10.0.2.2:8000";
 
-  Future<String> confirmAppointment(UpdateStatus updateStatus) async {
+  /*Future<String> confirmAppointment(UpdateStatus updateStatus) async {
     var url = Uri.parse('$baseUrl/api/appointments/16/${updateStatus.data.id}');
     String resData = '';
 
@@ -24,7 +23,7 @@ class APIservice {
       return resData = result['notes' 'status'];
     });
     return resData;
-  }
+  }*/
 
   Future<LoginResponseModel> login(LoginRequestModel loginRequestModel) async {
     String url = "https://reqres.in/api/login";
