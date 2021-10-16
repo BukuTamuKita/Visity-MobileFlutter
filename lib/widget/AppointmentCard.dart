@@ -3,35 +3,18 @@ import 'dart:convert';
 import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
-import 'package:bukutamu_android/controller/visity_controller.dart';
-import 'package:bukutamu_android/model/updateStatus_model.dart';
-import 'package:bukutamu_android/screens/mainScreen.dart';
+import 'package:bukutamu_android/model/appointment_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:http/http.dart' as http;
 
-class AppointmentCard extends StatefulWidget {
-  AppointmentCard({
-    Key? key,
-    required this.size,
-  }) : super(key: key);
-
-  final Size size;
-  @override
-  _AppointmentCardState createState() => _AppointmentCardState();
-}
-
-class _AppointmentCardState extends State<AppointmentCard> {
-  final TextEditingController _notesController = TextEditingController();
-  bool isAccepted = true;
-  String notes = "";
-  String status = "";
-  var visityController = VisityController(APIservice());
+class AppointmentCard extends StatelessWidget {
+  final Appointment appointment;
+  AppointmentCard(this.appointment);
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Container(
-      width: widget.size.width,
+      width: size.width,
       height: 196,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -65,7 +48,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Ardy Putra Utama",
+                      appointment.name,
                       style: mainSTextStyle1,
                     ),
                     Text(
@@ -82,7 +65,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
             Column(
               children: [
                 Text(
-                  "Laper pingin makan dan beli truk terus beli ice cream di indomaret",
+                  appointment.purpose,
                   maxLines: 2,
                 )
               ],
@@ -101,11 +84,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
                         style: ElevatedButton.styleFrom(
                           primary: lightblueColor,
                         ),
-                        onPressed: () {
-                          isAccepted = true;
-                          status = 'accepted';
-                          notes = '';
-                        },
+                        onPressed: () {},
                         child: Text(
                           "ACCEPT",
                           style: buttonMainStyle1,
@@ -157,7 +136,6 @@ class _AppointmentCardState extends State<AppointmentCard> {
                     height: 8,
                   ),
                   TextField(
-                      controller: _notesController,
                       maxLines: 5,
                       decoration: InputDecoration(
                           fillColor: WhiteColor,
@@ -175,8 +153,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          isAccepted = false;
-                          updateStatus();
+                          //updateStatus();
                         },
                         style: ElevatedButton.styleFrom(
                           primary: lightblueColor,
@@ -209,7 +186,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
             ),
           ));
 
-  Future updateStatus() async {
+  /*Future updateStatus() async {
     final String baseUrl = "http://10.0.2.2:8000";
     int id = 1;
     if (isAccepted) {
@@ -239,5 +216,5 @@ class _AppointmentCardState extends State<AppointmentCard> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Invalid Appointment")));
     }
-  }
+  }*/
 }

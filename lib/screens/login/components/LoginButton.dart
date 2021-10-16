@@ -23,11 +23,11 @@ class _LoginButtonState extends State<LoginButton> {
           padding: EdgeInsets.only (top: 30),
           child: ElevatedButton(
             onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => mainScreen()
-              //   ),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => mainScreen()
+                ),
+              );
             },
             style: ElevatedButton.styleFrom(
                 primary: Color.fromRGBO(46, 77, 167, 10),
@@ -46,12 +46,4 @@ class _LoginButtonState extends State<LoginButton> {
         )
     );
   }
-  bool validateAndSave() {
-      final form = globalFormKey.currentState;
-      if (form!.validate()){
-        form.save();
-        return true;
-      }
-      return false;
-    }
 }

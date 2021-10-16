@@ -1,6 +1,9 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:bukutamu_android/constants/style_constants.dart';
+import 'package:bukutamu_android/screens/login/LoginScreen.dart';
 import 'package:bukutamu_android/screens/login/components/Background.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +13,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 import '../../mainScreen.dart';
+
+String? finalEmail;
 
 class Body extends StatefulWidget {
   @override
@@ -25,7 +30,7 @@ class _BodyState extends State<Body> {
 
   @override
   void initState() {
-    super.initState();
+    super.initState();  
   }
 
   @override
@@ -149,6 +154,9 @@ class _BodyState extends State<Body> {
                 padding: EdgeInsets.only(top: 30),
                 child: ElevatedButton(
                   onPressed: () {
+                    setState(() {
+                      isLoading = true;
+                    });
                     login();
                   },
                   style: ElevatedButton.styleFrom(
@@ -179,18 +187,30 @@ class _BodyState extends State<Body> {
   }
 
   Future<void> login() async {
+    final jsonData;
+
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    sharedPreferences.setString('email', emailController.text);
     if (emailController.text.isNotEmpty && emailController.text.isNotEmpty) {
       final response = await http.post(
-          Uri.parse("http://10.0.2.2:8000/api/auth/loginHost"),
-          body: ({
-            'email': emailController.text,
-            'password': passwordController.text
-          }));
+        Uri.parse("http://10.0.2.2:8000/api/auth/loginHost"),
+        body: ({
+          'email': emailController.text,
+          'password': passwordController.text
+        }),
+      );
       if (response.statusCode == 200) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => mainScreen()),
-        );
+        jsonData = json.decode(response.body);
+        setState(() {
+          isLoading = false;
+
+          sharedPreferences.setString("token", jsonData['token']);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => mainScreen()),
+          );
+        });
       } else {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text("Invalid Credentials")));
@@ -200,4 +220,5 @@ class _BodyState extends State<Body> {
           .showSnackBar(SnackBar(content: Text("Blank Fild Not Allowed")));
     }
   }
+
 }
