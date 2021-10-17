@@ -238,15 +238,13 @@ class AppointmentCard extends StatelessWidget {
     }
 
     try {
-      final response = await http.put(
-          Uri.parse(baseUrl + '/api/appointments/' + id.toString()),
-          headers: {
-            HttpHeaders.authorizationHeader: Token,
-          },
-          body: {
-            'status': status,
-            'notes': notes
-          });
+      final response =
+          await http.put(Uri.parse('$baseUrl/api/appointments/$id'), headers: {
+        HttpHeaders.authorizationHeader: Token,
+      }, body: {
+        'status': status,
+        'notes': notes
+      });
       if (response.statusCode == 200) {
         print('update Berhasil');
       } else {

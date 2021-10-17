@@ -76,9 +76,6 @@ class _BodyState extends State<Body> {
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 32,
-                ),
                 FutureBuilder<Appointment>(
                     future: _appointment,
                     builder: (context, snapshot) {

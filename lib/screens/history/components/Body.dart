@@ -71,51 +71,47 @@ class _BodyState extends State<Body> {
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 8,
-                ),
                 FutureBuilder<Appointment>(
-                      future: _appointment,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return ListView.separated(
-                            separatorBuilder:
-                                    (BuildContext context, int index) {
-                                  return SizedBox(
-                                    height: 16,
-                                  );
-                                },
-                            shrinkWrap: true,
-                            itemCount: snapshot.data!.data.length,
-                            itemBuilder: (context, index) {
-                              var appointment = snapshot.data!.data[index];
-                              if (appointment.status == "accepted" ||
-                                  appointment.status == "declined") {
-                                return Container(
-                                  child: Row(
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: AppointmentHistoryCard(
-                                          size: size.width,
-                                          height: 196,
-                                          guestPurpose: appointment.purpose,
-                                          guestName: appointment.guest.name,
-                                          status: appointment.status,
-                                          time: appointment.dateTime.toString(),
-                                        ),
+                    future: _appointment,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return ListView.separated(
+                          separatorBuilder: (BuildContext context, int index) {
+                            return SizedBox(
+                              height: 16,
+                            );
+                          },
+                          shrinkWrap: true,
+                          itemCount: snapshot.data!.data.length,
+                          itemBuilder: (context, index) {
+                            var appointment = snapshot.data!.data[index];
+                            if (appointment.status == "accepted" ||
+                                appointment.status == "declined") {
+                              return Container(
+                                child: Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: AppointmentHistoryCard(
+                                        size: size.width,
+                                        height: 196,
+                                        guestPurpose: appointment.purpose,
+                                        guestName: appointment.guest.name,
+                                        status: appointment.status,
+                                        time: appointment.dateTime.toString(),
                                       ),
-                                    ],
-                                  ),
-                                );
-                              } else {
-                                return SizedBox();
-                              }
-                            },
-                          );
-                        } else {
-                          return Center(child: CircularProgressIndicator());
-                        }
-                      }),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            } else {
+                              return SizedBox();
+                            }
+                          },
+                        );
+                      } else {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                    }),
               ],
             ),
           ),
