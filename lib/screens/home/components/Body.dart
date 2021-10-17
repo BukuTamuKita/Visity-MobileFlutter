@@ -14,12 +14,15 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  late Future<ShowAppointment> _appoitmentModel;
+  late Future<Appointment> _appointment;
+  int? appointmentCount;
+  String? hostName;
 
   @override
   void initState() {
-    // TODO: implement initState
-    _appoitmentModel = API_Manager().getAppointment();
+    _appointment = APIservice().getData();
+    this.appointmentCount;
+    this.hostName;
     super.initState();
   }
 
@@ -27,93 +30,98 @@ class _BodyState extends State<Body> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return ScreenUtilInit(
-      builder: () => SafeArea(
-        child: FutureBuilder<ShowAppointment>(
-            future: _appoitmentModel,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return ListView.builder(
-                    itemCount: snapshot.data!.data.length,
-                    itemBuilder: (context, index) {
-                      var appointment = snapshot.data!.data[index];
-                      if (appointment.status == 'waiting') {
-                        return Container(
-                          child: Column(
-                            children: <Widget>[
-                              AppointmentCard(
-                                  purpose: appointment.purpose,
-                                  guestname: appointment.guest.name,
-                                  id: appointment.id),
-                            ],
-                          
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          padding: EdgeInsets.only(left: 16, right: 16),
+          alignment: Alignment.center,
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                    height: 50.h,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                            child: SizedBox(
+                          child: Image.asset(
+                            'assets/icons/mainscreen/ProfileIcon_black.png',
                           ),
-
-                        );
-                      } else {
-                        return SizedBox();
-                      }
-
-                      /*return Container(
-                        margin: EdgeInsets.only(left: 16, right: 16),
-                        width: MediaQuery.of(context).size.width,
-                        alignment: Alignment.center,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Container(
-                                height: 50.h,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                        child: SizedBox(
-                                      child: Image.asset(
-                                        'assets/icons/mainscreen/ProfileIcon_black.png',
-                                      ),
-                                    )),
-                                    SizedBox(width: 20.w),
-                                    Text(
-                                      "Hello, " + appointment.guest.name,
-                                      style: mainSTextStyle1,
-                                    ),
-                                    SizedBox(
-                                      width: 90.w,
-                                    ),
-                                  ],
-                                )),
-                            SizedBox(height: 41.h),
-                            Container(
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Visitor",
-                                    style: mainSTextStyle2,
-                                  ),
-                                  Text(
-                                    "You have 5 visitors today",
-                                    style: mainSTextStyle3,
-                                  )
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 22,
-                            ),
-                            AppointmentCard(
-                                purpose: appointment.purpose,
-                                guestname: appointment.guest.name)
-                          ],
+                        )),
+                        SizedBox(width: 20.w),
+                        Text(
+                          "Hello, $hostName !",
+                          style: mainSTextStyle1,
                         ),
-                      );*/
-                    });
-              } else {
-                return Center(child: CircularProgressIndicator());
-              }
-            }),
+                        SizedBox(
+                          width: 90.w,
+                        ),
+                      ],
+                    )),
+                SizedBox(height: 41.h),
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Visitor",
+                        style: mainSTextStyle2,
+                      ),
+                      Text(
+                        "You have $appointmentCount visitors today",
+                        style: mainSTextStyle3,
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 32,
+                ),
+                FutureBuilder<Appointment>(
+                    future: _appointment,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return ListView.separated(
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return SizedBox(
+                                height: 16,
+                              );
+                            },
+                            shrinkWrap: true,
+                            itemCount: snapshot.data!.data.length,
+                            itemBuilder: (context, index) {
+                              var appointment = snapshot.data!.data[index];
+                              hostName = appointment.host.name;
+                              if (appointment.status == "waiting") {
+                                return Container(
+                                  child: Row(
+                                    children: <Widget>[
+                                      Flexible(
+                                        child: AppointmentCard(
+                                          size: size.width,
+                                          height: 196,
+                                          guestPurpose: appointment.purpose,
+                                          guestName: appointment.guest.name,
+                                          time: appointment.dateTime.toString(),
+                                          id: appointment.id,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              } else {
+                                return SizedBox();
+                              }
+                            });
+                      } else {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                    }),
+              ]),
+        ),
       ),
     );
   }

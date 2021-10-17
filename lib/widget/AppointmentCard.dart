@@ -14,20 +14,28 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppointmentCard extends StatelessWidget {
-  AppointmentCard(
-      {required this.purpose, required this.guestname, required this.id});
-
-  String purpose, guestname;
-  int id;
-  TextEditingController _notescontroller = TextEditingController();
+  TextEditingController _notesControler = TextEditingController();
   bool isAccepted = false;
+
+  String? guestPurpose;
+  String? guestName;
+  String? time;
+  double? size;
+  double? height;
+  int id;
+  AppointmentCard(
+      {required this.guestPurpose,
+      required this.guestName,
+      required this.size,
+      required this.height,
+      required this.time,
+      required this.id});
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Container(
-      width: size.width,
-      height: 196,
+      width: size,
+      height: height,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -60,11 +68,11 @@ class AppointmentCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      guestname,
+                      guestName!,
                       style: mainSTextStyle1,
                     ),
                     Text(
-                      "08.00 - 10.00",
+                      time!,
                       style: mainSTextStyle3,
                     )
                   ],
@@ -75,19 +83,26 @@ class AppointmentCard extends StatelessWidget {
               height: 20,
             ),
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text(
-                  purpose,
-                  maxLines: 2,
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                    guestPurpose!,
+                    maxLines: 2,
+                    textAlign: TextAlign.left,
+                  ),
                 )
               ],
             ),
             Column(
               children: [
                 SizedBox(
-                  height: 10,
+                  height: 16,
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
                       width: 125,
@@ -151,7 +166,7 @@ class AppointmentCard extends StatelessWidget {
                     height: 8,
                   ),
                   TextFormField(
-                      controller: _notescontroller,
+                      controller: _notesControler,
                       maxLines: 5,
                       decoration: InputDecoration(
                           fillColor: WhiteColor,
@@ -219,12 +234,12 @@ class AppointmentCard extends StatelessWidget {
       notes = "";
     } else {
       status = "declined";
-      notes = _notescontroller.text.toString();
+      notes = _notesControler.text.toString();
     }
 
     try {
       final response = await http.put(
-          Uri.parse(baseUrl + '/api/appointments/16/' + id.toString()),
+          Uri.parse(baseUrl + '/api/appointments/' + id.toString()),
           headers: {
             HttpHeaders.authorizationHeader: Token,
           },

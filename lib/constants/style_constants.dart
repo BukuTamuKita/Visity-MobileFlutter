@@ -48,9 +48,18 @@ var buttonMainStyle4 = GoogleFonts.nunito(
 
 //profilescreen
 
-var profileTextStyle1 = GoogleFonts.nunito(
-    fontWeight: FontWeight.bold, color: MainColor, fontSize: 36.sp);
-var profileTextStyle2 = GoogleFonts.nunito(
-    fontWeight: FontWeight.bold, color: Colors.grey.shade400, fontSize: 18);
-var profileTextStyle3 = GoogleFonts.nunito(
-    fontWeight: FontWeight.bold, color: MainColor, fontSize: 20);
+var profileTextStyle1 = GoogleFonts.nunito(fontWeight: FontWeight.bold,
+    color: MainColor, fontSize: 36.sp);
+var profileTextStyle2 = GoogleFonts.nunito(fontWeight: FontWeight.bold,
+    color: Colors.grey.shade400, fontSize: 18);
+var profileTextStyle3 = GoogleFonts.nunito(fontWeight: FontWeight.bold,
+    color: MainColor, fontSize: 20);
+
+//Historyscreen
+
+var statusTextStyle1 = GoogleFonts.nunito(fontWeight: FontWeight.bold,
+    color: lightblueColor, fontSize: 20.sp);
+var purposeTextStyle = GoogleFonts.nunito(fontWeight: FontWeight.w500,
+    color: MainColor, fontSize: 14.sp);
+var statusTextStyle2 = GoogleFonts.nunito(fontWeight: FontWeight.bold,
+    color: Colors.red, fontSize: 20.sp);

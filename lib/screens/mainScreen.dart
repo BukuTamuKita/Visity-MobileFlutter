@@ -88,9 +88,10 @@ class _mainScreenState extends State<mainScreen> {
           ),
         ));
   }
+  
   checkLoginStatus() async {
-    SharedPreferences sharedPreferences;
-    sharedPreferences = await SharedPreferences.getInstance();
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
     if (sharedPreferences.getString("token") == null) {
       Navigator.push(
             context,

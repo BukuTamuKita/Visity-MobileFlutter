@@ -3,23 +3,30 @@
 //     final showAppointment = showAppointmentFromJson(jsonString);
 
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 
-ShowAppointment showAppointmentFromJson(String str) => ShowAppointment.fromJson(json.decode(str));
+// To parse this JSON data, do
+//
+//     final welcome = welcomeFromJson(jsonString);
 
-String showAppointmentToJson(ShowAppointment data) => json.encode(data.toJson());
+Appointment welcomeFromJson(String str) => Appointment.fromJson(json.decode(str));
 
-class ShowAppointment {
-    ShowAppointment({
+String welcomeToJson(Appointment data) => json.encode(data.toJson());
+
+class Appointment {
+  final List<Datum> data;
+  final Links links;
+  final Meta meta;
+
+    const Appointment({
         required this.data,
         required this.links,
         required this.meta,
     });
 
-    List<Datum> data;
-    Links links;
-    Meta meta;
-
-    factory ShowAppointment.fromJson(Map<String, dynamic> json) => ShowAppointment(
+    factory Appointment.fromJson(Map<String, dynamic> json) => Appointment(
         data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
         links: Links.fromJson(json["links"]),
         meta: Meta.fromJson(json["meta"]),
@@ -33,7 +40,16 @@ class ShowAppointment {
 }
 
 class Datum {
-    Datum({
+
+    final int id;
+    final Host host;
+    final Guest guest;
+    final String purpose;
+    final String notes;
+    final String status;
+    final List<String> dateTime;
+
+    const Datum({
         required this.id,
         required this.host,
         required this.guest,
@@ -42,15 +58,6 @@ class Datum {
         required this.status,
         required this.dateTime,
     });
-
-    int id;
-    Host host;
-    Guest guest;
-    String purpose;
-    String notes;
-    String status;
-    List<String> dateTime;
-
     factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["id"],
         host: Host.fromJson(json["host"]),
@@ -73,19 +80,20 @@ class Datum {
 }
 
 class Guest {
-    Guest({
+
+    final int id;
+    final String name;
+    final String nik;
+    final String email;
+    final String address;
+
+    const Guest({
         required this.id,
         required this.name,
         required this.nik,
         required this.email,
         required this.address,
     });
-
-    int id;
-    String name;
-    String nik;
-    String email;
-    String address;
 
     factory Guest.fromJson(Map<String, dynamic> json) => Guest(
         id: json["id"],
@@ -105,6 +113,12 @@ class Guest {
 }
 
 class Host {
+    final int id;
+    final String name;
+    final String nip;
+    final String position;
+    final Users users;
+
     Host({
         required this.id,
         required this.name,
@@ -112,12 +126,6 @@ class Host {
         required this.position,
         required this.users,
     });
-
-    int id;
-    String name;
-    String nip;
-    String position;
-    Users users;
 
     factory Host.fromJson(Map<String, dynamic> json) => Host(
         id: json["id"],
@@ -137,6 +145,12 @@ class Host {
 }
 
 class Users {
+    final int id;
+    final String name;
+    final String email;
+    final String role;
+    final String photo;
+
     Users({
         required this.id,
         required this.name,
@@ -144,12 +158,6 @@ class Users {
         required this.role,
         required this.photo,
     });
-
-    int id;
-    String name;
-    String email;
-    String role;
-    String photo;
 
     factory Users.fromJson(Map<String, dynamic> json) => Users(
         id: json["id"],
@@ -169,17 +177,19 @@ class Users {
 }
 
 class Links {
+    final String first;
+    final dynamic last;
+    final dynamic prev;
+    final dynamic next;
+
     Links({
         required this.first,
-        this.last,
-        this.prev,
-        this.next,
+        required this.last,
+        required this.prev,
+        required this.next,
     });
 
-    String first;
-    dynamic last;
-    dynamic prev;
-    dynamic next;
+   
 
     factory Links.fromJson(Map<String, dynamic> json) => Links(
         first: json["first"],
@@ -197,6 +207,12 @@ class Links {
 }
 
 class Meta {
+    final int currentPage;
+    final int from;
+    final String path;
+    final int perPage;
+    final int to;
+
     Meta({
         required this.currentPage,
         required this.from,
@@ -204,12 +220,6 @@ class Meta {
         required this.perPage,
         required this.to,
     });
-
-    int currentPage;
-    int from;
-    String path;
-    int perPage;
-    int to;
 
     factory Meta.fromJson(Map<String, dynamic> json) => Meta(
         currentPage: json["current_page"],
@@ -227,3 +237,74 @@ class Meta {
         "to": to,
     };
 }
+
+
+// class AppointmentResponse {
+//   final List<AppointmentData> data;
+//   final LinkClass link;
+
+//   const AppointmentResponse({
+//     required this.data,
+//     required this.link
+//     }); 
+    
+
+//   factory AppointmentResponse.fromJson(Map<String, dynamic> json) => 
+//   AppointmentResponse(
+//     data: List<AppointmentData>.from(json['data'].map((data){
+//       return AppointmentData.fromJson(data);
+//     })),
+//     link: LinkClass.fromJson(json['link'])
+//   );
+// }
+
+// class AppointmentData {
+//   final Guest guest;
+//   final String purpose;
+
+//   const AppointmentData({
+//     required this.guest,
+//     required this.purpose
+//   });
+
+//   factory AppointmentData.fromJson(Map<String, dynamic> json) => AppointmentData(
+//     guest: Guest.fromJson(json['guest']), 
+//     purpose: json['purpose']
+//     );
+// }
+
+// class Guest {
+//     final String id;
+//     final String name;
+//     final String nik;
+//     final String email;
+//     final String address;
+
+//     const Guest({
+//       required this.id,
+//       required this.name,
+//       required this.nik,
+//       required this.email,
+//       required this.address,
+//     });
+
+//     factory Guest.fromJson(Map<String, dynamic> json) => Guest(
+//       id: json['id'], 
+//       name:json['name'], 
+//       nik: json['nik'], 
+//       email:json['email'], 
+//       address: json['address']
+//      );
+// }
+
+// class LinkClass {
+//   final String first;
+  
+//   const LinkClass({
+//     required this.first,
+//   });
+  
+//   factory LinkClass.fromJson(Map<String, dynamic> json) => LinkClass(
+//     first: json['first'],
+//   );
+// }
