@@ -28,19 +28,6 @@ class _LoginButtonState extends State<LoginButton> {
                 MaterialPageRoute(builder: (context) => mainScreen()
                 ),
               );
-<<<<<<< HEAD
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => mainScreen()
-              //   ),
-              // );
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => mainScreen()
-                ),
-              );
-=======
->>>>>>> c4d61b934f3ef0a6ac54068ac6bfe449a5b8710a
             },
             style: ElevatedButton.styleFrom(
                 primary: Color.fromRGBO(46, 77, 167, 10),

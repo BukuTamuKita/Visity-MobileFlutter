@@ -13,37 +13,24 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-
-  late final Appointment appointment;
-  List<Appointment> listAppointment = [];
-  APIservice apiservice = APIservice();
-
-  getData() async {
-<<<<<<< HEAD
-    listAppointment = await apiservice.getData("");
-=======
-    listAppointment = await apiservice.getData();
->>>>>>> c4d61b934f3ef0a6ac54068ac6bfe449a5b8710a
-  }
+  late Future<Appointment> _appointment;
 
   @override
   void initState() {
-    getData();
+    _appointment = APIservice().getData();
     super.initState();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return ScreenUtilInit(
-      builder: () => SafeArea(
-        child: ListView(children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(left: 16, right: 16),
-            width: MediaQuery.of(context).size.width,
-            alignment: Alignment.center,
-            child: Column(
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          padding: EdgeInsets.only(left: 16, right: 16),
+          alignment: Alignment.center,
+          child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
@@ -84,28 +71,41 @@ class _BodyState extends State<Body> {
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 22,
+                Container(
+                  child: FutureBuilder<Appointment>(
+                      future: _appointment,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return ListView.builder(
+                              itemCount: snapshot.data!.data.length,
+                              itemBuilder: (context, index) {
+                                var appointment = snapshot.data!.data[index];
+                                if (appointment.status == "waiting") {
+                                  return Container(
+                                    child: Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: AppointmentCard(
+                                              size: size.width,
+                                              height: 196,
+                                              guestPurpose: appointment.purpose,
+                                              guestName:
+                                                  appointment.guest.name),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                } else {
+                                  return SizedBox();
+                                }
+                              });
+                        } else {
+                          return Center(child: CircularProgressIndicator());
+                        }
+                      }),
                 ),
-                // ListView.separated(
-                //   itemBuilder: (context, index) {
-                //     return Container(
-                //       child: Text(listAppointment[index].name),
-                //     );
-                //   }, 
-                //   separatorBuilder: (context, index) {
-                //     return Divider();
-                //   }, 
-                //   itemCount: listAppointment.length
-                //   ),
-<<<<<<< HEAD
-              ],
-=======
-               ],
->>>>>>> c4d61b934f3ef0a6ac54068ac6bfe449a5b8710a
-            ),
-          ),
-        ]),
+              ]),
+        ),
       ),
     );
   }

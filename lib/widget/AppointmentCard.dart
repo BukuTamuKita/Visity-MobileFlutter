@@ -3,16 +3,20 @@ import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/model/appointment_model.dart';
 import 'package:flutter/material.dart';
 class AppointmentCard extends StatelessWidget {
-
-  final Appointment appointment;
-  AppointmentCard(this.appointment);
+  
+  String? guestPurpose;
+  String? guestName;
+  double? size;
+  double? height;
+  AppointmentCard({required this.guestPurpose,
+  required this.guestName, required this.size, required this.height,
+  });
   
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Container(
-      width: size.width,
-      height: 196,
+      width: size,
+      height: height,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -45,7 +49,7 @@ class AppointmentCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      appointment.name,
+                      guestName!,
                       style: mainSTextStyle1,
                     ),
                     Text(
@@ -60,9 +64,10 @@ class AppointmentCard extends StatelessWidget {
               height: 20,
             ),
             Column(
+               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  appointment.purpose,
+                  guestPurpose!,
                   maxLines: 2,
                 )
               ],

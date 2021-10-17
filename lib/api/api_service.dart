@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-import 'dart:io';
-
-=======
->>>>>>> c4d61b934f3ef0a6ac54068ac6bfe449a5b8710a
 import 'package:bukutamu_android/model/appointment_model.dart';
 import 'package:bukutamu_android/model/login_model.dart';
 import 'package:bukutamu_android/screens/login/components/Body.dart';
@@ -12,50 +7,36 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class APIservice {
-<<<<<<< HEAD
-  
-
 
   String url = "http://10.0.2.2:8000/api/appointments";
 
-  Future getData(String token) async {
+  Future <Appointment> getData() async {
+    var appointment = null;
+
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    final loginToken = sharedPreferences.getString('token');
+    print("home = " + loginToken.toString());
 
     try {
-      final response = await http.get(
-        Uri.parse(url),
-        // headers: {
-        //   HttpHeaders.authorizationHeader: sharedPreferences.getString("loginToken"),
-        // },
+      final response = await http.get(Uri.parse(url),
+      headers: {
+        'Authorization': 'Bearer $loginToken',
+      }
+      // headers:  {'Authorization': loginToken!},
       );
+      print("response" + response.statusCode.toString());
 
       if (response.statusCode == 200) {
         print(response.body);
-        Iterable it = jsonDecode(response.body);
-        List<Appointment> appointment =
-            it.map((e) => Appointment.fromJson(e)).toList();
-=======
-  String url = "http://10.0.2.2:8000/api/appointments";
+        final jsonString = response.body;
+        final jsonMap = json.decode(jsonString);
 
-  Future getData() async {
-    try {
-      final response = await http.get(Uri.parse(url));
-      
-      if (response.statusCode == 200) {
-        print(response.body);
-        Iterable it = jsonDecode(response.body);
-        List<Appointment> appointment = it.map((e) => 
-        Appointment.fromJson(e)).toList();
->>>>>>> c4d61b934f3ef0a6ac54068ac6bfe449a5b8710a
-
-        return appointment;
+        appointment = Appointment.fromJson(jsonMap);
       }
     } catch (e) {
       print(e.toString());
     }
-<<<<<<< HEAD
-  }
-}
-=======
+    return appointment;
  }
 }
->>>>>>> c4d61b934f3ef0a6ac54068ac6bfe449a5b8710a

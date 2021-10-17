@@ -189,13 +189,10 @@ class _BodyState extends State<Body> {
 
   Future<void> login() async {
     final jsonData;
-<<<<<<< HEAD
-=======
 
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     sharedPreferences.setString('email', emailController.text);
->>>>>>> c4d61b934f3ef0a6ac54068ac6bfe449a5b8710a
     if (emailController.text.isNotEmpty && emailController.text.isNotEmpty) {
       final response = await http.post(
         Uri.parse("http://10.0.2.2:8000/api/auth/loginHost"),
@@ -205,26 +202,11 @@ class _BodyState extends State<Body> {
         }),
       );
       if (response.statusCode == 200) {
-<<<<<<< HEAD
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => mainScreen()),
-
-        );
-        jsonData = json.decode(response.body);
-        print(jsonData["token"]);
-        setState(() {
-          isLoading = false;
-
-          final loginToken = sharedPreferences.setString("tokenLogin", jsonData['token']);
-          print(loginToken);
-=======
         jsonData = json.decode(response.body);
         setState(() {
           isLoading = false;
-
+          print("login = " + jsonData['token'].toString());
           sharedPreferences.setString("token", jsonData['token']);
->>>>>>> c4d61b934f3ef0a6ac54068ac6bfe449a5b8710a
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => mainScreen()),
@@ -236,7 +218,7 @@ class _BodyState extends State<Body> {
       }
     } else {
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Blank Fild Not Allowed")));
+          .showSnackBar(SnackBar(content: Text("Blank Field Not Allowed")));
     }
   }
 
