@@ -2,18 +2,26 @@ import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:flutter/material.dart';
 
 class AppointmentHistoryCard extends StatelessWidget {
-  const AppointmentHistoryCard({
-    Key? key,
-    required this.size,
-  }) : super(key: key);
+  String? guestPurpose;
+  String? guestName;
+  String ? status;
+  double? size;
+  double? height;
 
-  final Size size;
+  AppointmentHistoryCard({
+    required this.guestPurpose,
+    required this.guestName, 
+    required this.size, 
+    required this.height,
+    required this.status
+  });
+
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: size.width,
-      height: 196,
+      width: size,
+      height: height,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -46,7 +54,7 @@ class AppointmentHistoryCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Ardy Putra Utama",
+                        guestName!,
                         style: mainSTextStyle1,
                       ),
                       Text(
@@ -63,7 +71,7 @@ class AppointmentHistoryCard extends StatelessWidget {
               Column(
                 children: [
                   Text(
-                    "Laper pingin makan dan beli truk terus beli ice ceream di indomaret",
+                    guestPurpose!,
                     maxLines: 2,
                   )
                 ],
@@ -74,21 +82,13 @@ class AppointmentHistoryCard extends StatelessWidget {
                     height: 10,
                   ),
                   Container(
-                    width: size.width,
+                    width: size,
                     child: Text(
-                      "ACCEPTED",
+                      status!,
                       style: buttonMainStyle3,
                       textAlign: TextAlign.left,
                     ),
                   ),
-                  /*Container(
-                    width: size.width,
-                    child: Text(
-                      "DECLINED",
-                      style: buttonMainStyle3,
-                      textAlign: TextAlign.left,
-                    ),
-                  ),*/
                 ],
               )
             ],

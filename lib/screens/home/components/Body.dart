@@ -71,39 +71,39 @@ class _BodyState extends State<Body> {
                     ],
                   ),
                 ),
-                Container(
-                  child: FutureBuilder<Appointment>(
-                      future: _appointment,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return ListView.builder(
-                              itemCount: snapshot.data!.data.length,
-                              itemBuilder: (context, index) {
-                                var appointment = snapshot.data!.data[index];
-                                if (appointment.status == "waiting") {
-                                  return Container(
-                                    child: Row(
-                                      children: <Widget>[
-                                        Expanded(
-                                          child: AppointmentCard(
-                                              size: size.width,
-                                              height: 196,
-                                              guestPurpose: appointment.purpose,
-                                              guestName:
-                                                  appointment.guest.name),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                } else {
-                                  return SizedBox();
-                                }
-                              });
-                        } else {
-                          return Center(child: CircularProgressIndicator());
-                        }
-                      }),
-                ),
+                // Container(
+                //   child: FutureBuilder<Appointment>(
+                //       future: _appointment,
+                //       builder: (context, snapshot) {
+                //         if (snapshot.hasData) {
+                //           return ListView.builder(
+                //               itemCount: snapshot.data!.data.length,
+                //               itemBuilder: (context, index) {
+                //                 var appointment = snapshot.data!.data[index];
+                //                 if (appointment.status == "waiting") {
+                //                   return Container(
+                //                     child: Row(
+                //                       children: <Widget>[
+                //                         Expanded(
+                //                           child: AppointmentCard(
+                //                               size: size.width,
+                //                               height: 196,
+                //                               guestPurpose: appointment.purpose,
+                //                               guestName:
+                //                                   appointment.guest.name),
+                //                         ),
+                //                       ],
+                //                     ),
+                //                   );
+                //                 } else {
+                //                   return SizedBox();
+                //                 }
+                //               });
+                //         } else {
+                //           return Center(child: CircularProgressIndicator());
+                //         }
+                //       }),
+                // ),
               ]),
         ),
       ),

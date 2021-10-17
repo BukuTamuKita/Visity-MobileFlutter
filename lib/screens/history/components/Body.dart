@@ -1,4 +1,7 @@
+import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
+import 'package:bukutamu_android/model/appointment_model.dart';
+import 'package:bukutamu_android/widget/AppointmentCard.dart';
 import 'package:bukutamu_android/widget/AppointmentHistoryCard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +14,15 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  late Future<Appointment> _appointment;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _appointment = APIservice().getData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -62,19 +74,44 @@ class _BodyState extends State<Body> {
                 SizedBox(
                   height: 22,
                 ),
-                AppointmentHistoryCard(size: size),
-                SizedBox(
-                  height: 16,
-                ),
-                AppointmentHistoryCard(size: size),
-                SizedBox(
-                  height: 16,
-                ),
-                AppointmentHistoryCard(size: size),
-                SizedBox(
-                  height: 16,
-                ),
-                AppointmentHistoryCard(size: size),
+                FutureBuilder<Appointment>(
+                    future: _appointment,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: snapshot.data!.data.length,
+                          itemBuilder: (context, index) {
+                            var appointment = snapshot.data!.data[index];
+                            if (appointment.status == "accepted" ||
+                                appointment.status == "declined") {
+                              return Container(
+                                child: Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: AppointmentHistoryCard(
+                                        size: size.width,
+                                        height: 196,
+                                        guestPurpose: appointment.purpose,
+                                        guestName: appointment.guest.name,
+                                        status: appointment.status,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 16,
+                                    ),
+                                  ],
+                                ),
+                              );
+                            } else {
+                              return SizedBox();
+                            }
+                          },
+                        );
+                      } else {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                    }),
               ],
             ),
           ),
