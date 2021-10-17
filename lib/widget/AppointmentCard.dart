@@ -14,7 +14,8 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppointmentCard extends StatelessWidget {
-  AppointmentCard({required this.purpose, required this.guestname,  required this.id});
+  AppointmentCard(
+      {required this.purpose, required this.guestname, required this.id});
 
   String purpose, guestname;
   int id;
@@ -170,6 +171,7 @@ class AppointmentCard extends StatelessWidget {
                         onPressed: () {
                           isAccepted = false;
                           updateStatus(isAccepted);
+                          Navigator.pop(context);
                         },
                         style: ElevatedButton.styleFrom(
                           primary: lightblueColor,
