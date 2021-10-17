@@ -188,12 +188,13 @@ class _BodyState extends State<Body> {
 
   Future<void> login() async {
     final jsonData;
+    var client = http.Client();
 
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     sharedPreferences.setString('email', emailController.text);
-    if (emailController.text.isNotEmpty && emailController.text.isNotEmpty) {
-      final response = await http.post(
+    if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty) {
+      var response = await client.post(
         Uri.parse("http://10.0.2.2:8000/api/auth/loginHost"),
         body: ({
           'email': emailController.text,
@@ -217,7 +218,7 @@ class _BodyState extends State<Body> {
       }
     } else {
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Blank Fild Not Allowed")));
+          .showSnackBar(SnackBar(content: Text("Blank Field Not Allowed")));
     }
   }
 }

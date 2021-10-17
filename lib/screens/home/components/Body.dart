@@ -1,6 +1,7 @@
 import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/model/appointment_model.dart';
+import 'package:bukutamu_android/services/api_manager.dart';
 import 'package:bukutamu_android/widget/AppointmentCard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,91 +14,104 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-
-  late final Appointment appointment;
-  List<Appointment> listAppointment = [];
-  APIservice apiservice = APIservice();
-
-  getData() async {
-    listAppointment = await apiservice.getData("");
-  }
+  late Future<ShowAppointment> _appoitmentModel;
 
   @override
   void initState() {
-    getData();
+    // TODO: implement initState
+    _appoitmentModel = API_Manager().getAppointment();
     super.initState();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
     return ScreenUtilInit(
       builder: () => SafeArea(
-        child: ListView(children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(left: 16, right: 16),
-            width: MediaQuery.of(context).size.width,
-            alignment: Alignment.center,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                    height: 50.h,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Container(
-                            child: SizedBox(
-                          child: Image.asset(
-                            'assets/icons/mainscreen/ProfileIcon_black.png',
+        child: FutureBuilder<ShowAppointment>(
+            future: _appoitmentModel,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return ListView.builder(
+                    itemCount: snapshot.data!.data.length,
+                    itemBuilder: (context, index) {
+                      var appointment = snapshot.data!.data[index];
+                      if (appointment.status == 'waiting') {
+                        return Container(
+                          child: Row(
+                            children: <Widget>[
+                              AppointmentCard(
+                                  purpose: appointment.purpose,
+                                  guestname: appointment.guest.name,
+                                  id: appointment.id),
+                            ],
                           ),
-                        )),
-                        SizedBox(width: 20.w),
-                        Text(
-                          "Hello, Santoso!",
-                          style: mainSTextStyle1,
+                        );
+                      } else {
+                        return SizedBox();
+                      }
+
+                      /*return Container(
+                        margin: EdgeInsets.only(left: 16, right: 16),
+                        width: MediaQuery.of(context).size.width,
+                        alignment: Alignment.center,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                                height: 50.h,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                        child: SizedBox(
+                                      child: Image.asset(
+                                        'assets/icons/mainscreen/ProfileIcon_black.png',
+                                      ),
+                                    )),
+                                    SizedBox(width: 20.w),
+                                    Text(
+                                      "Hello, " + appointment.guest.name,
+                                      style: mainSTextStyle1,
+                                    ),
+                                    SizedBox(
+                                      width: 90.w,
+                                    ),
+                                  ],
+                                )),
+                            SizedBox(height: 41.h),
+                            Container(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Visitor",
+                                    style: mainSTextStyle2,
+                                  ),
+                                  Text(
+                                    "You have 5 visitors today",
+                                    style: mainSTextStyle3,
+                                  )
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 22,
+                            ),
+                            AppointmentCard(
+                                purpose: appointment.purpose,
+                                guestname: appointment.guest.name)
+                          ],
                         ),
-                        SizedBox(
-                          width: 90.w,
-                        ),
-                      ],
-                    )),
-                SizedBox(height: 41.h),
-                Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Visitor",
-                        style: mainSTextStyle2,
-                      ),
-                      Text(
-                        "You have 5 visitors today",
-                        style: mainSTextStyle3,
-                      )
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 22,
-                ),
-                // ListView.separated(
-                //   itemBuilder: (context, index) {
-                //     return Container(
-                //       child: Text(listAppointment[index].name),
-                //     );
-                //   }, 
-                //   separatorBuilder: (context, index) {
-                //     return Divider();
-                //   }, 
-                //   itemCount: listAppointment.length
-                //   ),
-              ],
-            ),
-          ),
-        ]),
+                      );*/
+                    });
+              } else {
+                return Center(child: CircularProgressIndicator());
+              }
+            }),
       ),
     );
   }

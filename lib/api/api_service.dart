@@ -9,13 +9,9 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class APIservice {
-  
-
-
-  String url = "http://10.0.2.2:8000/api/appointments";
+  static const String url = "http://10.0.2.2:8000/api/appointments";
 
   Future getData(String token) async {
-
     try {
       final response = await http.get(
         Uri.parse(url),
@@ -27,8 +23,8 @@ class APIservice {
       if (response.statusCode == 200) {
         print(response.body);
         Iterable it = jsonDecode(response.body);
-        List<Appointment> appointment =
-            it.map((e) => Appointment.fromJson(e)).toList();
+        List<ShowAppointment> appointment =
+            it.map((e) => ShowAppointment.fromJson(e)).toList();
 
         return appointment;
       }
@@ -36,4 +32,6 @@ class APIservice {
       print(e.toString());
     }
   }
+
+ 
 }

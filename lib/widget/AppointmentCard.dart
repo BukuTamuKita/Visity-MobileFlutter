@@ -1,18 +1,25 @@
 import 'dart:convert';
-import 'dart:js';
+import 'dart:io';
 
 import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/model/appointment_model.dart';
+import 'package:bukutamu_android/model/login_model.dart';
+import 'package:bukutamu_android/model/updateStatus_model.dart';
+import 'package:bukutamu_android/screens/history/components/Body.dart';
+import 'package:bukutamu_android/screens/login/LoginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppointmentCard extends StatelessWidget {
+  AppointmentCard({required this.purpose, required this.guestname,  required this.id});
+
+  String purpose, guestname;
+  int id;
   TextEditingController _notescontroller = TextEditingController();
   bool isAccepted = false;
-  final Appointment appointment;
-  AppointmentCard(this.appointment);
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +59,7 @@ class AppointmentCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      appointment.name,
+                      guestname,
                       style: mainSTextStyle1,
                     ),
                     Text(
@@ -69,7 +76,7 @@ class AppointmentCard extends StatelessWidget {
             Column(
               children: [
                 Text(
-                  appointment.purpose,
+                  purpose,
                   maxLines: 2,
                 )
               ],
@@ -90,7 +97,7 @@ class AppointmentCard extends StatelessWidget {
                         ),
                         onPressed: () {
                           isAccepted = true;
-                          updateStatus();
+                          updateStatus(isAccepted);
                         },
                         child: Text(
                           "ACCEPT",
@@ -161,7 +168,8 @@ class AppointmentCard extends StatelessWidget {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          updateStatus();
+                          isAccepted = false;
+                          updateStatus(isAccepted);
                         },
                         style: ElevatedButton.styleFrom(
                           primary: lightblueColor,
@@ -194,10 +202,17 @@ class AppointmentCard extends StatelessWidget {
             ),
           ));
 
-  Future<void> updateStatus() async {
+  Future updateStatus(bool Accept) async {
+    SharedPreferences sharedPreferences;
+    sharedPreferences = await SharedPreferences.getInstance();
+
     String status, notes;
+    String Token;
+
     final String baseUrl = "http://10.0.2.2:8000";
-    if (isAccepted == true) {
+    Token = sharedPreferences.getString('token')!;
+
+    if (Accept == true) {
       status = "accepted";
       notes = "";
     } else {
@@ -205,19 +220,23 @@ class AppointmentCard extends StatelessWidget {
       notes = _notescontroller.text.toString();
     }
 
-    Map data = {
-      'status': status,
-      'notes': notes,
-    };
-
-    final response = await http.put(
-      '$baseUrl//api/appointments/16/',
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(data),
-    );
-    if (response.statusCode == 200) {
-    } else {}
+    try {
+      final response = await http.put(
+          Uri.parse(baseUrl + '/api/appointments/16/' + id.toString()),
+          headers: {
+            HttpHeaders.authorizationHeader: Token,
+          },
+          body: {
+            'status': status,
+            'notes': notes
+          });
+      if (response.statusCode == 200) {
+        print('update Berhasil');
+      } else {
+        print('update Gagal');
+      }
+    } catch (e) {
+      print(e.toString());
+    }
   }
 }
