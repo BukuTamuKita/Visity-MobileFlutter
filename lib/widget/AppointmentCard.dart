@@ -6,10 +6,12 @@ class AppointmentCard extends StatelessWidget {
   
   String? guestPurpose;
   String? guestName;
+  String? time;
   double? size;
   double? height;
   AppointmentCard({required this.guestPurpose,
   required this.guestName, required this.size, required this.height,
+  required this.time
   });
   
   @override
@@ -53,7 +55,7 @@ class AppointmentCard extends StatelessWidget {
                       style: mainSTextStyle1,
                     ),
                     Text(
-                      "08.00 - 10.00",
+                      time!,
                       style: mainSTextStyle3,
                     )
                   ],
@@ -65,19 +67,25 @@ class AppointmentCard extends StatelessWidget {
             ),
             Column(
                crossAxisAlignment: CrossAxisAlignment.start,
+               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text(
-                  guestPurpose!,
-                  maxLines: 2,
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                    guestPurpose!,
+                    maxLines: 2,
+                    textAlign: TextAlign.left,
+                  ),
                 )
               ],
             ),
             Column(
               children: [
                 SizedBox(
-                  height: 10,
+                  height: 16,
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
                       width: 125,
