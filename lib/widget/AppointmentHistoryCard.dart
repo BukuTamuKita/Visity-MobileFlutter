@@ -4,18 +4,18 @@ import 'package:flutter/material.dart';
 class AppointmentHistoryCard extends StatelessWidget {
   String? guestPurpose;
   String? guestName;
-  String ? status;
+  String? status;
   double? size;
   double? height;
+  String? time;
 
-  AppointmentHistoryCard({
-    required this.guestPurpose,
-    required this.guestName, 
-    required this.size, 
-    required this.height,
-    required this.status
-  });
-
+  AppointmentHistoryCard(
+      {required this.guestPurpose,
+      required this.guestName,
+      required this.size,
+      required this.height,
+      required this.status,
+      required this.time});
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +58,7 @@ class AppointmentHistoryCard extends StatelessWidget {
                         style: mainSTextStyle1,
                       ),
                       Text(
-                        "08.00 - 10.00",
+                        time!,
                         style: mainSTextStyle3,
                       )
                     ],
@@ -70,24 +70,35 @@ class AppointmentHistoryCard extends StatelessWidget {
               ),
               Column(
                 children: [
-                  Text(
-                    guestPurpose!,
-                    maxLines: 2,
+                  Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Text(
+                      guestPurpose!,
+                      maxLines: 2,
+                      textAlign: TextAlign.left,
+                      style: purposeTextStyle,
+                    ),
                   )
                 ],
               ),
               Column(
                 children: [
                   SizedBox(
-                    height: 10,
+                    height: 21,
                   ),
                   Container(
                     width: size,
-                    child: Text(
-                      status!,
-                      style: buttonMainStyle3,
-                      textAlign: TextAlign.left,
-                    ),
+                    child: status == "accepted"
+                        ? Text(
+                            status!.toUpperCase(),
+                            style: statusTextStyle1,
+                            textAlign: TextAlign.left,
+                          )
+                        : Text(
+                            status!.toUpperCase(),
+                            style: statusTextStyle2,
+                            textAlign: TextAlign.left,
+                          ),
                   ),
                 ],
               )

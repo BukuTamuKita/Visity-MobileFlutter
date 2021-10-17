@@ -17,7 +17,6 @@ class _BodyState extends State<Body> {
   int? appointmentCount;
   String? hostName;
 
-
   @override
   void initState() {
     _appointment = APIservice().getData();
@@ -76,84 +75,49 @@ class _BodyState extends State<Body> {
                     ],
                   ),
                 ),
-<<<<<<< HEAD
-                // Container(
-                //   child: FutureBuilder<Appointment>(
-                //       future: _appointment,
-                //       builder: (context, snapshot) {
-                //         if (snapshot.hasData) {
-                //           return ListView.builder(
-                //               itemCount: snapshot.data!.data.length,
-                //               itemBuilder: (context, index) {
-                //                 var appointment = snapshot.data!.data[index];
-                //                 if (appointment.status == "waiting") {
-                //                   return Container(
-                //                     child: Row(
-                //                       children: <Widget>[
-                //                         Expanded(
-                //                           child: AppointmentCard(
-                //                               size: size.width,
-                //                               height: 196,
-                //                               guestPurpose: appointment.purpose,
-                //                               guestName:
-                //                                   appointment.guest.name),
-                //                         ),
-                //                       ],
-                //                     ),
-                //                   );
-                //                 } else {
-                //                   return SizedBox();
-                //                 }
-                //               });
-                //         } else {
-                //           return Center(child: CircularProgressIndicator());
-                //         }
-                //       }),
-                // ),
-=======
-                Container(
-                  child: FutureBuilder<Appointment>(
-                      future: _appointment,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return ListView.separated(
-                              separatorBuilder:
-                                  (BuildContext context, int index) {
-                                return SizedBox(
-                                  height: 16,
-                                );
-                              },
-                              shrinkWrap: true,
-                              itemCount: snapshot.data!.data.length,
-                              itemBuilder: (context, index) {
-                                var appointment = snapshot.data!.data[index];
-                                hostName = appointment.host.name;
-                                if (appointment.status == "waiting") {
-                                  return Container(
-                                    child: Row(
-                                      children: <Widget>[
-                                        Flexible(
-                                          child: AppointmentCard(
-                                              size: size.width,
-                                              height: 196,
-                                              guestPurpose: appointment.purpose,
-                                              guestName: appointment.guest.name,
-                                              time: appointment.dateTime.toString(),
-                                              ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                } else {
-                                  return SizedBox();
-                                }
-                              });
-                        } else {
-                          return Center(child: CircularProgressIndicator());
-                        }
-                      }),
+                SizedBox(
+                  height: 32,
                 ),
->>>>>>> 6cc57116396e561fd85a35551c5c004bf9bc1fd3
+                FutureBuilder<Appointment>(
+                    future: _appointment,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return ListView.separated(
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return SizedBox(
+                                height: 16,
+                              );
+                            },
+                            shrinkWrap: true,
+                            itemCount: snapshot.data!.data.length,
+                            itemBuilder: (context, index) {
+                              var appointment = snapshot.data!.data[index];
+                              hostName = appointment.host.name;
+                              if (appointment.status == "waiting") {
+                                return Container(
+                                  child: Row(
+                                    children: <Widget>[
+                                      Flexible(
+                                        child: AppointmentCard(
+                                          size: size.width,
+                                          height: 196,
+                                          guestPurpose: appointment.purpose,
+                                          guestName: appointment.guest.name,
+                                          time: appointment.dateTime.toString(),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              } else {
+                                return SizedBox();
+                              }
+                            });
+                      } else {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                    }),
               ]),
         ),
       ),
