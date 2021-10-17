@@ -85,8 +85,7 @@ class AppointmentCard extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                           primary: lightblueColor,
                         ),
-                        onPressed: () {
-                        },
+                        onPressed: () {},
                         child: Text(
                           "ACCEPT",
                           style: buttonMainStyle1,
@@ -154,7 +153,9 @@ class AppointmentCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
                         style: ElevatedButton.styleFrom(
                           primary: lightblueColor,
                           minimumSize: Size(91, 34),
@@ -172,7 +173,9 @@ class AppointmentCard extends StatelessWidget {
                         width: 16,
                       ),
                       TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
                           child: Text(
                             'Cancel',
                             style: buttonMainStyle4,
