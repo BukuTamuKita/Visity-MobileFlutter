@@ -39,14 +39,16 @@ class _BodyState extends State<Body> {
                       var appointment = snapshot.data!.data[index];
                       if (appointment.status == 'waiting') {
                         return Container(
-                          child: Row(
+                          child: Column(
                             children: <Widget>[
                               AppointmentCard(
                                   purpose: appointment.purpose,
                                   guestname: appointment.guest.name,
                                   id: appointment.id),
                             ],
+                          
                           ),
+
                         );
                       } else {
                         return SizedBox();
