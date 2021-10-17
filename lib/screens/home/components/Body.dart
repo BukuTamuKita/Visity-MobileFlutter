@@ -14,10 +14,15 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   late Future<Appointment> _appointment;
+  int? appointmentCount;
+  String? hostName;
+
 
   @override
   void initState() {
     _appointment = APIservice().getData();
+    this.appointmentCount;
+    this.hostName;
     super.initState();
   }
 
@@ -30,36 +35,90 @@ class _BodyState extends State<Body> {
         child: Container(
           padding: EdgeInsets.only(left: 16, right: 16),
           alignment: Alignment.center,
-          child: FutureBuilder<Appointment>(
-              future: _appointment,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return ListView.builder(
-                      itemCount: snapshot.data!.data.length,
-                      itemBuilder: (context, index) {
-                        var appointment = snapshot.data!.data[index];
-                        if (appointment.status == "waiting") {
-                          return Container(
-                            child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: AppointmentCard(
-                                      size: size.width,
-                                      height: 196,
-                                      guestPurpose: appointment.purpose,
-                                      guestName: appointment.guest.name),
-                                ),
-                              ],
-                            ),
-                          );
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                    height: 50.h,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                            child: SizedBox(
+                          child: Image.asset(
+                            'assets/icons/mainscreen/ProfileIcon_black.png',
+                          ),
+                        )),
+                        SizedBox(width: 20.w),
+                        Text(
+                          "Hello, $hostName !",
+                          style: mainSTextStyle1,
+                        ),
+                        SizedBox(
+                          width: 90.w,
+                        ),
+                      ],
+                    )),
+                SizedBox(height: 41.h),
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Visitor",
+                        style: mainSTextStyle2,
+                      ),
+                      Text(
+                        "You have $appointmentCount visitors today",
+                        style: mainSTextStyle3,
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  child: FutureBuilder<Appointment>(
+                      future: _appointment,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return ListView.separated(
+                              separatorBuilder:
+                                  (BuildContext context, int index) {
+                                return SizedBox(
+                                  height: 16,
+                                );
+                              },
+                              shrinkWrap: true,
+                              itemCount: snapshot.data!.data.length,
+                              itemBuilder: (context, index) {
+                                var appointment = snapshot.data!.data[index];
+                                hostName = appointment.host.name;
+                                if (appointment.status == "waiting") {
+                                  return Container(
+                                    child: Row(
+                                      children: <Widget>[
+                                        Flexible(
+                                          child: AppointmentCard(
+                                              size: size.width,
+                                              height: 196,
+                                              guestPurpose: appointment.purpose,
+                                              guestName: appointment.guest.name,
+                                              time: appointment.dateTime.toString(),
+                                              ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                } else {
+                                  return SizedBox();
+                                }
+                              });
                         } else {
-                          return SizedBox();
+                          return Center(child: CircularProgressIndicator());
                         }
-                      });
-                } else {
-                  return Center(child: CircularProgressIndicator());
-                }
-              }),
+                      }),
+                ),
+              ]),
         ),
       ),
     );
