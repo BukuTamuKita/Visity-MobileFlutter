@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class API_Manager {
-  Future<ShowAppointment> getAppointment() async {
+  Future<Appointment> getAppointment() async {
     String Token;
 
     SharedPreferences sharedPreferences;
@@ -25,7 +25,7 @@ class API_Manager {
       var jsonString = response.body;
       var jsonMap = jsonDecode(jsonString);
 
-      appointmentModel = ShowAppointment.fromJson(jsonMap);
+      appointmentModel = Appointment.fromJson(jsonMap);
     }
     }catch(e){
       return appointmentModel;
