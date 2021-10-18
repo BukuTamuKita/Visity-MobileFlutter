@@ -118,7 +118,8 @@ class AppointmentCard extends StatelessWidget {
                             primary: lightblueColor,
                           ),
                           onPressed: () {
-                            updateStatus(appointment.status = true, context);
+                            isAccepted = true;
+                            updateStatus(isAccepted, context);
                             Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
@@ -198,6 +199,12 @@ class AppointmentCard extends StatelessWidget {
                         onPressed: () {
                           isAccepted = false;
                           updateStatus(isAccepted, context);
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => mainScreen()),
+                            (Route<dynamic> route) => false,
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           primary: lightblueColor,
@@ -225,68 +232,6 @@ class AppointmentCard extends StatelessWidget {
                           ))
                     ],
                   )
-                ],
-              ),
-            ),
-          ));
-
-  void UpdateSuccessDialog(BuildContext context) => showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => Dialog(
-            backgroundColor: Color.fromRGBO(239, 239, 239, 20),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  top: 24, left: 16, right: 16, bottom: 16),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'Update Status Success',
-                    style: mainSTextStyle1,
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.popAndPushNamed(context, '/home');
-                      },
-                      child: Text('OK'))
-                ],
-              ),
-            ),
-          ));
-
-  void UpdateFailedDialog(BuildContext context) => showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => Dialog(
-            backgroundColor: Color.fromRGBO(239, 239, 239, 20),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  top: 24, left: 16, right: 16, bottom: 16),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'Update Status Failed',
-                    style: mainSTextStyle1,
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text('OK'))
                 ],
               ),
             ),
@@ -321,9 +266,9 @@ class AppointmentCard extends StatelessWidget {
           });
 
       if (response.statusCode == 200) {
-        UpdateSuccessDialog(context);
+        print('update berhasil');
       } else {
-        UpdateFailedDialog(context);
+        print('update gagal');
       }
     } catch (e) {
       print(e.toString());
