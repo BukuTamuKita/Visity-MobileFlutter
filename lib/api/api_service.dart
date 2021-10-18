@@ -7,10 +7,9 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class APIservice {
-
   String url = "http://10.0.2.2:8000/api/appointments";
 
-  Future <Appointment> getData() async {
+  Future<Appointment> getData() async {
     var appointment = null;
 
     final SharedPreferences sharedPreferences =
@@ -19,12 +18,11 @@ class APIservice {
     print("home = " + loginToken.toString());
 
     try {
-      final response = await http.get(Uri.parse(url),
-      headers: {
+      final response = await http.get(Uri.parse(url), headers: {
         'Authorization': 'Bearer $loginToken',
       }
-      // headers:  {'Authorization': loginToken!},
-      );
+          // headers:  {'Authorization': loginToken!},
+          );
       print("response" + response.statusCode.toString());
 
       if (response.statusCode == 200) {
@@ -38,5 +36,5 @@ class APIservice {
       print(e.toString());
     }
     return appointment;
- }
+  }
 }

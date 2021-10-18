@@ -1,3 +1,7 @@
+// To parse this JSON data, do
+//
+//     final showAppointment = showAppointmentFromJson(jsonString);
+
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';

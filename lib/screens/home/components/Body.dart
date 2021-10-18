@@ -1,6 +1,9 @@
 import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/model/appointment_model.dart';
+import 'package:bukutamu_android/screens/home/HomeScreen.dart';
+import 'package:bukutamu_android/screens/mainScreen.dart';
+import 'package:bukutamu_android/services/api_manager.dart';
 import 'package:bukutamu_android/widget/AppointmentCard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,13 +27,21 @@ class _BodyState extends State<Body> {
     this.hostName;
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
       body: SafeArea(
+          child: RefreshIndicator(
+        onRefresh: () {
+          Navigator.pushReplacement(
+              context,
+              PageRouteBuilder(
+                  pageBuilder: (a, b, c) => mainScreen(),
+                  transitionDuration: Duration(seconds: 0)));
+          return Future.value(false);
+        },
         child: Container(
           padding: EdgeInsets.only(left: 16, right: 16),
           alignment: Alignment.center,
@@ -75,9 +86,6 @@ class _BodyState extends State<Body> {
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 32,
-                ),
                 FutureBuilder<Appointment>(
                     future: _appointment,
                     builder: (context, snapshot) {
@@ -105,6 +113,7 @@ class _BodyState extends State<Body> {
                                           guestPurpose: appointment.purpose,
                                           guestName: appointment.guest.name,
                                           time: appointment.dateTime.toString(),
+                                          id: appointment.id,
                                         ),
                                       ),
                                     ],
@@ -120,7 +129,7 @@ class _BodyState extends State<Body> {
                     }),
               ]),
         ),
-      ),
+      )),
     );
   }
 }
