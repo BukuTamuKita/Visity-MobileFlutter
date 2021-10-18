@@ -7,10 +7,14 @@ import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/model/appointment_model.dart';
 import 'package:bukutamu_android/model/login_model.dart';
 import 'package:bukutamu_android/model/updateStatus_model.dart';
+import 'package:bukutamu_android/provider/appointment_provider.dart';
 import 'package:bukutamu_android/screens/history/components/Body.dart';
+import 'package:bukutamu_android/screens/home/HomeScreen.dart';
 import 'package:bukutamu_android/screens/login/LoginScreen.dart';
+import 'package:bukutamu_android/screens/mainScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppointmentCard extends StatelessWidget {
@@ -105,20 +109,27 @@ class AppointmentCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                      width: 125,
-                      height: 32,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: lightblueColor,
-                        ),
-                        onPressed: () {
-                          isAccepted = true;
-                          updateStatus(isAccepted, context);
-                        },
-                        child: Text(
-                          "ACCEPT",
-                          style: buttonMainStyle1,
+                    Consumer<AppointmentProvider>(
+                      builder: (context, appointment, _) => Container(
+                        width: 125,
+                        height: 32,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: lightblueColor,
+                          ),
+                          onPressed: () {
+                            updateStatus(appointment.status = true, context);
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => mainScreen()),
+                              (Route<dynamic> route) => false,
+                            );
+                          },
+                          child: Text(
+                            "ACCEPT",
+                            style: buttonMainStyle1,
+                          ),
                         ),
                       ),
                     ),

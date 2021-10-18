@@ -1,10 +1,14 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
-class ApplicationProvider with ChangeNotifier {
-  String? token;
+class AppointmentProvider  with ChangeNotifier {
+  bool? status;
 
-  set _token(String value){
-    token = value;
+  set _status(bool value){
+    status = value;
     notifyListeners();
+  }
+
+  void updateStatus(){
+
   }
 }
