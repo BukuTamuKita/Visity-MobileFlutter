@@ -67,9 +67,6 @@ class _BodyState extends State<Body> {
                                     "Hello, " + sum.name + "!",
                                     style: mainSTextStyle1,
                                   ))),
-                          SizedBox(
-                            width: 90.w,
-                          ),
                         ],
                       )),
                   SizedBox(height: 32.h),

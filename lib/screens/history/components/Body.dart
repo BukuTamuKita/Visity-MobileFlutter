@@ -55,13 +55,10 @@ class _BodyState extends State<Body> {
                         )),
                         SizedBox(width: 20.w),
                         Consumer<InformationProvider>(
-                          builder: (context, sum, _) => (Text(
-                              "Hello, " + sum.name + "!",
-                               style: mainSTextStyle1,
-                          ))),
-                        SizedBox(
-                          width: 90.w,
-                        ),
+                            builder: (context, sum, _) => (Text(
+                                  "Hello, " + sum.name + "!",
+                                  style: mainSTextStyle1,
+                                ))),
                       ],
                     )),
                 SizedBox(height: 32.h),
@@ -76,7 +73,7 @@ class _BodyState extends State<Body> {
                     ],
                   ),
                 ),
-                SizedBox(height: 32.h),
+                SizedBox(height: 16.h),
                 FutureBuilder<Appointment>(
                     future: _appointment,
                     builder: (context, snapshot) {
@@ -117,10 +114,9 @@ class _BodyState extends State<Body> {
                         );
                       } else {
                         return Center(
-                          child : Center(
-                            child: CircularProgressIndicator(),
-                          )
-                          );
+                            child: Center(
+                          child: CircularProgressIndicator(),
+                        ));
                       }
                     }),
               ],
