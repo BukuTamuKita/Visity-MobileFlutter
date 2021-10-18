@@ -86,13 +86,15 @@ class Guest {
     final String nik;
     final String email;
     final String address;
+    bool isDone = false;
 
-    const Guest({
+    Guest({
         required this.id,
         required this.name,
         required this.nik,
         required this.email,
         required this.address,
+
     });
 
     factory Guest.fromJson(Map<String, dynamic> json) => Guest(
@@ -101,6 +103,7 @@ class Guest {
         nik: json["nik"],
         email: json["email"],
         address: json["address"],
+
     );
 
     Map<String, dynamic> toJson() => {

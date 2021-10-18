@@ -21,7 +21,6 @@ class APIservice {
       final response = await http.get(Uri.parse(url), headers: {
         'Authorization': 'Bearer $loginToken',
       }
-          // headers:  {'Authorization': loginToken!},
           );
       print("response" + response.statusCode.toString());
 

@@ -1,12 +1,14 @@
 import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/model/appointment_model.dart';
+import 'package:bukutamu_android/provider/information_provider.dart';
 import 'package:bukutamu_android/widget/AppointmentCard.dart';
 import 'package:bukutamu_android/widget/AppointmentHistoryCard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -39,6 +41,7 @@ class _BodyState extends State<Body> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
+                SizedBox(height: 24.h),
                 Container(
                     height: 50.h,
                     child: Row(
@@ -51,16 +54,17 @@ class _BodyState extends State<Body> {
                           ),
                         )),
                         SizedBox(width: 20.w),
-                        Text(
-                          "Hello, Santoso!",
-                          style: mainSTextStyle1,
-                        ),
+                        Consumer<InformationProvider>(
+                          builder: (context, sum, _) => (Text(
+                              "Hello, " + sum.name + "!",
+                               style: mainSTextStyle1,
+                          ))),
                         SizedBox(
                           width: 90.w,
                         ),
                       ],
                     )),
-                SizedBox(height: 41.h),
+                SizedBox(height: 32.h),
                 Container(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -78,6 +82,7 @@ class _BodyState extends State<Body> {
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return ListView.separated(
+                          controller: ScrollController(),
                           separatorBuilder: (BuildContext context, int index) {
                             return SizedBox(
                               height: 16,
@@ -111,7 +116,11 @@ class _BodyState extends State<Body> {
                           },
                         );
                       } else {
-                        return Center(child: CircularProgressIndicator());
+                        return Center(
+                          child : Center(
+                            child: CircularProgressIndicator(),
+                          )
+                          );
                       }
                     }),
               ],
