@@ -113,7 +113,7 @@ class AppointmentCard extends StatelessWidget {
                         ),
                         onPressed: () {
                           isAccepted = true;
-                          updateStatus(isAccepted);
+                          updateStatus(isAccepted, context);
                         },
                         child: Text(
                           "ACCEPT",
@@ -185,7 +185,7 @@ class AppointmentCard extends StatelessWidget {
                       ElevatedButton(
                         onPressed: () {
                           isAccepted = false;
-                          updateStatus(isAccepted);
+                          updateStatus(isAccepted, context);
                           Navigator.pop(context);
                         },
                         style: ElevatedButton.styleFrom(
@@ -219,7 +219,73 @@ class AppointmentCard extends StatelessWidget {
             ),
           ));
 
-  Future updateStatus(bool Accept) async {
+  void UpdateSuccessDialog(BuildContext context) => showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => Dialog(
+            backgroundColor: Color.fromRGBO(239, 239, 239, 20),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  top: 24, left: 16, right: 16, bottom: 16),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Update Status Success',
+                    style: mainSTextStyle1,
+                  ),
+                  Text(
+                    '(Pull to refresh Visitor Page)',
+                    style: mainSTextStyle3,
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text('OK'))
+                ],
+              ),
+            ),
+          ));
+
+  void UpdateFailedDialog(BuildContext context) => showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => Dialog(
+            backgroundColor: Color.fromRGBO(239, 239, 239, 20),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  top: 24, left: 16, right: 16, bottom: 16),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Update Status Failed',
+                    style: mainSTextStyle1,
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text('OK'))
+                ],
+              ),
+            ),
+          ));
+
+  Future<void> updateStatus(bool Accept, BuildContext context) async {
     SharedPreferences sharedPreferences;
     sharedPreferences = await SharedPreferences.getInstance();
 
@@ -236,18 +302,22 @@ class AppointmentCard extends StatelessWidget {
       status = "declined";
       notes = _notesControler.text.toString();
     }
-
     try {
-      final response =
-          await http.put(Uri.parse('$baseUrl/api/appointments/$id'), headers: {
-        HttpHeaders.authorizationHeader: Token,
-      }, body: {
-        'status': status,
-        'notes': notes
-      });
+      final response = await http.put(
+          Uri.parse('$baseUrl/api/appointments/' + id.toString()),
+          headers: {
+            'Authorization': 'Bearer $Token',
+          },
+          body: {
+            'status': status,
+            'notes': notes
+          });
+
       if (response.statusCode == 200) {
         print('update Berhasil');
+        UpdateSuccessDialog(context);
       } else {
+        UpdateFailedDialog(context);
         print('update Gagal');
       }
     } catch (e) {

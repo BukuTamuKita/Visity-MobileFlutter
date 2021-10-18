@@ -191,7 +191,7 @@ class _BodyState extends State<Body> {
 
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
-    sharedPreferences.setString('email', emailController.text);
+    sharedPreferences.setString('email', passwordController.text);
     if (emailController.text.isNotEmpty && emailController.text.isNotEmpty) {
       final response = await http.post(
         Uri.parse("http://10.0.2.2:8000/api/auth/loginHost"),

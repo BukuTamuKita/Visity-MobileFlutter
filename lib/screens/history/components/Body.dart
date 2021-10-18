@@ -5,6 +5,7 @@ import 'package:bukutamu_android/widget/AppointmentCard.dart';
 import 'package:bukutamu_android/widget/AppointmentHistoryCard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Body extends StatefulWidget {
@@ -31,7 +32,7 @@ class _BodyState extends State<Body> {
       builder: () => SafeArea(
         child: ListView(children: <Widget>[
           Container(
-            margin: EdgeInsets.only(left: 16, right: 16),
+            padding: EdgeInsets.only(left: 16, right: 16),
             width: MediaQuery.of(context).size.width,
             alignment: Alignment.center,
             child: Column(
@@ -71,6 +72,7 @@ class _BodyState extends State<Body> {
                     ],
                   ),
                 ),
+                SizedBox(height: 32.h),
                 FutureBuilder<Appointment>(
                     future: _appointment,
                     builder: (context, snapshot) {
