@@ -27,6 +27,7 @@ class _BodyState extends State<Body> {
     this.hostName;
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -103,6 +104,7 @@ class _BodyState extends State<Body> {
                               var appointment = snapshot.data!.data[index];
                               hostName = appointment.host.name;
                               if (appointment.status == "waiting") {
+                    
                                 return Container(
                                   child: Row(
                                     children: <Widget>[

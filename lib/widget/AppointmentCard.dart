@@ -23,6 +23,7 @@ class AppointmentCard extends StatelessWidget {
   double? size;
   double? height;
   int id;
+
   AppointmentCard(
       {required this.guestPurpose,
       required this.guestName,
@@ -186,7 +187,6 @@ class AppointmentCard extends StatelessWidget {
                         onPressed: () {
                           isAccepted = false;
                           updateStatus(isAccepted, context);
-                          Navigator.pop(context);
                         },
                         style: ElevatedButton.styleFrom(
                           primary: lightblueColor,
@@ -237,16 +237,12 @@ class AppointmentCard extends StatelessWidget {
                     'Update Status Success',
                     style: mainSTextStyle1,
                   ),
-                  Text(
-                    '(Pull to refresh Visitor Page)',
-                    style: mainSTextStyle3,
-                  ),
                   SizedBox(
                     height: 8,
                   ),
                   ElevatedButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        Navigator.popAndPushNamed(context, '/home');
                       },
                       child: Text('OK'))
                 ],
@@ -314,11 +310,9 @@ class AppointmentCard extends StatelessWidget {
           });
 
       if (response.statusCode == 200) {
-        print('update Berhasil');
         UpdateSuccessDialog(context);
       } else {
         UpdateFailedDialog(context);
-        print('update Gagal');
       }
     } catch (e) {
       print(e.toString());
