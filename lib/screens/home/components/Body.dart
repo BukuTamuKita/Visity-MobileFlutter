@@ -93,11 +93,10 @@ class _BodyState extends State<Body> {
                       future: _appointment,
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
+                          appointmentCount = 0;
                           for (int i = 0; i < snapshot.data!.data.length; i++) {
                             if (snapshot.data!.data[i].status == 'waiting') {
                               appointmentCount++;
-                            } else {
-                              appointmentCount = appointmentCount;
                             }
                           }
                           return Consumer<InformationProvider>(
