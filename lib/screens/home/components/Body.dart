@@ -67,9 +67,6 @@ class _BodyState extends State<Body> {
                                     "Hello, " + sum.name + "!",
                                     style: mainSTextStyle1,
                                   ))),
-                          SizedBox(
-                            width: 90.w,
-                          ),
                         ],
                       )),
                   SizedBox(height: 32.h),
@@ -96,6 +93,12 @@ class _BodyState extends State<Body> {
                       future: _appointment,
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
+                          appointmentCount = 0;
+                          for (int i = 0; i < snapshot.data!.data.length; i++) {
+                            if (snapshot.data!.data[i].status == 'waiting') {
+                              appointmentCount++;
+                            }
+                          }
                           return Consumer<InformationProvider>(
                               builder: (context, sum, _) => ListView.separated(
                                   controller: ScrollController(),
@@ -110,11 +113,10 @@ class _BodyState extends State<Body> {
                                   itemBuilder: (context, index) {
                                     var appointment =
                                         snapshot.data!.data[index];
-                                    print(appointment.host.name);
                                     WidgetsBinding.instance!
                                         .addPostFrameCallback((_) {
                                       sum.name = appointment.host.name;
-                                      sum.count = snapshot.data!.data.length;
+                                      sum.count = appointmentCount;
                                     });
 
                                     if (appointment.status == "waiting") {
@@ -138,7 +140,9 @@ class _BodyState extends State<Body> {
                                         ),
                                       );
                                     } else {
-                                      return SizedBox();
+                                      return SizedBox(
+                                        height: 0,
+                                      );
                                     }
                                   }));
                         } else {
