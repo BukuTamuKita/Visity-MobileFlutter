@@ -22,7 +22,7 @@ class _BodyState extends State<Body> {
   @override
   void initState() {
     // TODO: implement initState
-    _appointment = APIservice().getData();
+    _appointment = APIservice().getDataAppointment();
     super.initState();
   }
 
@@ -47,18 +47,25 @@ class _BodyState extends State<Body> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Container(
-                            child: SizedBox(
-                          child: Image.asset(
-                            'assets/icons/mainscreen/ProfileIcon_black.png',
-                          ),
-                        )),
+                        Consumer<InformationProvider>(
+                            builder: (context, sum, _) => ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.network(
+                                    sum.photo,
+                                    height: 36,
+                                    width: 36,
+                                    fit: BoxFit.fill,
+                                  ),
+                                )),
                         SizedBox(width: 20.w),
                         Consumer<InformationProvider>(
-                          builder: (context, sum, _) => (Text(
-                              "Hello, " + sum.name + "!",
-                               style: mainSTextStyle1,
-                          ))),
+                            builder: (context, sum, _) => Expanded(
+                              child: (
+                                Text(
+                                    "Hello, " + sum.name + "!",
+                                    style: mainSTextStyle1,
+                                  )),
+                            )),
                         SizedBox(
                           width: 90.w,
                         ),
@@ -80,7 +87,9 @@ class _BodyState extends State<Body> {
                 FutureBuilder<Appointment>(
                     future: _appointment,
                     builder: (context, snapshot) {
+                      print(snapshot.hasData.toString());
                       if (snapshot.hasData) {
+                        print("History snapshot punya data");
                         return ListView.separated(
                           controller: ScrollController(),
                           separatorBuilder: (BuildContext context, int index) {
@@ -111,17 +120,15 @@ class _BodyState extends State<Body> {
                                 ),
                               );
                             } else {
-                              return SizedBox(
-                              );
+                              return SizedBox();
                             }
                           },
                         );
                       } else {
                         return Center(
-                          child : Center(
-                            child: CircularProgressIndicator(),
-                          )
-                          );
+                            child: Center(
+                          child: CircularProgressIndicator(),
+                        ));
                       }
                     }),
               ],

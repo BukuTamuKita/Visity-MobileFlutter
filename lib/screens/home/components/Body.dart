@@ -1,6 +1,7 @@
 import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/model/appointment_model.dart';
+import 'package:bukutamu_android/model/host_model.dart';
 import 'package:bukutamu_android/provider/information_provider.dart';
 import 'package:bukutamu_android/screens/mainScreen.dart';
 import 'package:bukutamu_android/widget/AppointmentCard.dart';
@@ -17,12 +18,13 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   late Future<Appointment> _appointment;
+  late Future<Host> _host;
   int appointmentCount = 0;
-  String? hostName;
 
   @override
   void initState() {
-    _appointment = APIservice().getData();
+    _appointment = APIservice().getDataAppointment();
+    _host = APIservice().getDataHost();
     super.initState();
   }
 
@@ -50,25 +52,51 @@ class _BodyState extends State<Body> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(height: 24.h),
-                  Container(
-                      height: 50.h,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Container(
-                              child: SizedBox(
-                            child: Image.asset(
-                              'assets/icons/mainscreen/ProfileIcon_black.png',
-                            ),
-                          )),
-                          SizedBox(width: 20.w),
-                          Consumer<InformationProvider>(
-                              builder: (context, sum, _) => (Text(
-                                    "Hello, " + sum.name + "!",
-                                    style: mainSTextStyle1,
-                                  ))),
-                        ],
-                      )),
+                  Consumer<InformationProvider>(
+                      builder: (context, sum, _) => (FutureBuilder<Host>(
+                          future: _host,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              WidgetsBinding.instance!
+                                  .addPostFrameCallback((_) {
+                                sum.name = snapshot.data!.users.name;
+                                sum.photo = snapshot.data!.users.photo;
+                              });
+                              print("Success");
+                              return Container(
+                                  height: 50.h,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Consumer<InformationProvider>(
+                                          builder: (context, sum, _) =>
+                                              ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                child: Image.network(
+                                                    sum.photo,
+                                                    height: 36,
+                                                    width: 36,
+                                                    fit: BoxFit.fill,),
+                                              )),
+                                      SizedBox(width: 20.w),
+                                      Consumer<InformationProvider>(
+                                          builder: (context, sum, _) =>
+                                              Expanded(
+                                                child: (Text(
+                                                  "Hello, " + sum.name + "!",
+                                                  style: mainSTextStyle1,
+                                                )),
+                                              )),
+                                      SizedBox(
+                                        width: 90.w,
+                                      ),
+                                    ],
+                                  ));
+                            } else {
+                              return SizedBox();
+                            }
+                          }))),
                   SizedBox(height: 32.h),
                   Container(
                     child: Row(
@@ -115,7 +143,6 @@ class _BodyState extends State<Body> {
                                         snapshot.data!.data[index];
                                     WidgetsBinding.instance!
                                         .addPostFrameCallback((_) {
-                                      sum.name = appointment.host.name;
                                       sum.count = appointmentCount;
                                     });
 
