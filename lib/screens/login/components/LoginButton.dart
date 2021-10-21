@@ -3,10 +3,18 @@ import 'package:bukutamu_android/screens/mainScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class LoginButton extends StatelessWidget {
+class LoginButton extends StatefulWidget {
   const LoginButton({
     Key? key,
   }) : super(key: key);
+
+  @override
+  _LoginButtonState createState() => _LoginButtonState();
+}
+
+class _LoginButtonState extends State<LoginButton> {
+
+  GlobalKey<FormState> globalFormKey = new GlobalKey();
 
   @override
   Widget build(BuildContext context) {

@@ -1,20 +1,39 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
+import 'package:bukutamu_android/provider/appointment_provider.dart';
+import 'package:bukutamu_android/screens/mainScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppointmentCard extends StatelessWidget {
-  const AppointmentCard({
-    Key? key,
-    required this.size,
-  }) : super(key: key);
+  TextEditingController _notesControler = TextEditingController();
+  bool isAccepted = false;
 
-  final Size size;
+  String? guestPurpose;
+  String? guestName;
+  String? time;
+  double? size;
+  double? height;
+  int id;
+
+  AppointmentCard(
+      {required this.guestPurpose,
+      required this.guestName,
+      required this.size,
+      required this.height,
+      required this.time,
+      required this.id});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: size.width,
-      height: 196,
+      width: size,
+      height: height,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -33,25 +52,25 @@ class AppointmentCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                Container(
-                  width: 40,
-                  height: 40,
-                  decoration:
-                      BoxDecoration(color: Colors.red, shape: BoxShape.circle),
-                ),
-                SizedBox(
-                  width: 20,
-                ),
+                // Container(
+                //   width: 40,
+                //   height: 40,
+                //   decoration:
+                //       BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+                // ),
+                // SizedBox(
+                //   width: 20,
+                // ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Ardy Putra Utama",
+                      guestName!,
                       style: mainSTextStyle1,
                     ),
                     Text(
-                      "08.00 - 10.00",
+                      time!,
                       style: mainSTextStyle3,
                     )
                   ],
@@ -62,31 +81,49 @@ class AppointmentCard extends StatelessWidget {
               height: 20,
             ),
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text(
-                  "Laper pingin makan dan beli truk terus beli ice ceream di indomaret",
-                  maxLines: 2,
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                    guestPurpose!,
+                    maxLines: 2,
+                    textAlign: TextAlign.left,
+                  ),
                 )
               ],
             ),
             Column(
               children: [
                 SizedBox(
-                  height: 10,
+                  height: 16,
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                      width: 125,
-                      height: 32,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: lightblueColor,
-                        ),
-                        onPressed: () {},
-                        child: Text(
-                          "ACCEPT",
-                          style: buttonMainStyle1,
+                    Consumer<AppointmentProvider>(
+                      builder: (context, appointment, _) => Container(
+                        width: 125,
+                        height: 32,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: lightblueColor,
+                          ),
+                          onPressed: () {
+                            isAccepted = true;
+                            updateStatus(isAccepted, context);
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => mainScreen()),
+                              (Route<dynamic> route) => false,
+                            );
+                          },
+                          child: Text(
+                            "ACCEPT",
+                            style: buttonMainStyle1,
+                          ),
                         ),
                       ),
                     ),
@@ -99,7 +136,9 @@ class AppointmentCard extends StatelessWidget {
                           "DECLINE",
                           style: buttonMainStyle2,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          showCustomDialog(context);
+                        },
                       ),
                     )
                   ],
@@ -110,5 +149,122 @@ class AppointmentCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void showCustomDialog(BuildContext context) => showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => Dialog(
+            backgroundColor: Color.fromRGBO(239, 239, 239, 20),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  top: 24, left: 16, right: 16, bottom: 16),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text('Noted', style: mainSTextStyle4),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  TextFormField(
+                      controller: _notesControler,
+                      maxLines: 5,
+                      decoration: InputDecoration(
+                          fillColor: WhiteColor,
+                          filled: true,
+                          contentPadding: EdgeInsets.all(8),
+                          border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.0)),
+                          ))),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          isAccepted = false;
+                          updateStatus(isAccepted, context);
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => mainScreen()),
+                            (Route<dynamic> route) => false,
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: lightblueColor,
+                          minimumSize: Size(91, 34),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          elevation: 3,
+                          shadowColor: Color.fromRGBO(0, 0, 0, 1),
+                        ),
+                        child: Text(
+                          'Send',
+                          style: buttonMainStyle1,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 16,
+                      ),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                            'Cancel',
+                            style: buttonMainStyle4,
+                          ))
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ));
+
+  Future<void> updateStatus(bool Accept, BuildContext context) async {
+    SharedPreferences sharedPreferences;
+    sharedPreferences = await SharedPreferences.getInstance();
+
+    String status, notes;
+    String Token;
+
+    final String baseUrl = "http://10.0.2.2:8000";
+    Token = sharedPreferences.getString('token')!;
+
+    if (Accept == true) {
+      status = "accepted";
+      notes = "";
+    } else {
+      status = "declined";
+      notes = _notesControler.text.toString();
+    }
+    try {
+      final response = await http.put(
+          Uri.parse('$baseUrl/api/appointments/' + id.toString()),
+          headers: {
+            'Authorization': 'Bearer $Token',
+          },
+          body: {
+            'status': status,
+            'notes': notes
+          });
+
+      if (response.statusCode == 200) {
+        print('update berhasil');
+      } else {
+        print('update gagal');
+      }
+    } catch (e) {
+      print(e.toString());
+    }
   }
 }

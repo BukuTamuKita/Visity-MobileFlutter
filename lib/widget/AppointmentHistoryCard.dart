@@ -2,18 +2,26 @@ import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:flutter/material.dart';
 
 class AppointmentHistoryCard extends StatelessWidget {
-  const AppointmentHistoryCard({
-    Key? key,
-    required this.size,
-  }) : super(key: key);
+  String? guestPurpose;
+  String? guestName;
+  String? status;
+  double? size;
+  double? height;
+  String? time;
 
-  final Size size;
+  AppointmentHistoryCard(
+      {required this.guestPurpose,
+      required this.guestName,
+      required this.size,
+      required this.height,
+      required this.status,
+      required this.time});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: size.width,
-      height: 196,
+      width: size,
+      height: height,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -46,11 +54,11 @@ class AppointmentHistoryCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Ardy Putra Utama",
+                        guestName!,
                         style: mainSTextStyle1,
                       ),
                       Text(
-                        "08.00 - 10.00",
+                        time!,
                         style: mainSTextStyle3,
                       )
                     ],
@@ -62,33 +70,36 @@ class AppointmentHistoryCard extends StatelessWidget {
               ),
               Column(
                 children: [
-                  Text(
-                    "Laper pingin makan dan beli truk terus beli ice ceream di indomaret",
-                    maxLines: 2,
+                  Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Text(
+                      guestPurpose!,
+                      maxLines: 2,
+                      textAlign: TextAlign.left,
+                      style: purposeTextStyle,
+                    ),
                   )
                 ],
               ),
               Column(
                 children: [
                   SizedBox(
-                    height: 10,
+                    height: 21,
                   ),
                   Container(
-                    width: size.width,
-                    child: Text(
-                      "ACCEPTED",
-                      style: buttonMainStyle3,
-                      textAlign: TextAlign.left,
-                    ),
+                    width: size,
+                    child: status == "accepted"
+                        ? Text(
+                            status!.toUpperCase(),
+                            style: statusTextStyle1,
+                            textAlign: TextAlign.left,
+                          )
+                        : Text(
+                            status!.toUpperCase(),
+                            style: statusTextStyle2,
+                            textAlign: TextAlign.left,
+                          ),
                   ),
-                  /*Container(
-                    width: size.width,
-                    child: Text(
-                      "DECLINED",
-                      style: buttonMainStyle3,
-                      textAlign: TextAlign.left,
-                    ),
-                  ),*/
                 ],
               )
             ],
