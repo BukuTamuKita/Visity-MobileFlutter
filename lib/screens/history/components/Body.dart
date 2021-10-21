@@ -93,9 +93,14 @@ class _BodyState extends State<Body> {
                         return ListView.separated(
                           controller: ScrollController(),
                           separatorBuilder: (BuildContext context, int index) {
-                            return SizedBox(
-                              height: 16,
-                            );
+                            if (snapshot.data!.data[index].status !=
+                                "waiting") {
+                              return SizedBox(
+                                height: 16,
+                              );
+                            } else {
+                              return SizedBox();
+                            }
                           },
                           shrinkWrap: true,
                           itemCount: snapshot.data!.data.length,
