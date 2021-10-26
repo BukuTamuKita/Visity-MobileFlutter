@@ -3,7 +3,6 @@
 //     final showAppointment = showAppointmentFromJson(jsonString);
 
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
@@ -42,7 +41,7 @@ class Appointment {
 class Datum {
 
     final int id;
-    final Host host;
+    final HostAppointment hostApp;
     final Guest guest;
     final String purpose;
     final String notes;
@@ -51,7 +50,7 @@ class Datum {
 
     const Datum({
         required this.id,
-        required this.host,
+        required this.hostApp,
         required this.guest,
         required this.purpose,
         required this.notes,
@@ -60,7 +59,7 @@ class Datum {
     });
     factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["id"],
-        host: Host.fromJson(json["host"]),
+        hostApp: HostAppointment.fromJson(json["host"]),
         guest: Guest.fromJson(json["guest"]),
         purpose: json["purpose"],
         notes: json["notes"],
@@ -70,7 +69,7 @@ class Datum {
 
     Map<String, dynamic> toJson() => {
         "id": id,
-        "host": host.toJson(),
+        "host": hostApp.toJson(),
         "guest": guest.toJson(),
         "purpose": purpose,
         "notes": notes,
@@ -115,14 +114,14 @@ class Guest {
     };
 }
 
-class Host {
+class HostAppointment {
     final int id;
     final String name;
     final String nip;
     final String position;
     final Users users;
 
-    Host({
+    HostAppointment({
         required this.id,
         required this.name,
         required this.nip,
@@ -130,7 +129,8 @@ class Host {
         required this.users,
     });
 
-    factory Host.fromJson(Map<String, dynamic> json) => Host(
+    factory HostAppointment.fromJson(Map<String, dynamic> json) => 
+    HostAppointment(
         id: json["id"],
         name: json["name"],
         nip: json["nip"],
