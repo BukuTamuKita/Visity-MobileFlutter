@@ -112,13 +112,7 @@ class AppointmentCard extends StatelessWidget {
                           ),
                           onPressed: () {
                             isAccepted = true;
-                            updateStatus(isAccepted, context);
-                            Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => mainScreen()),
-                              (Route<dynamic> route) => false,
-                            );
+                            showCustomDialog(context, isAccepted);
                           },
                           child: Text(
                             "ACCEPT",
@@ -137,7 +131,8 @@ class AppointmentCard extends StatelessWidget {
                           style: buttonMainStyle2,
                         ),
                         onPressed: () {
-                          showCustomDialog(context);
+                          isAccepted = false;
+                          showCustomDialog(context, isAccepted);
                         },
                       ),
                     )
@@ -151,7 +146,7 @@ class AppointmentCard extends StatelessWidget {
     );
   }
 
-  void showCustomDialog(BuildContext context) => showDialog(
+  void showCustomDialog(BuildContext context, bool Accepted) => showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => Dialog(
@@ -190,8 +185,7 @@ class AppointmentCard extends StatelessWidget {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          isAccepted = false;
-                          updateStatus(isAccepted, context);
+                          updateStatus(Accepted, context);
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
@@ -235,14 +229,14 @@ class AppointmentCard extends StatelessWidget {
     sharedPreferences = await SharedPreferences.getInstance();
 
     String status, notes;
-    String Token;
+    String token;
 
     final String baseUrl = "http://10.0.2.2:8000";
-    Token = sharedPreferences.getString('token')!;
+    token = sharedPreferences.getString('token')!;
 
     if (Accept == true) {
       status = "accepted";
-      notes = "";
+      notes = _notesControler.text.toString();
     } else {
       status = "declined";
       notes = _notesControler.text.toString();
@@ -251,7 +245,7 @@ class AppointmentCard extends StatelessWidget {
       final response = await http.put(
           Uri.parse('$baseUrl/api/appointments/' + id.toString()),
           headers: {
-            'Authorization': 'Bearer $Token',
+            'Authorization': 'Bearer $token',
           },
           body: {
             'status': status,
