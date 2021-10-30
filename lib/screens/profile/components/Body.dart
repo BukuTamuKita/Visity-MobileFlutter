@@ -1,6 +1,9 @@
 import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
+import 'package:bukutamu_android/provider/information_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Body extends StatefulWidget {
   Body({Key? key}) : super(key: key);
@@ -46,24 +49,17 @@ class _BodyState extends State<Body> {
                     ),
                     child: Stack(
                       children: <Widget>[
-                        Positioned(
-                          bottom: 0,
-                          right: -0.9,
-                          child: Container(
-                            height: 36,
-                            width: 36,
-                            decoration: BoxDecoration(
-                                color: blueColor, shape: BoxShape.circle),
-                            child: IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.photo_camera,
-                                color: Colors.white,
-                                size: 21,
-                              ),
-                            ),
-                          ),
-                        ),
+                        Consumer<InformationProvider>(
+                            builder: (context, sum, _) => ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.network(
+                                    sum.photo,
+                                    height: 36,
+                                    width: 36,
+                                    fit: BoxFit.fill,
+                                    alignment: Alignment.topCenter,
+                                  ),
+                                )),
                       ],
                     ),
                   ),
@@ -94,7 +90,7 @@ class _BodyState extends State<Body> {
               SizedBox(
                 height: 48,
               ),
-              Row(
+              /*Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
@@ -116,11 +112,45 @@ class _BodyState extends State<Body> {
                     ),
                   ),
                 ],
-              )
+              ),
+              SizedBox(
+                height: 4,
+              ),*/
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 153,
+                    padding: EdgeInsets.only(top: 30),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Logout();
+                      },
+                      style: ElevatedButton.styleFrom(
+                          primary: Color.fromRGBO(46, 77, 167, 10),
+                          minimumSize: Size(130, 45),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8)),
+                          elevation: 3,
+                          shadowColor: Color.fromRGBO(0, 0, 0, 1)),
+                      child: Text(
+                        "Logout",
+                        style: lPTextStyle4,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  Future<void> Logout() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.remove('token');
+    Navigator.pushReplacementNamed(context, '/login');
   }
 }

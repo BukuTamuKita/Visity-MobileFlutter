@@ -24,12 +24,12 @@ class _mainScreenState extends State<mainScreen> {
     super.initState();
     checkLoginStatus();
   }
+
   final screens = [
     HistoryScreen(),
     HomeScreen(),
     ProfileScreen(),
   ];
-
 
   @override
   Widget build(BuildContext context) {
@@ -88,15 +88,12 @@ class _mainScreenState extends State<mainScreen> {
           ),
         ));
   }
-  
+
   checkLoginStatus() async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     if (sharedPreferences.getString("token") == null) {
-      Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => LoginScreen()),
-          );
+      Navigator.pushNamed(context, '/login');
     }
   }
 }

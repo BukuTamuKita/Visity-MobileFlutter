@@ -206,10 +206,7 @@ class _BodyState extends State<Body> {
           isLoading = false;
           print("login = " + jsonData['token'].toString());
           sharedPreferences.setString("token", jsonData['token']);
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => mainScreen()),
-          );
+          Navigator.pushNamed(context, '/home');
         });
       } else {
         ScaffoldMessenger.of(context)

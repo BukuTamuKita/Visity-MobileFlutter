@@ -23,7 +23,6 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   @override
-  bool haveInstalled = false;
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [

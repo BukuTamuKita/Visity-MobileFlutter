@@ -12,7 +12,7 @@ class APIservice {
   String urlHost = "http://10.0.2.2:8000/api/hosts";
 
   Future<Appointment> getDataAppointment() async {
-    var appointment = null;
+    var appointment;
 
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
@@ -22,8 +22,7 @@ class APIservice {
     try {
       final response = await http.get(Uri.parse(urlAppointment), headers: {
         'Authorization': 'Bearer $loginToken',
-      }
-          );
+      });
       print(response.statusCode.toString());
 
       if (response.statusCode == 200) {
@@ -40,7 +39,7 @@ class APIservice {
   }
 
   Future<Host> getDataHost() async {
-    var host = null;
+    var host;
 
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
@@ -48,8 +47,7 @@ class APIservice {
     try {
       final response = await http.get(Uri.parse(urlHost), headers: {
         'Authorization': 'Bearer $loginToken',
-      }
-          );
+      });
       print("response Host = " + response.statusCode.toString());
 
       if (response.statusCode == 200) {
@@ -58,7 +56,7 @@ class APIservice {
         // final jsonMap = json.decode(jsonString);
 
         // host = Appointment.fromJson(jsonMap);
-         return Host.fromJson(jsonDecode(response.body)['data']);
+        return Host.fromJson(jsonDecode(response.body)['data']);
       }
     } catch (e) {
       print(e.toString());
