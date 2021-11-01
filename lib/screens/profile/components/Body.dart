@@ -82,34 +82,58 @@ class _BodyState extends State<Body> {
                             'Nama',
                             style: profileTextStyle3,
                           ),
+                          SizedBox(
+                            height: 8,
+                          ),
                           Text(
                             snapshot.data!.users.name,
                             style: profileTextStyle2,
                           ),
-                          SizedBox(
-                            height: 16,
+                          Container(
+                            padding: EdgeInsets.all(8),
+                            margin: EdgeInsets.only(top: 8, bottom: 8),
+                            height: 2,
+                            width: size.width,
+                            color: Colors.black26,
                           ),
                           Text(
-                            'Jabatan',
+                            'Position',
                             style: profileTextStyle3,
+                          ),
+                          SizedBox(
+                            height: 8,
                           ),
                           Text(
                             snapshot.data!.position,
                             style: profileTextStyle2,
                           ),
-                          SizedBox(
-                            height: 16,
+                          Container(
+                            padding: EdgeInsets.all(8),
+                            margin: EdgeInsets.only(top: 8, bottom: 8),
+                            height: 2,
+                            width: size.width,
+                            color: Colors.black26,
                           ),
                           Text(
                             'Email',
                             style: profileTextStyle3,
                           ),
+                          SizedBox(
+                            height: 8,
+                          ),
                           Text(
                             snapshot.data!.users.email,
                             style: profileTextStyle2,
                           ),
+                          Container(
+                            padding: EdgeInsets.all(8),
+                            margin: EdgeInsets.only(top: 8, bottom: 8),
+                            height: 2,
+                            width: size.width,
+                            color: Colors.black26,
+                          ),
                           SizedBox(
-                            height: 48,
+                            height: 40,
                           ),
                         ],
                       );
@@ -157,7 +181,7 @@ class _BodyState extends State<Body> {
                           Logout();
                         },
                         style: ElevatedButton.styleFrom(
-                            primary: Colors.red.shade600,
+                            primary: Color.fromRGBO(234, 19, 19, 1),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8)),
                             elevation: 3,

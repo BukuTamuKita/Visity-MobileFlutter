@@ -33,8 +33,11 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Visity',
-          initialRoute:
-              initScreen == 0 || initScreen == null ? '/onboard' : '/login',
+          initialRoute: initScreen == 0 || initScreen == null
+              ? '/onboard'
+              : token == null
+                  ? '/login'
+                  : '/home',
           routes: {
             '/onboard': (context) => WelcomePage(),
             '/login': (context) => LoginScreen(),

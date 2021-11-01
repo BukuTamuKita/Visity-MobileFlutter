@@ -151,6 +151,8 @@ class _BodyState extends State<Body> {
                 ),
               ),
               Container(
+                width: 295,
+                height: 80,
                 padding: EdgeInsets.only(top: 30),
                 child: ElevatedButton(
                   onPressed: () {
@@ -167,7 +169,7 @@ class _BodyState extends State<Body> {
                       elevation: 3,
                       shadowColor: Color.fromRGBO(0, 0, 0, 1)),
                   child: Text(
-                    "Login",
+                    "LOGIN",
                     style: lPTextStyle4,
                   ),
                 ),

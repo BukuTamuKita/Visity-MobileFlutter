@@ -5,12 +5,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 //homepage text
-var hTextStyle1 = GoogleFonts.nunito(
-    fontWeight: FontWeight.w900, color: TextColor1, fontSize: 30.sp);
+var hTextStyle1 = GoogleFonts.inter(
+    fontWeight: FontWeight.w600, color: TextColor1, fontSize: 26.sp);
 var hTextStyle2 = GoogleFonts.nunito(
     fontWeight: FontWeight.w500, color: TextColor1, fontSize: 24.sp);
-var hTextStyle3 = GoogleFonts.nunito(
-    fontWeight: FontWeight.w700, color: TextColor2, fontSize: 18.sp);
+var hTextStyle3 = GoogleFonts.inter(
+    fontWeight: FontWeight.w300, color: TextColor1, fontSize: 18.sp);
 
 //loginpage text
 var lPTextStyle1 = GoogleFonts.nunito(
@@ -58,11 +58,11 @@ var profileTextStyle3 = GoogleFonts.nunito(
 //Historyscreen
 
 var statusTextStyle1 = GoogleFonts.nunito(
-    fontWeight: FontWeight.bold, color: greenColor, fontSize: 10.sp);
+    fontWeight: FontWeight.w900, color: greenColor, fontSize: 10.sp);
 var purposeTextStyle = GoogleFonts.nunito(
     fontWeight: FontWeight.w500, color: MainColor, fontSize: 14.sp);
 var statusTextStyle2 = GoogleFonts.nunito(
-    fontWeight: FontWeight.bold, color: Colors.red, fontSize: 10.sp);
+    fontWeight: FontWeight.w900, color: redlabelColor, fontSize: 10.sp);
 var nameTextStyle = GoogleFonts.nunito(
     fontWeight: FontWeight.bold, color: MainColor, fontSize: 14.sp);
 var timeTextStyle = GoogleFonts.nunito(

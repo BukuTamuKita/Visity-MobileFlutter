@@ -146,7 +146,7 @@ class AppointmentHistoryCard extends StatelessWidget {
         width: 84,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(1000)),
-          color: lightgreenColor,
+          color: Color.fromRGBO(255, 134, 135, 1),
         ),
         child: Align(
           alignment: Alignment.center,
