@@ -48,18 +48,22 @@ var buttonMainStyle4 = GoogleFonts.nunito(
 
 //profilescreen
 
-var profileTextStyle1 = GoogleFonts.nunito(fontWeight: FontWeight.bold,
-    color: MainColor, fontSize: 36.sp);
-var profileTextStyle2 = GoogleFonts.nunito(fontWeight: FontWeight.bold,
-    color: Colors.grey.shade400, fontSize: 18);
-var profileTextStyle3 = GoogleFonts.nunito(fontWeight: FontWeight.bold,
-    color: MainColor, fontSize: 20);
+var profileTextStyle1 = GoogleFonts.nunito(
+    fontWeight: FontWeight.bold, color: MainColor, fontSize: 36.sp);
+var profileTextStyle2 = GoogleFonts.nunito(
+    fontWeight: FontWeight.w500, color: MainColor, fontSize: 16);
+var profileTextStyle3 = GoogleFonts.nunito(
+    fontWeight: FontWeight.w300, color: MainColor, fontSize: 14);
 
 //Historyscreen
 
-var statusTextStyle1 = GoogleFonts.nunito(fontWeight: FontWeight.bold,
-    color: lightblueColor, fontSize: 20.sp);
-var purposeTextStyle = GoogleFonts.nunito(fontWeight: FontWeight.w500,
-    color: MainColor, fontSize: 14.sp);
-var statusTextStyle2 = GoogleFonts.nunito(fontWeight: FontWeight.bold,
-    color: Colors.red, fontSize: 20.sp);
+var statusTextStyle1 = GoogleFonts.nunito(
+    fontWeight: FontWeight.bold, color: greenColor, fontSize: 10.sp);
+var purposeTextStyle = GoogleFonts.nunito(
+    fontWeight: FontWeight.w500, color: MainColor, fontSize: 14.sp);
+var statusTextStyle2 = GoogleFonts.nunito(
+    fontWeight: FontWeight.bold, color: Colors.red, fontSize: 10.sp);
+var nameTextStyle = GoogleFonts.nunito(
+    fontWeight: FontWeight.bold, color: MainColor, fontSize: 14.sp);
+var timeTextStyle = GoogleFonts.nunito(
+    fontWeight: FontWeight.w500, color: MainColor, fontSize: 12.sp);

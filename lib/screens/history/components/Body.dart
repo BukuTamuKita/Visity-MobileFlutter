@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:slimy_card/slimy_card.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -60,12 +61,11 @@ class _BodyState extends State<Body> {
                         SizedBox(width: 20.w),
                         Consumer<InformationProvider>(
                             builder: (context, sum, _) => Expanded(
-                              child: (
-                                Text(
+                                  child: (Text(
                                     "Hello, " + sum.name + "!",
                                     style: mainSTextStyle1,
                                   )),
-                            )),
+                                )),
                         SizedBox(
                           width: 90.w,
                         ),
@@ -112,15 +112,15 @@ class _BodyState extends State<Body> {
                                 child: Row(
                                   children: <Widget>[
                                     Expanded(
-                                      child: AppointmentHistoryCard(
-                                        size: size.width,
-                                        height: 196,
-                                        guestPurpose: appointment.purpose,
-                                        guestName: appointment.guest.name,
-                                        status: appointment.status,
-                                        time: appointment.dateTime.toString(),
-                                      ),
-                                    ),
+                                        child: AppointmentHistoryCard(
+                                      size: size.width,
+                                      height: 300,
+                                      guestPurpose: appointment.purpose,
+                                      guestName: appointment.guest.name,
+                                      status: appointment.status,
+                                      time: appointment.dateTime.toString(),
+                                      noted: appointment.notes,
+                                    )),
                                   ],
                                 ),
                               );
