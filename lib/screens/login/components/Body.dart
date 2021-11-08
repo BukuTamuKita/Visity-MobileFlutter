@@ -198,7 +198,7 @@ class _BodyState extends State<Body> {
         }),
       );
       if (response.statusCode == 200) {
-        jsonData = json.decode(response.body);
+        jsonData = await json.decode(response.body);
         setState(() {
           isLoading = false;
 
