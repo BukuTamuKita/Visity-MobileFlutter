@@ -15,23 +15,25 @@ class Background extends StatelessWidget {
         // Optional
         child: Container(
           height: size.height,
-          width: double.infinity,
+          width: size.width,
           child: Stack(
             alignment: Alignment.center,
             children: <Widget>[
-              Positioned(
-                  top: -320,
-                  right: -30,
-                  child: Image.asset(
-                    'assets/images/loginpage/LPTopRight.png',
-                    width: size.width * 0.3,
-                  )),
-              Positioned(
-                  bottom: 0,
-                  left: -20,
-                  child: Image.asset(
-                    'assets/images/loginpage/LPBottomLeft.png',
-                  )),
+              Align(
+                child: Image.asset(
+                  'assets/images/loginpage/LPTopRight.png',
+                  height: size.height / 1.4,
+                  fit: BoxFit.cover,
+                ),
+                alignment: Alignment.topRight,
+              ),
+              Align(
+                child: Image.asset(
+                  'assets/images/loginpage/LPBottomLeft.png',
+                  height: size.height / 8,
+                ),
+                alignment: Alignment.bottomLeft,
+              ),
               child
             ],
           ),

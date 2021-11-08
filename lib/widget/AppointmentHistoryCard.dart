@@ -7,15 +7,13 @@ class AppointmentHistoryCard extends StatelessWidget {
   String? guestName;
   String? status;
   String? noted;
-  double? size;
-  double? height;
+  double? width;
   String? time;
 
   AppointmentHistoryCard(
       {required this.guestPurpose,
       required this.guestName,
-      required this.size,
-      required this.height,
+      required this.width,
       required this.status,
       required this.time,
       required this.noted});
@@ -23,8 +21,8 @@ class AppointmentHistoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: size,
-      height: height,
+      width: width,
+      height: 288,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -38,7 +36,7 @@ class AppointmentHistoryCard extends StatelessWidget {
         ],
       ),
       child: Container(
-          padding: EdgeInsets.only(left: 24, right: 24, top: 24),
+          padding: EdgeInsets.only(left: 24, right: 24, top: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -59,17 +57,20 @@ class AppointmentHistoryCard extends StatelessWidget {
                     children: [
                       Text(
                         guestName!,
-                        style: mainSTextStyle1,
+                        style: mainSTextStyle4,
+                      ),
+                      SizedBox(
+                        height: 8,
                       ),
                       Text(
                         time!,
-                        style: mainSTextStyle3,
+                        style: mainSTextStyle5,
                       )
                     ],
                   ),
                   Expanded(
                       child: Container(
-                    width: size,
+                    width: width,
                     child: status == 'accepted'
                         ? Align(
                             alignment: Alignment.centerRight,
@@ -81,7 +82,7 @@ class AppointmentHistoryCard extends StatelessWidget {
                 ],
               ),
               SizedBox(
-                height: 20,
+                height: 36,
               ),
               Text(
                 guestPurpose!,
@@ -92,7 +93,7 @@ class AppointmentHistoryCard extends StatelessWidget {
                 style: purposeTextStyle,
               ),
               SizedBox(
-                height: 20,
+                height: 24,
               ),
               Text(
                 'Noted',
@@ -103,11 +104,11 @@ class AppointmentHistoryCard extends StatelessWidget {
               ),
               Container(
                 padding: EdgeInsets.all(8),
-                height: 100,
-                width: size,
+                height: 90,
+                width: width,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: Color.fromRGBO(239, 239, 239, 20)),
+                    border: Border.all(color: Colors.black38, width: 1),
+                    borderRadius: BorderRadius.circular(10)),
                 child: Text(
                   noted!,
                   style: purposeTextStyle,
@@ -115,6 +116,7 @@ class AppointmentHistoryCard extends StatelessWidget {
                   softWrap: true,
                   maxLines: 4,
                 ),
+                margin: EdgeInsets.only(bottom: 10),
               )
             ],
           )),

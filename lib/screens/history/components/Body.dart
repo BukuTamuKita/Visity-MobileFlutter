@@ -2,7 +2,6 @@ import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/model/appointment_model.dart';
 import 'package:bukutamu_android/provider/information_provider.dart';
-import 'package:bukutamu_android/widget/AppointmentCard.dart';
 import 'package:bukutamu_android/widget/AppointmentHistoryCard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +20,6 @@ class _BodyState extends State<Body> {
 
   @override
   void initState() {
-    // TODO: implement initState
     _appointment = APIservice().getDataAppointment();
     super.initState();
   }
@@ -41,9 +39,9 @@ class _BodyState extends State<Body> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                SizedBox(height: 24.h),
+                SizedBox(height: 28),
                 Container(
-                    height: 50.h,
+                    height: 50,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -57,7 +55,7 @@ class _BodyState extends State<Body> {
                                     fit: BoxFit.fill,
                                   ),
                                 )),
-                        SizedBox(width: 20.w),
+                        SizedBox(width: 20),
                         Consumer<InformationProvider>(
                             builder: (context, sum, _) => Expanded(
                                   child: (Text(
@@ -66,11 +64,11 @@ class _BodyState extends State<Body> {
                                   )),
                                 )),
                         SizedBox(
-                          width: 90.w,
+                          width: 90,
                         ),
                       ],
                     )),
-                SizedBox(height: 32.h),
+                SizedBox(height: 34),
                 Container(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -82,18 +80,22 @@ class _BodyState extends State<Body> {
                     ],
                   ),
                 ),
-                // SizedBox(height: 32.h),
+                SizedBox(height: 40),
                 FutureBuilder<Appointment>(
                     future: _appointment,
                     builder: (context, snapshot) {
                       print(snapshot.hasData.toString());
                       if (snapshot.hasData) {
-                        print("History snapshot punya data");
                         return ListView.separated(
                           controller: ScrollController(),
                           separatorBuilder: (BuildContext context, int index) {
                             if (snapshot.data!.data[index].status !=
-                                "waiting") {
+                                    "waiting" &&
+                                DateTime.now()
+                                        .difference(DateTime.parse(snapshot
+                                            .data!.data[index].dateTime[0]))
+                                        .inDays ==
+                                    0) {
                               return SizedBox(
                                 height: 16,
                               );
@@ -105,19 +107,22 @@ class _BodyState extends State<Body> {
                           itemCount: snapshot.data!.data.length,
                           itemBuilder: (context, index) {
                             var appointment = snapshot.data!.data[index];
-                            if (appointment.status == "accepted" ||
-                                appointment.status == "declined") {
+                            if (appointment.status != 'waiting' &&
+                                DateTime.now()
+                                        .difference(DateTime.parse(
+                                            appointment.dateTime[0]))
+                                        .inDays ==
+                                    0) {
                               return Container(
                                 child: Row(
                                   children: <Widget>[
-                                    Expanded(
+                                    Flexible(
                                         child: AppointmentHistoryCard(
-                                      size: size.width,
-                                      height: 300,
+                                      width: size.width,
                                       guestPurpose: appointment.purpose,
                                       guestName: appointment.guest.name,
                                       status: appointment.status,
-                                      time: appointment.dateTime.toString(),
+                                      time: appointment.dateTime[1].toString(),
                                       noted: appointment.notes,
                                     )),
                                   ],

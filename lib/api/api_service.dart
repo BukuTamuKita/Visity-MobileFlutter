@@ -1,7 +1,5 @@
 import 'package:bukutamu_android/model/appointment_model.dart';
 import 'package:bukutamu_android/model/host_model.dart';
-import 'package:bukutamu_android/model/login_model.dart';
-import 'package:bukutamu_android/screens/login/components/Body.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -31,7 +29,7 @@ class APIservice {
         final jsonMap = json.decode(jsonString);
 
         appointment = Appointment.fromJson(jsonMap);
-      }
+      } else {}
     } catch (e) {
       print(e.toString());
     }
@@ -44,6 +42,7 @@ class APIservice {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     final loginToken = sharedPreferences.getString('token');
+
     try {
       final response = await http.get(Uri.parse(urlHost), headers: {
         'Authorization': 'Bearer $loginToken',
@@ -52,12 +51,9 @@ class APIservice {
 
       if (response.statusCode == 200) {
         print(response.body);
-        // final jsonString = response.body;
-        // final jsonMap = json.decode(jsonString);
 
-        // host = Appointment.fromJson(jsonMap);
         return Host.fromJson(jsonDecode(response.body)['data']);
-      }
+      } else {}
     } catch (e) {
       print(e.toString());
     }

@@ -1,8 +1,6 @@
 // @dart=2.9
 import 'package:bukutamu_android/provider/appointment_provider.dart';
 import 'package:bukutamu_android/provider/information_provider.dart';
-import 'package:bukutamu_android/screens/history/HistoryScreen.dart';
-import 'package:bukutamu_android/screens/home/HomeScreen.dart';
 import 'package:bukutamu_android/screens/login/LoginScreen.dart';
 import 'package:bukutamu_android/screens/mainScreen.dart';
 import 'package:bukutamu_android/screens/welcomepage/WelcomeScreen.dart';
