@@ -1,5 +1,3 @@
-
-
 import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/screens/history/HistoryScreen.dart';
 import 'package:bukutamu_android/screens/home/HomeScreen.dart';
@@ -7,7 +5,6 @@ import 'package:bukutamu_android/screens/profile/ProfileScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 
 class mainScreen extends StatefulWidget {
   const mainScreen({Key? key}) : super(key: key);
@@ -103,6 +100,7 @@ class _mainScreenState extends State<mainScreen> {
     expirytimes = DateTime.parse(expiredToken);
 
     if (expirytimes.isBefore(DateTime.now())) {
+      sharedPreferences.remove('token');
       Navigator.popAndPushNamed(context, '/login');
     }
   }

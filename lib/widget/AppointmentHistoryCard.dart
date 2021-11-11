@@ -123,7 +123,6 @@ class AppointmentHistoryCard extends StatelessWidget {
     );
   }
 
-  @override
   Widget acceptedLabel(BuildContext context) {
     return Container(
         height: 23,
@@ -141,7 +140,6 @@ class AppointmentHistoryCard extends StatelessWidget {
         ));
   }
 
-  @override
   Widget declinedLabel(BuildContext context) {
     return Container(
         height: 23,

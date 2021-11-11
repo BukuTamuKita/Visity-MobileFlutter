@@ -32,7 +32,7 @@ class _BodyState extends State<Body> {
       builder: () => SafeArea(
         child: ListView(children: <Widget>[
           Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
+            padding: EdgeInsets.only(left: 16, right: 16, bottom: 16),
             width: MediaQuery.of(context).size.width,
             alignment: Alignment.center,
             child: Column(

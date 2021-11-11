@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-
+import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/screens/login/components/Background.dart';
@@ -11,7 +11,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-
 
 String? finalEmail;
 
@@ -23,8 +22,8 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  late Future<void> _login;
 
-  bool isLoading = false;
   bool isHiddenPassword = true;
 
   @override
@@ -151,10 +150,8 @@ class _BodyState extends State<Body> {
                 height: 40,
                 child: ElevatedButton(
                   onPressed: () {
-                    setState(() {
-                      isLoading = true;
-                    });
-                    login();
+                    _login = APIservice()
+                        .login(emailController, passwordController, context);
                   },
                   style: ElevatedButton.styleFrom(
                       primary: Color.fromRGBO(46, 77, 167, 10),
@@ -179,49 +176,5 @@ class _BodyState extends State<Body> {
     setState(() {
       isHiddenPassword = !isHiddenPassword;
     });
-  }
-
-  Future<void> login() async {
-    final jsonData;
-    DateTime _expirydate;
-    int timeToken;
-
-    final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
-
-    if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty) {
-      final response = await http.post(
-        Uri.parse("http://10.0.2.2:8000/api/auth/loginHost"),
-        body: ({
-          'email': emailController.text,
-          'password': passwordController.text
-        }),
-      );
-      if (response.statusCode == 200) {
-        jsonData = await json.decode(response.body);
-        setState(() {
-          isLoading = false;
-
-          print("login = " + jsonData['token'].toString());
-
-          sharedPreferences.setString("token", jsonData['token']);
-          sharedPreferences.setInt("expiredtime", jsonData['expires_in']);
-
-          timeToken = sharedPreferences.getInt('expiredtime')!;
-          _expirydate = DateTime.now().add(Duration(seconds: timeToken));
-
-          sharedPreferences.setString('expiredtoken', _expirydate.toString());
-          print(_expirydate);
-
-          Navigator.pushNamed(context, '/home');
-        });
-      } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("Invalid Credentials")));
-      }
-    } else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Blank Field Not Allowed")));
-    }
   }
 }

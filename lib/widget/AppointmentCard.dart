@@ -1,5 +1,4 @@
-
-
+import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/provider/appointment_provider.dart';
@@ -11,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AppointmentCard extends StatelessWidget {
   TextEditingController _notesControler = TextEditingController();
   bool isAccepted = false;
+  late Future<void> _updateStatus;
 
   String? guestPurpose;
   String? guestName;
@@ -136,7 +136,7 @@ class AppointmentCard extends StatelessWidget {
     );
   }
 
-  void showCustomDialog(BuildContext context, bool Accepted) => showDialog(
+  void showCustomDialog(BuildContext context, bool accepted) => showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => Dialog(
@@ -174,7 +174,8 @@ class AppointmentCard extends StatelessWidget {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          updateStatus(Accepted, context);
+                          _updateStatus = APIservice().updateStatus(
+                              id, accepted, _notesControler, context);
                           Navigator.pushNamedAndRemoveUntil(
                             context,
                             '/home',
@@ -211,42 +212,4 @@ class AppointmentCard extends StatelessWidget {
               ),
             ),
           ));
-
-  Future<void> updateStatus(bool Accept, BuildContext context) async {
-    SharedPreferences sharedPreferences;
-    sharedPreferences = await SharedPreferences.getInstance();
-
-    String status, notes;
-    String token;
-
-    final String baseUrl = "http://10.0.2.2:8000";
-    token = sharedPreferences.getString('token')!;
-
-    if (Accept == true) {
-      status = "accepted";
-      notes = _notesControler.text.toString();
-    } else {
-      status = "declined";
-      notes = _notesControler.text.toString();
-    }
-    try {
-      final response = await http.put(
-          Uri.parse('$baseUrl/api/appointments/' + id.toString()),
-          headers: {
-            'Authorization': 'Bearer $token',
-          },
-          body: {
-            'status': status,
-            'notes': notes
-          });
-
-      if (response.statusCode == 200) {
-        print('update berhasil');
-      } else {
-        print('update gagal');
-      }
-    } catch (e) {
-      print(e.toString());
-    }
-  }
 }
