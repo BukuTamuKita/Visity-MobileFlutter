@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "426931245962",
+    "project_id": "visity-96a67",
+    "storage_bucket": "visity-96a67.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:426931245962:android:5ca74bfeec69ab7087ae73",
+        "android_client_info": {
+          "package_name": "com.example.bukutamu_android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "426931245962-vbcppoeucjishb1b5dr0rpet6ud1s54r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzBtyT3x_i0bzFuG-6cjky6y_q7p1uvoU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "426931245962-vbcppoeucjishb1b5dr0rpet6ud1s54r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

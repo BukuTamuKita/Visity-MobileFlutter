@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:bukutamu_android/constants/style_constants.dart';
-import 'package:bukutamu_android/screens/login/LoginScreen.dart';
 import 'package:bukutamu_android/screens/login/components/Background.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +10,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 import '../../mainScreen.dart';
 
@@ -188,7 +189,7 @@ class _BodyState extends State<Body> {
 
   Future<void> login() async {
     final jsonData;
-
+    
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     sharedPreferences.setString('email', passwordController.text);
@@ -201,6 +202,11 @@ class _BodyState extends State<Body> {
         }),
       );
       if (response.statusCode == 200) {
+        await Firebase.initializeApp();
+        await FirebaseMessaging.instance
+          .getToken()
+          .then((value) => print("Token device : $value"));
+        print("email = " + emailController.text);
         jsonData = json.decode(response.body);
         setState(() {
           isLoading = false;

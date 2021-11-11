@@ -1,14 +1,14 @@
 // @dart=2.9
 import 'package:bukutamu_android/provider/appointment_provider.dart';
 import 'package:bukutamu_android/provider/information_provider.dart';
-import 'package:bukutamu_android/screens/history/HistoryScreen.dart';
-import 'package:bukutamu_android/screens/home/HomeScreen.dart';
 import 'package:bukutamu_android/screens/login/LoginScreen.dart';
 import 'package:bukutamu_android/screens/mainScreen.dart';
 import 'package:bukutamu_android/screens/welcomepage/WelcomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 
 int initScreen;
 String token;
@@ -18,12 +18,28 @@ Future<void> main() async {
   initScreen = await sharedPreferences.getInt('initScreen');
   token = await sharedPreferences.getString('token');
   await sharedPreferences.setInt('initScreen', 1);
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  String _tokenDevice;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    
+  }
+
   @override
   bool haveInstalled = false;
+
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
