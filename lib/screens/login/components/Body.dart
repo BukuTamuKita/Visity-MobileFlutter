@@ -1,11 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-<<<<<<< HEAD
-
-=======
 import 'package:bukutamu_android/api/api_service.dart';
->>>>>>> 9e16fe38fe498f591fb389569e5c71d00a45bdb1
 import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/screens/login/components/Background.dart';
@@ -18,10 +14,6 @@ import 'package:http/http.dart' as http;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 9e16fe38fe498f591fb389569e5c71d00a45bdb1
 String? finalEmail;
 
 class Body extends StatefulWidget {
@@ -187,84 +179,4 @@ class _BodyState extends State<Body> {
       isHiddenPassword = !isHiddenPassword;
     });
   }
-<<<<<<< HEAD
-
-  Future<void> login() async {
-    final jsonData;
-    DateTime _expirydate;
-    int timeToken;
-    String? _deviceToken;
-
-    final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
-
-    if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty) {
-      final response = await http.post(
-        Uri.parse("http://10.0.2.2:8000/api/auth/loginHost"),
-        body: ({
-          'email': emailController.text,
-          'password': passwordController.text
-        }),
-      );
-      if (response.statusCode == 200) {
-        await Firebase.initializeApp();
-        _deviceToken = await FirebaseMessaging.instance.getToken();
-        print("device token = " + _deviceToken!);
-        updateToken(_deviceToken);
-        jsonData = json.decode(response.body);
-        setState(() {
-          isLoading = false;
-
-          print("login = " + jsonData['token'].toString());
-
-          sharedPreferences.setString("token", jsonData['token']);
-          sharedPreferences.setInt("expiredtime", jsonData['expires_in']);
-
-          timeToken = sharedPreferences.getInt('expiredtime')!;
-          _expirydate = DateTime.now().add(Duration(seconds: timeToken));
-
-          sharedPreferences.setString('expiredtoken', _expirydate.toString());
-          print(_expirydate);
-
-          Navigator.pushNamed(context, '/home');
-        });
-      } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("Invalid Credentials")));
-      }
-    } else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Blank Field Not Allowed")));
-    }
-  }
-
-  Future<void> updateToken(String? deviceToken) async {
-    SharedPreferences sharedPreferences;
-    sharedPreferences = await SharedPreferences.getInstance();
-
-    String status, notes;
-    String token;
-
-    final String baseUrl = "http://10.0.2.2:8000";
-    token = sharedPreferences.getString('token')!;
-    try {
-      final response = await http.post(
-          Uri.parse('$baseUrl/api/save-token'),
-          body: {
-            'email': emailController.text,
-            'token': deviceToken
-          });
-
-      if (response.statusCode == 200) {
-        print('update berhasil');
-      } else {
-        print('update gagal');
-      }
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
-=======
->>>>>>> 9e16fe38fe498f591fb389569e5c71d00a45bdb1
 }

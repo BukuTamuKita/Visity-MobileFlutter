@@ -66,6 +66,7 @@ class APIservice {
     DateTime _expirydate;
     int timeToken;
     bool isLogin = false;
+    String _deviceToken;
 
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
@@ -80,7 +81,8 @@ class APIservice {
         jsonData = json.decode(response.body);
 
         print("login = " + jsonData['token'].toString());
-
+        updateToken(_deviceToken, email);
+        print("device token = " + _deviceToken);
         sharedPreferences.setString("token", jsonData['token']);
         sharedPreferences.setInt("expiredtime", jsonData['expires_in']);
 
@@ -99,6 +101,31 @@ class APIservice {
           .showSnackBar(SnackBar(content: Text("Blank Field Not Allowed")));
     }
     return;
+  }
+
+  Future<void> updateToken(String deviceToken, email) async {
+    SharedPreferences sharedPreferences;
+    sharedPreferences = await SharedPreferences.getInstance();
+    String token;
+
+    final String baseUrl = "http://10.0.2.2:8000";
+    token = sharedPreferences.getString('token')!;
+    try {
+      final response = await http.post(
+          Uri.parse('$baseUrl/api/save-token'),
+          body: {
+            'email': email.text,
+            'token': deviceToken
+          });
+
+      if (response.statusCode == 200) {
+        print('update berhasil');
+      } else {
+        print('update gagal');
+      }
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   Future<void> updateStatus(id, accepted, note, context) async {

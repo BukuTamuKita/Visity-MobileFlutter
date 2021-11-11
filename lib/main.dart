@@ -17,7 +17,6 @@ Future<void> main() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   token = sharedPreferences.getString('token');
   initScreen = sharedPreferences.getInt('initScreen');
-
   await sharedPreferences.setInt('initScreen', 1);
   await Firebase.initializeApp();
   runApp(MyApp());
@@ -39,11 +38,6 @@ class _MyAppState extends State<MyApp> {
   }
 
   @override
-<<<<<<< HEAD
-  bool haveInstalled = false;
-
-=======
->>>>>>> 9e16fe38fe498f591fb389569e5c71d00a45bdb1
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
