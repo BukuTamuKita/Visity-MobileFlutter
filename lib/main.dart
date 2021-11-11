@@ -15,8 +15,9 @@ String token;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  initScreen = await sharedPreferences.getInt('initScreen');
-  token = await sharedPreferences.getString('token');
+  token = sharedPreferences.getString('token');
+  initScreen = sharedPreferences.getInt('initScreen');
+
   await sharedPreferences.setInt('initScreen', 1);
   await Firebase.initializeApp();
   runApp(MyApp());
@@ -47,19 +48,18 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => InformationProvider())
       ],
       child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Visity',
-        initialRoute: initScreen == 0 || initScreen == null
-            ? '/onboard'
-            : token == null
-                ? '/login'
-                : '/home',
-        routes: {
-          '/onboard': (context) => WelcomePage(),
-          '/login': (context) => LoginScreen(),
-          '/home': (context) => mainScreen(),
-        },
-      ),
+          debugShowCheckedModeBanner: false,
+          title: 'Visity',
+          initialRoute: initScreen == 0 || initScreen == null
+              ? '/onboard'
+              : token == null
+                  ? '/login'
+                  : '/home',
+          routes: {
+            '/onboard': (context) => WelcomePage(),
+            '/login': (context) => LoginScreen(),
+            '/home': (context) => mainScreen(),
+          }),
     );
   }
 }

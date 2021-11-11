@@ -21,6 +21,8 @@ var lPTextStyle3 = GoogleFonts.nunito(
     fontWeight: FontWeight.w700, color: TextColor2, fontSize: 14.sp);
 var lPTextStyle4 = GoogleFonts.nunito(
     fontWeight: FontWeight.w700, color: textColor2, fontSize: 14.sp);
+var lPTextStyle5 = GoogleFonts.inter(
+    fontWeight: FontWeight.w500, color: textColor1, fontSize: 12);
 
 //signup text
 var sUTextStyle1 = GoogleFonts.nunito(
@@ -63,3 +65,7 @@ var purposeTextStyle = GoogleFonts.nunito(fontWeight: FontWeight.w500,
     color: MainColor, fontSize: 14.sp);
 var statusTextStyle2 = GoogleFonts.nunito(fontWeight: FontWeight.bold,
     color: Colors.red, fontSize: 20.sp);
+var nameTextStyle = GoogleFonts.inter(
+    fontWeight: FontWeight.w500, color: MainColor, fontSize: 14);
+var timeTextStyle = GoogleFonts.inter(
+    fontWeight: FontWeight.w500, color: MainColor, fontSize: 12);

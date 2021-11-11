@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
+
+import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/screens/login/components/Background.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,7 +14,6 @@ import 'package:http/http.dart' as http;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-import '../../mainScreen.dart';
 
 String? finalEmail;
 
@@ -36,123 +36,121 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
     return ScreenUtilInit(
       builder: () => Background(
         child: SingleChildScrollView(
-            child: Padding(
-          padding: EdgeInsets.only(right: 16.w, left: 16.w, top: 80.h),
+            child: Container(
+          padding: EdgeInsets.only(
+              left: 16,
+              right: 16,
+              top: size.height / 9,
+              bottom: size.height / 7),
+          height: size.height,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Image.asset('assets/images/loginpage/loginpage.png'),
               Container(
-                  child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  Text(
-                    "Login",
-                    style: lPTextStyle1,
-                  )
-                ],
-              )),
+                width: size.width,
+                padding: EdgeInsets.only(left: 40, right: 40),
+                child: Image.asset(
+                  'assets/images/loginpage/loginpage.png',
+                  fit: BoxFit.cover,
+                ),
+              ),
               Container(
                   child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  Text(
+                    "Login",
+                    style: lPTextStyle1,
+                  ),
                   SizedBox(
-                    height: 15.h,
+                    height: size.height / 25,
                   ),
                   Text(
                     "Email",
                     style: lPTextStyle2,
-                  )
-                ],
-              )),
-              Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    TextFormField(
-                      controller: emailController,
-                      decoration: InputDecoration(
-                          fillColor: Color.fromRGBO(218, 218, 218, 0.35),
-                          filled: true,
-                          contentPadding: EdgeInsets.all(10),
-                          enabledBorder: const OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Color.fromRGBO(255, 255, 255, 10)),
-                          ),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.only(
-                            topLeft: const Radius.circular(4.0),
-                            topRight: const Radius.circular(4.0),
-                          ))),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                  child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
+                  ),
+                  SizedBox(
+                    height: size.height / 100,
+                  ),
+                  TextFormField(
+                    controller: emailController,
+                    decoration: InputDecoration(
+                        fillColor: Color.fromRGBO(218, 218, 218, 0.35),
+                        filled: true,
+                        hintText: 'Enter your email',
+                        hintStyle: lPTextStyle5,
+                        contentPadding: EdgeInsets.all(16),
+                        enabledBorder: const OutlineInputBorder(
+                          borderSide: const BorderSide(
+                              color: Color.fromRGBO(255, 255, 255, 10)),
+                        ),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.only(
+                          topLeft: const Radius.circular(4.0),
+                          topRight: const Radius.circular(4.0),
+                        ))),
+                  ),
+                  SizedBox(
+                    height: size.height / 50,
+                  ),
                   Text(
                     "Password",
                     style: lPTextStyle2,
-                  )
+                  ),
+                  SizedBox(
+                    height: size.height / 100,
+                  ),
+                  TextFormField(
+                    obscureText: isHiddenPassword,
+                    controller: passwordController,
+                    decoration: InputDecoration(
+                        fillColor: Color.fromRGBO(218, 218, 218, 0.35),
+                        filled: true,
+                        hintText: 'Enter your password',
+                        hintStyle: lPTextStyle5,
+                        contentPadding: EdgeInsets.all(16),
+                        enabledBorder: const OutlineInputBorder(
+                          borderSide: const BorderSide(
+                              color: Color.fromRGBO(255, 255, 255, 0)),
+                        ),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.only(
+                          topLeft: const Radius.circular(4.0),
+                          topRight: const Radius.circular(4.0),
+                        )),
+                        suffixIcon: InkWell(
+                          onTap: togglePasswordView,
+                          child: isHiddenPassword
+                              ? Icon(
+                                  Icons.visibility,
+                                  color: MainColor,
+                                )
+                              : Icon(
+                                  Icons.visibility_off,
+                                  color: MainColor,
+                                ),
+                        )),
+                  ),
+                  Align(
+                      alignment: Alignment.topRight,
+                      child: TextButton(
+                          onPressed: () {},
+                          child: Text(
+                            "Forgot Password?",
+                            style: lPTextStyle3,
+                          ))),
                 ],
               )),
               Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    TextFormField(
-                      obscureText: isHiddenPassword,
-                      controller: passwordController,
-                      decoration: InputDecoration(
-                          fillColor: Color.fromRGBO(218, 218, 218, 0.35),
-                          filled: true,
-                          contentPadding: EdgeInsets.all(10),
-                          enabledBorder: const OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Color.fromRGBO(255, 255, 255, 0)),
-                          ),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.only(
-                            topLeft: const Radius.circular(4.0),
-                            topRight: const Radius.circular(4.0),
-                          )),
-                          suffixIcon: InkWell(
-                            onTap: togglePasswordView,
-                            child: isHiddenPassword
-                                ? Icon(Icons.visibility)
-                                : Icon(Icons.visibility_off),
-                          )),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          "Forgot Password?",
-                          style: lPTextStyle2,
-                        ))
-                  ],
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.only(top: 30),
+                width: size.width,
+                padding: EdgeInsets.only(right: 20, left: 20),
+                height: 40,
                 child: ElevatedButton(
                   onPressed: () {
                     setState(() {
@@ -162,13 +160,12 @@ class _BodyState extends State<Body> {
                   },
                   style: ElevatedButton.styleFrom(
                       primary: Color.fromRGBO(46, 77, 167, 10),
-                      minimumSize: Size(130, 45),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.r)),
                       elevation: 3,
                       shadowColor: Color.fromRGBO(0, 0, 0, 1)),
                   child: Text(
-                    "Login",
+                    "LOGIN",
                     style: lPTextStyle4,
                   ),
                 ),
@@ -177,7 +174,6 @@ class _BodyState extends State<Body> {
           ),
         )),
       ),
-      designSize: const Size(414, 736),
     );
   }
 
@@ -189,11 +185,14 @@ class _BodyState extends State<Body> {
 
   Future<void> login() async {
     final jsonData;
-    
+    DateTime _expirydate;
+    int timeToken;
+    String? _deviceToken;
+
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
-    sharedPreferences.setString('email', passwordController.text);
-    if (emailController.text.isNotEmpty && emailController.text.isNotEmpty) {
+
+    if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty) {
       final response = await http.post(
         Uri.parse("http://10.0.2.2:8000/api/auth/loginHost"),
         body: ({
@@ -203,19 +202,25 @@ class _BodyState extends State<Body> {
       );
       if (response.statusCode == 200) {
         await Firebase.initializeApp();
-        await FirebaseMessaging.instance
-          .getToken()
-          .then((value) => print("Token device : $value"));
-        print("email = " + emailController.text);
+        _deviceToken = await FirebaseMessaging.instance.getToken();
+        print("device token = " + _deviceToken!);
+        updateToken(_deviceToken);
         jsonData = json.decode(response.body);
         setState(() {
           isLoading = false;
+
           print("login = " + jsonData['token'].toString());
+
           sharedPreferences.setString("token", jsonData['token']);
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => mainScreen()),
-          );
+          sharedPreferences.setInt("expiredtime", jsonData['expires_in']);
+
+          timeToken = sharedPreferences.getInt('expiredtime')!;
+          _expirydate = DateTime.now().add(Duration(seconds: timeToken));
+
+          sharedPreferences.setString('expiredtoken', _expirydate.toString());
+          print(_expirydate);
+
+          Navigator.pushNamed(context, '/home');
         });
       } else {
         ScaffoldMessenger.of(context)
@@ -226,4 +231,32 @@ class _BodyState extends State<Body> {
           .showSnackBar(SnackBar(content: Text("Blank Field Not Allowed")));
     }
   }
+
+  Future<void> updateToken(String? deviceToken) async {
+    SharedPreferences sharedPreferences;
+    sharedPreferences = await SharedPreferences.getInstance();
+
+    String status, notes;
+    String token;
+
+    final String baseUrl = "http://10.0.2.2:8000";
+    token = sharedPreferences.getString('token')!;
+    try {
+      final response = await http.post(
+          Uri.parse('$baseUrl/api/save-token'),
+          body: {
+            'email': emailController.text,
+            'token': deviceToken
+          });
+
+      if (response.statusCode == 200) {
+        print('update berhasil');
+      } else {
+        print('update gagal');
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
 }
