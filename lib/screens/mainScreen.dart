@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'login/LoginScreen.dart';
-
 class mainScreen extends StatefulWidget {
   const mainScreen({Key? key}) : super(key: key);
 
@@ -22,14 +20,15 @@ class _mainScreenState extends State<mainScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
     checkLoginStatus();
   }
+
   final screens = [
     HistoryScreen(),
     HomeScreen(),
     ProfileScreen(),
   ];
-
 
   @override
   Widget build(BuildContext context) {
@@ -46,17 +45,17 @@ class _mainScreenState extends State<mainScreen> {
             ],
           ),
           child: SafeArea(
-            child: Padding(
+            child: Container(
               padding:
-                  const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
+                  const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
               child: GNav(
-                tabBorderRadius: 5,
+                tabBorderRadius: 8,
                 rippleColor: purpleColor,
                 hoverColor: purpleColor,
                 gap: 8,
                 activeColor: Colors.white,
                 iconSize: 24,
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                 duration: Duration(milliseconds: 400),
                 tabBackgroundColor: purpleColor,
                 color: Colors.black,
@@ -67,7 +66,7 @@ class _mainScreenState extends State<mainScreen> {
                     text: 'History',
                   ),
                   GButton(
-                    icon: Icons.home,
+                    icon: Icons.home_outlined,
                     text: 'Home',
                     iconColor: Colors.white,
                   ),
@@ -80,6 +79,7 @@ class _mainScreenState extends State<mainScreen> {
                 selectedIndex: currentIndex,
                 onTabChange: (index) {
                   setState(() {
+                    checkLoginStatus();
                     currentIndex = index;
                   });
                 },
@@ -88,15 +88,20 @@ class _mainScreenState extends State<mainScreen> {
           ),
         ));
   }
-  
+
   checkLoginStatus() async {
+    DateTime expirytimes;
+    String expiredToken;
+
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
-    if (sharedPreferences.getString("token") == null) {
-      Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => LoginScreen()),
-          );
+
+    expiredToken = sharedPreferences.getString('expiredtoken')!;
+    expirytimes = DateTime.parse(expiredToken);
+
+    if (expirytimes.isBefore(DateTime.now())) {
+      sharedPreferences.remove('token');
+      Navigator.popAndPushNamed(context, '/login');
     }
   }
 }
