@@ -1,7 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 
+<<<<<<< HEAD
 
+=======
+import 'package:bukutamu_android/api/api_service.dart';
+>>>>>>> 9e16fe38fe498f591fb389569e5c71d00a45bdb1
 import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/screens/login/components/Background.dart';
@@ -14,7 +18,10 @@ import 'package:http/http.dart' as http;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9e16fe38fe498f591fb389569e5c71d00a45bdb1
 String? finalEmail;
 
 class Body extends StatefulWidget {
@@ -25,8 +32,8 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  late Future<void> _login;
 
-  bool isLoading = false;
   bool isHiddenPassword = true;
 
   @override
@@ -153,10 +160,8 @@ class _BodyState extends State<Body> {
                 height: 40,
                 child: ElevatedButton(
                   onPressed: () {
-                    setState(() {
-                      isLoading = true;
-                    });
-                    login();
+                    _login = APIservice()
+                        .login(emailController, passwordController, context);
                   },
                   style: ElevatedButton.styleFrom(
                       primary: Color.fromRGBO(46, 77, 167, 10),
@@ -182,6 +187,7 @@ class _BodyState extends State<Body> {
       isHiddenPassword = !isHiddenPassword;
     });
   }
+<<<<<<< HEAD
 
   Future<void> login() async {
     final jsonData;
@@ -259,4 +265,6 @@ class _BodyState extends State<Body> {
     }
   }
 
+=======
+>>>>>>> 9e16fe38fe498f591fb389569e5c71d00a45bdb1
 }

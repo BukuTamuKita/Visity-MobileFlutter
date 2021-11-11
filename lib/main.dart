@@ -39,8 +39,11 @@ class _MyAppState extends State<MyApp> {
   }
 
   @override
+<<<<<<< HEAD
   bool haveInstalled = false;
 
+=======
+>>>>>>> 9e16fe38fe498f591fb389569e5c71d00a45bdb1
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [

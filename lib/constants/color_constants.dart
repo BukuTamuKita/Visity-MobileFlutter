@@ -12,4 +12,7 @@ const textColor3 = Color.fromRGBO(63, 61, 86, 1);
 const textColor4 = Color.fromRGBO(234, 19, 19, 1);
 const textColor5 = Color.fromRGBO(151, 151, 151, 1);
 const lightblueColor = Color.fromRGBO(125, 140, 240, 10);
+const greenColor = Color.fromRGBO(0, 115, 5, 1);
+const lightgreenColor = Color.fromRGBO(183, 247, 189, 1);
+const redlabelColor = Color.fromRGBO(197, 0, 0, 1);
 const BackgroundColor = Color(0xFFFFFF);

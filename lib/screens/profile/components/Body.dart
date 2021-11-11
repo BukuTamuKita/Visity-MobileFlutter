@@ -1,6 +1,8 @@
-import 'package:bukutamu_android/constants/color_constants.dart';
+import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
+import 'package:bukutamu_android/model/host_model.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Body extends StatefulWidget {
   Body({Key? key}) : super(key: key);
@@ -10,8 +12,18 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  late Future<Host> _host;
+
+  @override
+  void initState() {
+    _host = APIservice().getDataHost();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
     return SafeArea(
       child: SingleChildScrollView(
         child: Container(
@@ -23,104 +35,150 @@ class _BodyState extends State<Body> {
               SizedBox(
                 height: 24,
               ),
-              Column(
-                children: [
-                  Text(
-                    "Profile",
-                    style: profileTextStyle1,
-                  )
-                ],
+              Text(
+                "Profile",
+                style: profileTextStyle1,
               ),
-              SizedBox(
-                height: 32,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 126,
-                    width: 126,
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.all(Radius.circular(16)),
+              Container(
+                height: size.height / 1.3,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    FutureBuilder<Host>(
+                        future: _host,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Stack(
+                                      children: <Widget>[
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                          child: Image.network(
+                                            snapshot.data!.users.photo,
+                                            height: 126,
+                                            width: 126,
+                                            fit: BoxFit.fill,
+                                            alignment: Alignment.topCenter,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 48,
+                                ),
+                                Text(
+                                  'Name',
+                                  style: profileTextStyle3,
+                                ),
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                Text(
+                                  snapshot.data!.users.name,
+                                  style: profileTextStyle2,
+                                ),
+                                Container(
+                                  padding: EdgeInsets.all(8),
+                                  margin: EdgeInsets.only(top: 8, bottom: 8),
+                                  height: 2,
+                                  width: size.width,
+                                  color: Colors.black26,
+                                ),
+                                Text(
+                                  'Position',
+                                  style: profileTextStyle3,
+                                ),
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                Text(
+                                  snapshot.data!.position,
+                                  style: profileTextStyle2,
+                                ),
+                                Container(
+                                  padding: EdgeInsets.all(8),
+                                  margin: EdgeInsets.only(top: 8, bottom: 8),
+                                  height: 2,
+                                  width: size.width,
+                                  color: Colors.black26,
+                                ),
+                                Text(
+                                  'Email',
+                                  style: profileTextStyle3,
+                                ),
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                Text(
+                                  snapshot.data!.users.email,
+                                  style: profileTextStyle2,
+                                ),
+                                Container(
+                                  padding: EdgeInsets.all(8),
+                                  margin: EdgeInsets.only(top: 8, bottom: 8),
+                                  height: 2,
+                                  width: size.width,
+                                  color: Colors.black26,
+                                ),
+                              ],
+                            );
+                          } else {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                        }),
+                    SizedBox(
+                      height: 40,
                     ),
-                    child: Stack(
-                      children: <Widget>[
-                        Positioned(
-                          bottom: 0,
-                          right: -0.9,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
                           child: Container(
-                            height: 36,
-                            width: 36,
-                            decoration: BoxDecoration(
-                                color: blueColor, shape: BoxShape.circle),
-                            child: IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.photo_camera,
-                                color: Colors.white,
-                                size: 21,
+                            height: 40,
+                            margin: EdgeInsets.only(top: 30),
+                            padding: EdgeInsets.only(left: 16, right: 16),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                logout();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  primary: Color.fromRGBO(234, 19, 19, 1),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8)),
+                                  elevation: 3,
+                                  shadowColor: Color.fromRGBO(0, 0, 0, 1)),
+                              child: Text(
+                                "LOGOUT",
+                                style: lPTextStyle4,
                               ),
                             ),
                           ),
-                        ),
+                        )
                       ],
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 48,
-              ),
-              TextFormField(
-                decoration: InputDecoration(
-                    labelText: "Name", labelStyle: profileTextStyle2),
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                style: profileTextStyle3,
-                decoration: InputDecoration(
-                    labelText: "Jabatan", labelStyle: profileTextStyle2),
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                decoration: InputDecoration(
-                    labelText: "Phone", labelStyle: profileTextStyle2),
-              ),
-              SizedBox(
-                height: 48,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 153,
-                    padding: EdgeInsets.only(top: 30),
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                          primary: Color.fromRGBO(46, 77, 167, 10),
-                          minimumSize: Size(130, 45),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8)),
-                          elevation: 3,
-                          shadowColor: Color.fromRGBO(0, 0, 0, 1)),
-                      child: Text(
-                        "Save",
-                        style: lPTextStyle4,
-                      ),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               )
             ],
           ),
         ),
       ),
     );
+  }
+
+  Future<void> logout() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.remove('token');
+    Navigator.popAndPushNamed(context, '/login');
   }
 }

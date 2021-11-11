@@ -7,7 +7,8 @@ import 'package:bukutamu_android/screens/mainScreen.dart';
 import 'package:bukutamu_android/widget/AppointmentCard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter/painting.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class Body extends StatefulWidget {
@@ -20,6 +21,7 @@ class _BodyState extends State<Body> {
   late Future<Appointment> _appointment;
   late Future<Host> _host;
   int appointmentCount = 0;
+  final formatTime = DateFormat('hh:mm:ss');
 
   @override
   void initState() {
@@ -45,13 +47,13 @@ class _BodyState extends State<Body> {
         },
         child: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
+            padding: EdgeInsets.only(left: 16, right: 16, bottom: 16),
             alignment: Alignment.center,
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  SizedBox(height: 24.h),
+                  SizedBox(height: 28),
                   Consumer<InformationProvider>(
                       builder: (context, sum, _) => (FutureBuilder<Host>(
                           future: _host,
@@ -62,9 +64,9 @@ class _BodyState extends State<Body> {
                                 sum.name = snapshot.data!.users.name;
                                 sum.photo = snapshot.data!.users.photo;
                               });
-                              print("Success");
+
                               return Container(
-                                  height: 50.h,
+                                  height: 50,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
@@ -74,12 +76,13 @@ class _BodyState extends State<Body> {
                                                 borderRadius:
                                                     BorderRadius.circular(10),
                                                 child: Image.network(
-                                                    sum.photo,
-                                                    height: 36,
-                                                    width: 36,
-                                                    fit: BoxFit.fill,),
+                                                  sum.photo,
+                                                  height: 36,
+                                                  width: 36,
+                                                  fit: BoxFit.fill,
+                                                ),
                                               )),
-                                      SizedBox(width: 20.w),
+                                      SizedBox(width: 20),
                                       Consumer<InformationProvider>(
                                           builder: (context, sum, _) =>
                                               Expanded(
@@ -89,7 +92,7 @@ class _BodyState extends State<Body> {
                                                 )),
                                               )),
                                       SizedBox(
-                                        width: 90.w,
+                                        width: 90,
                                       ),
                                     ],
                                   ));
@@ -97,15 +100,18 @@ class _BodyState extends State<Body> {
                               return SizedBox();
                             }
                           }))),
-                  SizedBox(height: 32.h),
+                  SizedBox(height: 36),
                   Container(
+                    width: size.width,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          "Visitor",
-                          style: mainSTextStyle2,
-                        ),
+                        Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Text(
+                              "Visitor",
+                              style: mainSTextStyle2,
+                            )),
                         Consumer<InformationProvider>(
                           builder: (context, sum, _) => Text(
                             "You have " +
@@ -117,13 +123,21 @@ class _BodyState extends State<Body> {
                       ],
                     ),
                   ),
+                  SizedBox(
+                    height: 40,
+                  ),
                   FutureBuilder<Appointment>(
                       future: _appointment,
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           appointmentCount = 0;
                           for (int i = 0; i < snapshot.data!.data.length; i++) {
-                            if (snapshot.data!.data[i].status == 'waiting') {
+                            if (snapshot.data!.data[i].status == 'waiting' &&
+                                DateTime.now()
+                                        .difference(DateTime.parse(
+                                            snapshot.data!.data[i].dateTime[0]))
+                                        .inDays ==
+                                    0) {
                               appointmentCount++;
                             }
                           }
@@ -133,7 +147,13 @@ class _BodyState extends State<Body> {
                                   separatorBuilder:
                                       (BuildContext context, int index) {
                                     if (snapshot.data!.data[index].status ==
-                                        "waiting") {
+                                            "waiting" &&
+                                        DateTime.now()
+                                                .difference(DateTime.parse(
+                                                    snapshot.data!.data[index]
+                                                        .dateTime[0]))
+                                                .inDays ==
+                                            0) {
                                       return SizedBox(
                                         height: 16,
                                       );
@@ -151,7 +171,12 @@ class _BodyState extends State<Body> {
                                       sum.count = appointmentCount;
                                     });
 
-                                    if (appointment.status == "waiting") {
+                                    if (appointment.status == "waiting" &&
+                                        DateTime.now()
+                                                .difference(DateTime.parse(
+                                                    appointment.dateTime[0]))
+                                                .inDays ==
+                                            0) {
                                       return Container(
                                         child: Row(
                                           children: <Widget>[
@@ -163,7 +188,7 @@ class _BodyState extends State<Body> {
                                                     appointment.purpose,
                                                 guestName:
                                                     appointment.guest.name,
-                                                time: appointment.dateTime
+                                                time: appointment.dateTime[1]
                                                     .toString(),
                                                 id: appointment.id,
                                               ),

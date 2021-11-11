@@ -44,12 +44,16 @@ dependencies:
   flutter_bloc: ^7.3.0
   tree_view: ^0.0.5
   provider: ^6.0.1
+<<<<<<< HEAD
   firebase_messaging: ^10.0.9
   firebase_core: ^1.8.0
   flutter_local_notifications: ^9.0.2
   firebase_auth: ^3.1.4
   cloud_firestore: ^2.5.4
   flutter_launcher_name: ^0.0.1
+=======
+  intl: ^0.17.0
+>>>>>>> 9e16fe38fe498f591fb389569e5c71d00a45bdb1
 
 dev_dependencies:
   flutter_test:
@@ -82,7 +86,7 @@ flutter:
     - assets/images/loginpage/
     - assets/images/signuppage/
     - assets/images/signuppage/SPTopLeft2.png
-    - assets/images/mainpage/Background.png
+    - assets/images/mainpage/Background.png 
 
   # To add assets to your application, add an assets section, like this:
   # assets:

@@ -1,10 +1,7 @@
-import 'dart:convert';
-import 'dart:io';
-
+import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/provider/appointment_provider.dart';
-import 'package:bukutamu_android/screens/mainScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
@@ -13,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AppointmentCard extends StatelessWidget {
   TextEditingController _notesControler = TextEditingController();
   bool isAccepted = false;
+  late Future<void> _updateStatus;
 
   String? guestPurpose;
   String? guestName;
@@ -47,110 +45,102 @@ class AppointmentCard extends StatelessWidget {
         ],
       ),
       child: Container(
-        padding: EdgeInsets.only(left: 24, right: 24, top: 24),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                // Container(
-                //   width: 40,
-                //   height: 40,
-                //   decoration:
-                //       BoxDecoration(color: Colors.red, shape: BoxShape.circle),
-                // ),
-                // SizedBox(
-                //   width: 20,
-                // ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      guestName!,
-                      style: mainSTextStyle1,
-                    ),
-                    Text(
-                      time!,
-                      style: mainSTextStyle3,
-                    )
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Text(
-                    guestPurpose!,
-                    maxLines: 2,
-                    textAlign: TextAlign.left,
+          padding: EdgeInsets.only(left: 24, right: 24, top: 16),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                        color: Colors.red, shape: BoxShape.circle),
                   ),
-                )
-              ],
-            ),
-            Column(
-              children: [
-                SizedBox(
-                  height: 16,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Consumer<AppointmentProvider>(
-                      builder: (context, appointment, _) => Container(
-                        width: 125,
-                        height: 32,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: lightblueColor,
-                          ),
-                          onPressed: () {
-                            isAccepted = true;
-                            showCustomDialog(context, isAccepted);
-                          },
-                          child: Text(
-                            "ACCEPT",
-                            style: buttonMainStyle1,
-                          ),
-                        ),
+                  SizedBox(
+                    width: 16,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        guestName!,
+                        style: mainSTextStyle4,
                       ),
-                    ),
-                    SizedBox(
-                      width: 67,
-                    ),
-                    Container(
-                      child: TextButton(
-                        child: Text(
-                          "DECLINE",
-                          style: buttonMainStyle2,
-                        ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        time!,
+                        style: mainSTextStyle5,
+                      )
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 36,
+              ),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  guestPurpose!,
+                  maxLines: 2,
+                ),
+              ),
+              SizedBox(
+                height: 24,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Consumer<AppointmentProvider>(
+                    builder: (context, appointment, _) => Container(
+                      width: 125,
+                      height: 32,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: lightblueColor,
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)))),
                         onPressed: () {
-                          isAccepted = false;
+                          isAccepted = true;
                           showCustomDialog(context, isAccepted);
                         },
+                        child: Text(
+                          "ACCEPT",
+                          style: buttonMainStyle1,
+                        ),
                       ),
-                    )
-                  ],
-                )
-              ],
-            )
-          ],
-        ),
-      ),
+                    ),
+                  ),
+                  Container(
+                    width: 125,
+                    height: 32,
+                    child: TextButton(
+                      child: Text(
+                        "DECLINE",
+                        style: buttonMainStyle2,
+                      ),
+                      onPressed: () {
+                        isAccepted = false;
+                        showCustomDialog(context, isAccepted);
+                      },
+                    ),
+                  )
+                ],
+              ),
+            ],
+          )),
     );
   }
 
-  void showCustomDialog(BuildContext context, bool Accepted) => showDialog(
+  void showCustomDialog(BuildContext context, bool accepted) => showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => Dialog(
-            backgroundColor: Color.fromRGBO(239, 239, 239, 20),
+            backgroundColor: Color.fromRGBO(228, 227, 227, 1),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             child: Padding(
@@ -174,8 +164,7 @@ class AppointmentCard extends StatelessWidget {
                           filled: true,
                           contentPadding: EdgeInsets.all(8),
                           border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0)),
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
                           ))),
                   SizedBox(
                     height: 8,
@@ -185,11 +174,11 @@ class AppointmentCard extends StatelessWidget {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          updateStatus(Accepted, context);
-                          Navigator.pushAndRemoveUntil(
+                          _updateStatus = APIservice().updateStatus(
+                              id, accepted, _notesControler, context);
+                          Navigator.pushNamedAndRemoveUntil(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) => mainScreen()),
+                            '/home',
                             (Route<dynamic> route) => false,
                           );
                         },
@@ -203,7 +192,7 @@ class AppointmentCard extends StatelessWidget {
                         ),
                         child: Text(
                           'Send',
-                          style: buttonMainStyle1,
+                          style: buttonMainStyle3,
                         ),
                       ),
                       SizedBox(
@@ -218,47 +207,9 @@ class AppointmentCard extends StatelessWidget {
                             style: buttonMainStyle4,
                           ))
                     ],
-                  )
+                  ),
                 ],
               ),
             ),
           ));
-
-  Future<void> updateStatus(bool Accept, BuildContext context) async {
-    SharedPreferences sharedPreferences;
-    sharedPreferences = await SharedPreferences.getInstance();
-
-    String status, notes;
-    String token;
-
-    final String baseUrl = "http://10.0.2.2:8000";
-    token = sharedPreferences.getString('token')!;
-
-    if (Accept == true) {
-      status = "accepted";
-      notes = _notesControler.text.toString();
-    } else {
-      status = "declined";
-      notes = _notesControler.text.toString();
-    }
-    try {
-      final response = await http.put(
-          Uri.parse('$baseUrl/api/appointments/' + id.toString()),
-          headers: {
-            'Authorization': 'Bearer $token',
-          },
-          body: {
-            'status': status,
-            'notes': notes
-          });
-
-      if (response.statusCode == 200) {
-        print('update berhasil');
-      } else {
-        print('update gagal');
-      }
-    } catch (e) {
-      print(e.toString());
-    }
-  }
 }
