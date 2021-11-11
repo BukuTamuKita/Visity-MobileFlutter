@@ -28,8 +28,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _tokenDevice;
-
   @override
   void initState() {
     // TODO: implement initState

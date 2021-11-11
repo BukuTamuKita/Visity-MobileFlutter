@@ -92,10 +92,8 @@ class _BodyState extends State<Body> {
                             if (snapshot.data!.data[index].status !=
                                     "waiting" &&
                                 DateTime.now()
-                                        .difference(DateTime.parse(snapshot
-                                            .data!.data[index].dateTime[0]))
-                                        .inDays ==
-                                    0) {
+                                        .difference(snapshot.data!.data[index].createdAt)
+                                        .inDays == 0) {
                               return SizedBox(
                                 height: 16,
                               );
@@ -109,8 +107,7 @@ class _BodyState extends State<Body> {
                             var appointment = snapshot.data!.data[index];
                             if (appointment.status != 'waiting' &&
                                 DateTime.now()
-                                        .difference(DateTime.parse(
-                                            appointment.dateTime[0]))
+                                        .difference(appointment.createdAt)
                                         .inDays ==
                                     0) {
                               return Container(

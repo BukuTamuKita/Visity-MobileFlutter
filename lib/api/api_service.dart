@@ -1,7 +1,9 @@
 import 'package:bukutamu_android/model/appointment_model.dart';
 import 'package:bukutamu_android/model/host_model.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:firebase_core/firebase_core.dart';
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -66,7 +68,7 @@ class APIservice {
     DateTime _expirydate;
     int timeToken;
     bool isLogin = false;
-    String _deviceToken;
+    String? _deviceToken;
 
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
@@ -79,10 +81,11 @@ class APIservice {
       if (response.statusCode == 200) {
         isLogin = true;
         jsonData = json.decode(response.body);
-
         print("login = " + jsonData['token'].toString());
+        await Firebase.initializeApp();
+        _deviceToken = await FirebaseMessaging.instance.getToken();
         updateToken(_deviceToken, email);
-        print("device token = " + _deviceToken);
+        print("device token = " + _deviceToken!);
         sharedPreferences.setString("token", jsonData['token']);
         sharedPreferences.setInt("expiredtime", jsonData['expires_in']);
 
@@ -103,7 +106,7 @@ class APIservice {
     return;
   }
 
-  Future<void> updateToken(String deviceToken, email) async {
+  Future<void> updateToken(String? deviceToken, email) async {
     SharedPreferences sharedPreferences;
     sharedPreferences = await SharedPreferences.getInstance();
     String token;
