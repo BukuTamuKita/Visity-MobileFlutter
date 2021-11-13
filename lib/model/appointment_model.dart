@@ -1,27 +1,23 @@
 // To parse this JSON data, do
 //
-//     final showAppointment = showAppointmentFromJson(jsonString);
+//     final host = hostFromJson(jsonString);
 
 import 'dart:convert';
 
-// To parse this JSON data, do
-//
-//     final welcome = welcomeFromJson(jsonString);
+Appointment hostFromJson(String str) => Appointment.fromJson(json.decode(str));
 
-Appointment welcomeFromJson(String str) => Appointment.fromJson(json.decode(str));
-
-String welcomeToJson(Appointment data) => json.encode(data.toJson());
+String hostToJson(Appointment data) => json.encode(data.toJson());
 
 class Appointment {
-  final List<Datum> data;
-  final Links links;
-  final Meta meta;
-
-    const Appointment({
+    Appointment({
         required this.data,
         required this.links,
         required this.meta,
     });
+
+    List<Datum> data;
+    Links links;
+    Meta meta;
 
     factory Appointment.fromJson(Map<String, dynamic> json) => Appointment(
         data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
@@ -37,62 +33,63 @@ class Appointment {
 }
 
 class Datum {
-
-    final int id;
-    final HostAppointment hostApp;
-    final Guest guest;
-    final String purpose;
-    final String notes;
-    final String status;
-    final List<String> dateTime;
-
-    const Datum({
+    Datum({
         required this.id,
-        required this.hostApp,
+        required this.host,
         required this.guest,
         required this.purpose,
         required this.notes,
         required this.status,
         required this.dateTime,
+        required this.createdAt,
     });
+
+    int id;
+    HostClass host;
+    Guest guest;
+    String purpose;
+    String notes;
+    String status;
+    List<String> dateTime;
+    DateTime createdAt;
+
     factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["id"],
-        hostApp: HostAppointment.fromJson(json["host"]),
+        host: HostClass.fromJson(json["host"]),
         guest: Guest.fromJson(json["guest"]),
         purpose: json["purpose"],
         notes: json["notes"],
         status: json["status"],
         dateTime: List<String>.from(json["date_time"].map((x) => x)),
+        createdAt: DateTime.parse(json["created_at"]),
     );
 
     Map<String, dynamic> toJson() => {
         "id": id,
-        "host": hostApp.toJson(),
+        "host": host.toJson(),
         "guest": guest.toJson(),
         "purpose": purpose,
         "notes": notes,
         "status": status,
         "date_time": List<dynamic>.from(dateTime.map((x) => x)),
+        "created_at": createdAt.toIso8601String(),
     };
 }
 
 class Guest {
-
-    final int id;
-    final String name;
-    final String nik;
-    final String email;
-    final String address;
-    bool isDone = false;
-
     Guest({
         required this.id,
         required this.name,
         required this.nik,
         required this.email,
         required this.address,
-
     });
+
+    int id;
+    String name;
+    String nik;
+    String email;
+    String address;
 
     factory Guest.fromJson(Map<String, dynamic> json) => Guest(
         id: json["id"],
@@ -100,7 +97,6 @@ class Guest {
         nik: json["nik"],
         email: json["email"],
         address: json["address"],
-
     );
 
     Map<String, dynamic> toJson() => {
@@ -112,14 +108,8 @@ class Guest {
     };
 }
 
-class HostAppointment {
-    final int id;
-    final String name;
-    final String nip;
-    final String position;
-    final Users users;
-
-    HostAppointment({
+class HostClass {
+    HostClass({
         required this.id,
         required this.name,
         required this.nip,
@@ -127,8 +117,13 @@ class HostAppointment {
         required this.users,
     });
 
-    factory HostAppointment.fromJson(Map<String, dynamic> json) => 
-    HostAppointment(
+    int id;
+    String name;
+    String nip;
+    String position;
+    Users users;
+
+    factory HostClass.fromJson(Map<String, dynamic> json) => HostClass(
         id: json["id"],
         name: json["name"],
         nip: json["nip"],
@@ -146,12 +141,6 @@ class HostAppointment {
 }
 
 class Users {
-    final int id;
-    final String name;
-    final String email;
-    final String role;
-    final String photo;
-
     Users({
         required this.id,
         required this.name,
@@ -159,6 +148,12 @@ class Users {
         required this.role,
         required this.photo,
     });
+
+    int id;
+    String name;
+    String email;
+    String role;
+    String photo;
 
     factory Users.fromJson(Map<String, dynamic> json) => Users(
         id: json["id"],
@@ -178,19 +173,17 @@ class Users {
 }
 
 class Links {
-    final String first;
-    final dynamic last;
-    final dynamic prev;
-    final dynamic next;
-
     Links({
         required this.first,
-        required this.last,
-        required this.prev,
-        required this.next,
+        this.last,
+        this.prev,
+        this.next,
     });
 
-   
+    String first;
+    dynamic last;
+    dynamic prev;
+    dynamic next;
 
     factory Links.fromJson(Map<String, dynamic> json) => Links(
         first: json["first"],
@@ -208,12 +201,6 @@ class Links {
 }
 
 class Meta {
-    final int currentPage;
-    final int from;
-    final String path;
-    final int perPage;
-    final int to;
-
     Meta({
         required this.currentPage,
         required this.from,
@@ -221,6 +208,12 @@ class Meta {
         required this.perPage,
         required this.to,
     });
+
+    int currentPage;
+    int from;
+    String path;
+    int perPage;
+    int to;
 
     factory Meta.fromJson(Map<String, dynamic> json) => Meta(
         currentPage: json["current_page"],

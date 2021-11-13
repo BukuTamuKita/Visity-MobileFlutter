@@ -1,7 +1,9 @@
 import 'package:bukutamu_android/model/appointment_model.dart';
 import 'package:bukutamu_android/model/host_model.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:firebase_core/firebase_core.dart';
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -65,6 +67,8 @@ class APIservice {
     final jsonData;
     DateTime _expirydate;
     int timeToken;
+    bool isLogin = false;
+    String? _deviceToken;
 
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
@@ -76,9 +80,11 @@ class APIservice {
       );
       if (response.statusCode == 200) {
         jsonData = json.decode(response.body);
-
         print("login = " + jsonData['token'].toString());
-
+        await Firebase.initializeApp();
+        _deviceToken = await FirebaseMessaging.instance.getToken();
+        updateToken(_deviceToken, email);
+        print("device token = " + _deviceToken!);
         sharedPreferences.setString("token", jsonData['token']);
         sharedPreferences.setInt("expiredtime", jsonData['expires_in']);
 
@@ -97,6 +103,31 @@ class APIservice {
           .showSnackBar(SnackBar(content: Text("Blank Field Not Allowed")));
     }
     return;
+  }
+
+  Future<void> updateToken(String? deviceToken, email) async {
+    SharedPreferences sharedPreferences;
+    sharedPreferences = await SharedPreferences.getInstance();
+    String token;
+
+    final String baseUrl = "http://10.0.2.2:8000";
+    token = sharedPreferences.getString('token')!;
+    try {
+      final response = await http.post(
+          Uri.parse('$baseUrl/api/save-token'),
+          body: {
+            'email': email.text,
+            'token': deviceToken
+          });
+
+      if (response.statusCode == 200) {
+        print('update berhasil');
+      } else {
+        print('update gagal');
+      }
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   Future<void> updateStatus(id, accepted, note, context) async {

@@ -1,7 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.bukutamu_android">
+    package="com.example.bukutamu_android"
+    >
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="bukutamu_android"
+        android:label="Visity"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

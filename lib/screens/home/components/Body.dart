@@ -7,6 +7,7 @@ import 'package:bukutamu_android/model/host_model.dart';
 import 'package:bukutamu_android/provider/information_provider.dart';
 import 'package:bukutamu_android/screens/mainScreen.dart';
 import 'package:bukutamu_android/widget/AppointmentCard.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -23,7 +24,9 @@ class _BodyState extends State<Body> {
   late Future<Appointment> _appointment;
   late Future<Host> _host;
   int appointmentCount = 0;
-  final formatTime = DateFormat('hh:mm:ss');
+  //time = "2021-11-11T14:38:33.000000Z"
+  Timestamp time = Timestamp.fromDate(DateTime.now());
+
 
   @override
   void initState() {
@@ -137,10 +140,8 @@ class _BodyState extends State<Body> {
                           for (int i = 0; i < snapshot.data!.data.length; i++) {
                             if (snapshot.data!.data[i].status == 'waiting' &&
                                 DateTime.now()
-                                        .difference(DateTime.parse(
-                                            snapshot.data!.data[i].dateTime[0]))
-                                        .inDays ==
-                                    0) {
+                                        .difference(snapshot.data!.data[i].createdAt)
+                                        .inDays == 0 ) {
                               appointmentCount++;
                             }
                           }
@@ -152,11 +153,8 @@ class _BodyState extends State<Body> {
                                     if (snapshot.data!.data[index].status ==
                                             "waiting" &&
                                         DateTime.now()
-                                                .difference(DateTime.parse(
-                                                    snapshot.data!.data[index]
-                                                        .dateTime[0]))
-                                                .inDays ==
-                                            0) {
+                                        .difference(snapshot.data!.data[index].createdAt)
+                                        .inDays == 0 ) {
                                       return SizedBox(
                                         height: 16,
                                       );
@@ -176,8 +174,7 @@ class _BodyState extends State<Body> {
 
                                     if (appointment.status == "waiting" &&
                                         DateTime.now()
-                                                .difference(DateTime.parse(
-                                                    appointment.dateTime[0]))
+                                                .difference(appointment.createdAt)
                                                 .inDays ==
                                             0) {
                                       return Container(
@@ -186,7 +183,7 @@ class _BodyState extends State<Body> {
                                             Flexible(
                                               child: AppointmentCard(
                                                 size: size.width,
-                                                height: 196,
+                                                height: 220,
                                                 guestPurpose:
                                                     appointment.purpose,
                                                 guestName:

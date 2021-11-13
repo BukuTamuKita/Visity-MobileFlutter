@@ -42,15 +42,6 @@ class AppointmentHistoryCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                        color: Colors.red, shape: BoxShape.circle),
-                  ),
-                  SizedBox(
-                    width: 16,
-                  ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
