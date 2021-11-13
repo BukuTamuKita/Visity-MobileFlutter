@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/model/appointment_model.dart';
@@ -25,9 +27,10 @@ class _BodyState extends State<Body> {
 
   @override
   void initState() {
-    _appointment = APIservice().getDataAppointment();
     _host = APIservice().getDataHost();
+    _appointment = APIservice().getDataAppointment();
     super.initState();
+    setUpTimedFetch();
   }
 
   @override
@@ -211,5 +214,13 @@ class _BodyState extends State<Body> {
         ),
       )),
     );
+  }
+
+  setUpTimedFetch() {
+    Timer.periodic(Duration(seconds: 5), (timer) {
+      setState(() {
+        _appointment = APIservice().getDataAppointment();
+      });
+    });
   }
 }

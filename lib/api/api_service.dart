@@ -65,7 +65,6 @@ class APIservice {
     final jsonData;
     DateTime _expirydate;
     int timeToken;
-    bool isLogin = false;
 
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
@@ -76,7 +75,6 @@ class APIservice {
         body: ({'email': email.text, 'password': password.text}),
       );
       if (response.statusCode == 200) {
-        isLogin = true;
         jsonData = json.decode(response.body);
 
         print("login = " + jsonData['token'].toString());
