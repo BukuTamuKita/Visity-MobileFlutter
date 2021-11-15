@@ -1,3 +1,4 @@
+import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/screens/history/HistoryScreen.dart';
 import 'package:bukutamu_android/screens/home/HomeScreen.dart';
@@ -6,19 +7,18 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class mainScreen extends StatefulWidget {
-  const mainScreen({Key? key}) : super(key: key);
+class MainScreen extends StatefulWidget {
+  const MainScreen({Key? key}) : super(key: key);
 
   @override
-  _mainScreenState createState() => _mainScreenState();
+  _MainScreenState createState() => _MainScreenState();
 }
 
-class _mainScreenState extends State<mainScreen> {
+class _MainScreenState extends State<MainScreen> {
   int currentIndex = 1;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     checkLoginStatus();
@@ -92,15 +92,17 @@ class _mainScreenState extends State<mainScreen> {
   checkLoginStatus() async {
     DateTime expirytimes;
     String expiredToken;
+    String? email;
 
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
 
     expiredToken = sharedPreferences.getString('expiredtoken')!;
     expirytimes = DateTime.parse(expiredToken);
-
+    email = sharedPreferences.getString('email');
     if (expirytimes.isBefore(DateTime.now())) {
       sharedPreferences.remove('token');
+      APIservice().deleteToken(email);
       Navigator.popAndPushNamed(context, '/login');
     }
   }

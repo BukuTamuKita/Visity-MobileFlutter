@@ -1,7 +1,12 @@
+import 'dart:async';
+
+import 'package:bukutamu_android/animation/ShimmerListCard.dart';
+import 'package:bukutamu_android/animation/ShimmerProfile.dart';
 import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/model/appointment_model.dart';
 import 'package:bukutamu_android/model/host_model.dart';
+import 'package:bukutamu_android/provider/appointment_provider.dart';
 import 'package:bukutamu_android/provider/information_provider.dart';
 import 'package:bukutamu_android/screens/mainScreen.dart';
 import 'package:bukutamu_android/widget/AppointmentCard.dart';
@@ -9,7 +14,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class Body extends StatefulWidget {
@@ -19,18 +23,22 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  late Future<Appointment> _appointment;
-  late Future<Host> _host;
+  bool isLoading = false;
+ Future<Appointment> _appointment = APIservice().getDataAppointment();
+  Future<Host> _host = APIservice().getDataHost();
   int appointmentCount = 0;
   //time = "2021-11-11T14:38:33.000000Z"
   Timestamp time = Timestamp.fromDate(DateTime.now());
 
-
   @override
   void initState() {
-    _appointment = APIservice().getDataAppointment();
-    _host = APIservice().getDataHost();
+    Future.delayed(const Duration(seconds: 10), () {
+      setState(() {
+        isLoading = true;
+      });
+    });
     super.initState();
+    setUpTimedFetch();
   }
 
   @override
@@ -44,7 +52,7 @@ class _BodyState extends State<Body> {
           Navigator.pushReplacement(
               context,
               PageRouteBuilder(
-                  pageBuilder: (a, b, c) => mainScreen(),
+                  pageBuilder: (a, b, c) => MainScreen(),
                   transitionDuration: Duration(seconds: 0)));
           return Future.value(false);
         },
@@ -67,7 +75,6 @@ class _BodyState extends State<Body> {
                                 sum.name = snapshot.data!.users.name;
                                 sum.photo = snapshot.data!.users.photo;
                               });
-
                               return Container(
                                   height: 50,
                                   child: Row(
@@ -100,7 +107,7 @@ class _BodyState extends State<Body> {
                                     ],
                                   ));
                             } else {
-                              return SizedBox();
+                              return ShimmerProfile();
                             }
                           }))),
                   SizedBox(height: 36),
@@ -115,10 +122,10 @@ class _BodyState extends State<Body> {
                               "Visitor",
                               style: mainSTextStyle2,
                             )),
-                        Consumer<InformationProvider>(
+                        Consumer<AppointmentProvider>(
                           builder: (context, sum, _) => Text(
                             "You have " +
-                                sum.count.toString() +
+                                sum.countHome.toString() +
                                 " visitors today",
                             style: mainSTextStyle3,
                           ),
@@ -137,12 +144,14 @@ class _BodyState extends State<Body> {
                           for (int i = 0; i < snapshot.data!.data.length; i++) {
                             if (snapshot.data!.data[i].status == 'waiting' &&
                                 DateTime.now()
-                                        .difference(snapshot.data!.data[i].createdAt)
-                                        .inDays == 0 ) {
+                                        .difference(
+                                            snapshot.data!.data[i].createdAt)
+                                        .inDays ==
+                                    0) {
                               appointmentCount++;
                             }
                           }
-                          return Consumer<InformationProvider>(
+                          return Consumer<AppointmentProvider>(
                               builder: (context, sum, _) => ListView.separated(
                                   controller: ScrollController(),
                                   separatorBuilder:
@@ -150,8 +159,10 @@ class _BodyState extends State<Body> {
                                     if (snapshot.data!.data[index].status ==
                                             "waiting" &&
                                         DateTime.now()
-                                        .difference(snapshot.data!.data[index].createdAt)
-                                        .inDays == 0 ) {
+                                                .difference(snapshot.data!
+                                                    .data[index].createdAt)
+                                                .inDays ==
+                                            0) {
                                       return SizedBox(
                                         height: 16,
                                       );
@@ -166,32 +177,25 @@ class _BodyState extends State<Body> {
                                         snapshot.data!.data[index];
                                     WidgetsBinding.instance!
                                         .addPostFrameCallback((_) {
-                                      sum.count = appointmentCount;
+                                      sum.countHome = appointmentCount;
                                     });
 
                                     if (appointment.status == "waiting" &&
                                         DateTime.now()
-                                                .difference(appointment.createdAt)
+                                                .difference(
+                                                    appointment.createdAt)
                                                 .inDays ==
                                             0) {
-                                      return Container(
-                                        child: Row(
-                                          children: <Widget>[
-                                            Flexible(
-                                              child: AppointmentCard(
-                                                size: size.width,
-                                                height: 220,
-                                                guestPurpose:
-                                                    appointment.purpose,
-                                                guestName:
-                                                    appointment.guest.name,
-                                                time: appointment.dateTime[1]
-                                                    .toString(),
-                                                id: appointment.id,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                      return Wrap(
+                                        children: [
+                                          AppointmentCard(
+                                            guestPurpose: appointment.purpose,
+                                            guestName: appointment.guest.name,
+                                            time: appointment.dateTime[1]
+                                                .toString(),
+                                            id: appointment.id,
+                                          ),
+                                        ],
                                       );
                                     } else {
                                       return SizedBox(
@@ -200,7 +204,7 @@ class _BodyState extends State<Body> {
                                     }
                                   }));
                         } else {
-                          return Center(child: CircularProgressIndicator());
+                          return Center(child: ShimmerList());
                         }
                       }),
                 ]),
@@ -208,5 +212,13 @@ class _BodyState extends State<Body> {
         ),
       )),
     );
+  }
+
+  setUpTimedFetch() {
+    Timer.periodic(Duration(seconds: 20), (timer) {
+      setState(() {
+        _appointment = APIservice().getDataAppointment();
+      });
+    });
   }
 }

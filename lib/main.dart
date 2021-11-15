@@ -30,7 +30,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     
   }
@@ -53,7 +52,7 @@ class _MyAppState extends State<MyApp> {
           routes: {
             '/onboard': (context) => WelcomePage(),
             '/login': (context) => LoginScreen(),
-            '/home': (context) => mainScreen(),
+            '/home': (context) => MainScreen(),
           }),
     );
   }

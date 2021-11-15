@@ -25,7 +25,7 @@ class _LoginButtonState extends State<LoginButton> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => mainScreen()
+                MaterialPageRoute(builder: (context) => MainScreen()
                 ),
               );
             },

@@ -3,35 +3,26 @@ import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/provider/appointment_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AppointmentCard extends StatelessWidget {
   TextEditingController _notesControler = TextEditingController();
   bool isAccepted = false;
-  late Future<void> _updateStatus;
 
   String? guestPurpose;
   String? guestName;
   String? time;
-  double? size;
-  double? height;
   int id;
 
   AppointmentCard(
       {required this.guestPurpose,
       required this.guestName,
-      required this.size,
-      required this.height,
       required this.time,
       required this.id});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: size,
-      height: height,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -45,7 +36,7 @@ class AppointmentCard extends StatelessWidget {
         ],
       ),
       child: Container(
-          padding: EdgeInsets.only(left: 24, right: 24, top: 16),
+          padding: EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 16),
           child: Column(
             children: [
               Row(
@@ -87,8 +78,6 @@ class AppointmentCard extends StatelessWidget {
                 children: [
                   Consumer<AppointmentProvider>(
                     builder: (context, appointment, _) => Container(
-                      width: 125,
-                      height: 32,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             primary: lightblueColor,
@@ -106,19 +95,36 @@ class AppointmentCard extends StatelessWidget {
                       ),
                     ),
                   ),
+                  SizedBox(
+                    width: 16,
+                  ),
                   Container(
-                    width: 125,
-                    height: 32,
-                    child: TextButton(
-                      child: Text(
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: Colors.white,
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)))),
+                        onPressed: () {
+                          isAccepted = false;
+                          showCustomDialog(context, isAccepted);
+                        },
+                        child: Text(
                         "DECLINE",
                         style: buttonMainStyle2,
+                        ),
                       ),
-                      onPressed: () {
-                        isAccepted = false;
-                        showCustomDialog(context, isAccepted);
-                      },
-                    ),
+                    // child: TextButton(
+                    //   child: Text(
+                    //     "DECLINE",
+                    //     style: buttonMainStyle2,
+                    //   ),
+                    //   onPressed: () {
+                    //     isAccepted = false;
+                    //     showCustomDialog(context, isAccepted);
+                    //   },
+                    // ),
                   )
                 ],
               ),
@@ -165,7 +171,7 @@ class AppointmentCard extends StatelessWidget {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          _updateStatus = APIservice().updateStatus(
+                          APIservice().updateStatus(
                               id, accepted, _notesControler, context);
                           Navigator.pushNamedAndRemoveUntil(
                             context,

@@ -1,6 +1,10 @@
+import 'dart:async';
+
+import 'package:bukutamu_android/animation/ShimmeringListHistoryCard.dart';
 import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/model/appointment_model.dart';
+import 'package:bukutamu_android/provider/appointment_provider.dart';
 import 'package:bukutamu_android/provider/information_provider.dart';
 import 'package:bukutamu_android/widget/AppointmentHistoryCard.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,18 +20,24 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  int appointmentCount = 0;
+  bool isLoading = false;
   late Future<Appointment> _appointment;
 
   @override
   void initState() {
+    Future.delayed(const Duration(seconds: 10), () {
+      setState(() {
+        isLoading = true;
+      });
+    });
     _appointment = APIservice().getDataAppointment();
     super.initState();
+    setUpTimedFetch();
   }
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     return ScreenUtilInit(
       builder: () => SafeArea(
         child: ListView(children: <Widget>[
@@ -86,55 +96,70 @@ class _BodyState extends State<Body> {
                     builder: (context, snapshot) {
                       print(snapshot.hasData.toString());
                       if (snapshot.hasData) {
-                        return ListView.separated(
-                          controller: ScrollController(),
-                          separatorBuilder: (BuildContext context, int index) {
-                            if (snapshot.data!.data[index].status !=
-                                    "waiting" &&
-                                DateTime.now()
-                                        .difference(snapshot.data!.data[index].createdAt)
-                                        .inDays == 0) {
-                              return SizedBox(
-                                height: 16,
-                              );
-                            } else {
-                              return SizedBox();
-                            }
-                          },
-                          shrinkWrap: true,
-                          itemCount: snapshot.data!.data.length,
-                          itemBuilder: (context, index) {
-                            var appointment = snapshot.data!.data[index];
-                            if (appointment.status != 'waiting' &&
-                                DateTime.now()
-                                        .difference(appointment.createdAt)
-                                        .inDays ==
-                                    0) {
-                              return Container(
-                                child: Row(
-                                  children: <Widget>[
-                                    Flexible(
-                                        child: AppointmentHistoryCard(
-                                      width: size.width,
-                                      guestPurpose: appointment.purpose,
-                                      guestName: appointment.guest.name,
-                                      status: appointment.status,
-                                      time: appointment.dateTime[1].toString(),
-                                      noted: appointment.notes,
-                                    )),
-                                  ],
-                                ),
-                              );
-                            } else {
-                              return SizedBox();
-                            }
-                          },
-                        );
+                        appointmentCount = 0;
+                        for (int i = 0; i < snapshot.data!.data.length; i++) {
+                          if (snapshot.data!.data[i].status != 'waiting' &&
+                              DateTime.now()
+                                      .difference(
+                                          snapshot.data!.data[i].createdAt)
+                                      .inDays ==
+                                  0) {
+                            appointmentCount++;
+                          }
+                        }
+                        return Consumer<AppointmentProvider>(
+                            builder: (context, sum, _) => ListView.separated(
+                                  controller: ScrollController(),
+                                  separatorBuilder:
+                                      (BuildContext context, int index) {
+                                    if (snapshot.data!.data[index].status !=
+                                            "waiting" &&
+                                        DateTime.now()
+                                                .difference(snapshot.data!
+                                                    .data[index].createdAt)
+                                                .inDays ==
+                                            0) {
+                                      return SizedBox(
+                                        height: 16,
+                                      );
+                                    } else {
+                                      return SizedBox();
+                                    }
+                                  },
+                                  shrinkWrap: true,
+                                  itemCount: snapshot.data!.data.length,
+                                  itemBuilder: (context, index) {
+                                    var appointment =
+                                        snapshot.data!.data[index];
+                                    WidgetsBinding.instance!
+                                        .addPostFrameCallback((_) {
+                                      sum.countHistory = appointmentCount;
+                                    });
+                                    if (appointment.status != 'waiting' &&
+                                        DateTime.now()
+                                                .difference(
+                                                    appointment.createdAt)
+                                                .inDays ==
+                                            0) {
+                                      return Wrap(
+                                        children: [
+                                          AppointmentHistoryCard(
+                                            guestPurpose: appointment.purpose,
+                                            guestName: appointment.guest.name,
+                                            status: appointment.status,
+                                            time: appointment.dateTime[1]
+                                                .toString(),
+                                            noted: appointment.notes,
+                                          )
+                                        ],
+                                      );
+                                    } else {
+                                      return SizedBox();
+                                    }
+                                  },
+                                ));
                       } else {
-                        return Center(
-                            child: Center(
-                          child: CircularProgressIndicator(),
-                        ));
+                        return Center(child: ShimmerListHistoryCard());
                       }
                     }),
               ],
@@ -143,5 +168,13 @@ class _BodyState extends State<Body> {
         ]),
       ),
     );
+  }
+
+  setUpTimedFetch() {
+    Timer.periodic(Duration(seconds: 5), (timer) {
+      setState(() {
+        _appointment = APIservice().getDataAppointment();
+      });
+    });
   }
 }

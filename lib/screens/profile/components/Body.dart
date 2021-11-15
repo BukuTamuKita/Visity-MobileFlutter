@@ -13,6 +13,7 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   late Future<Host> _host;
+  String? email;
 
   @override
   void initState() {
@@ -48,6 +49,7 @@ class _BodyState extends State<Body> {
                         future: _host,
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
+                            email = snapshot.data!.users.email;
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -118,8 +120,8 @@ class _BodyState extends State<Body> {
                                   height: 8,
                                 ),
                                 Text(
-                                  snapshot.data!.users.email,
-                                  style: profileTextStyle2,
+                                    snapshot.data!.users.email,
+                                    style: profileTextStyle2,
                                 ),
                                 Container(
                                   padding: EdgeInsets.all(8),
@@ -178,6 +180,7 @@ class _BodyState extends State<Body> {
 
   Future<void> logout() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    APIservice().deleteToken(email);
     await sharedPreferences.remove('token');
     Navigator.popAndPushNamed(context, '/login');
   }

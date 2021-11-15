@@ -15,4 +15,7 @@ const lightblueColor = Color.fromRGBO(125, 140, 240, 10);
 const greenColor = Color.fromRGBO(0, 115, 5, 1);
 const lightgreenColor = Color.fromRGBO(183, 247, 189, 1);
 const redlabelColor = Color.fromRGBO(197, 0, 0, 1);
+const blacklabelColor = Colors.black12;
+const greyLabelColor = Color.fromRGBO(68, 68, 68, 1);
+const greyLabelBackground = Color.fromRGBO(151, 151, 151, 1);
 const BackgroundColor = Color(0xFFFFFF);

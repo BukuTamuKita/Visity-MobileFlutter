@@ -6,24 +6,30 @@ class InformationProvider with ChangeNotifier {
       'https://png.pngitem.com/pimgs/s/10-109819_my-account-my-account-icon-transparent-hd-png.png';
   int _count = 0;
   String _position = 'null';
+  String _email = 'null';
 
-  set count(int value) {
+  set count (int value) {
     _count = value;
     notifyListeners();
   }
 
-  set name(String value) {
+  set name (String value) {
     _name = value;
     notifyListeners();
   }
 
-  set photo(String value) {
+  set photo (String value) {
     _photo = value;
     notifyListeners();
   }
 
-  set position(String value) {
+  set position (String value) {
     _position = value;
+    notifyListeners();
+  }
+
+  set email (String value) {
+    _email = value;
     notifyListeners();
   }
 
@@ -34,4 +40,6 @@ class InformationProvider with ChangeNotifier {
   int get count => _count;
 
   String get position => _position;
+
+  String get email => _email;
 }

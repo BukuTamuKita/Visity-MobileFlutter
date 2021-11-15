@@ -1,6 +1,3 @@
-import 'dart:async';
-import 'dart:convert';
-
 import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
@@ -9,10 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+
 
 String? finalEmail;
 
@@ -24,7 +18,6 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  late Future<void> _login;
 
   bool isHiddenPassword = true;
 
@@ -41,11 +34,11 @@ class _BodyState extends State<Body> {
       builder: () => Background(
         child: SingleChildScrollView(
             child: Container(
-          padding: EdgeInsets.only(
-              left: 16,
-              right: 16,
-              top: size.height / 9,
-              bottom: size.height / 7),
+              padding: EdgeInsets.only(
+                left: 16,
+                right: 16,
+                top: size.height / 9,
+                bottom: size.height / 7),
           height: size.height,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -152,7 +145,7 @@ class _BodyState extends State<Body> {
                 height: 40,
                 child: ElevatedButton(
                   onPressed: () {
-                    _login = APIservice()
+                    APIservice()
                         .login(emailController, passwordController, context);
                   },
                   style: ElevatedButton.styleFrom(
