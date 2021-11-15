@@ -91,9 +91,8 @@ class _BodyState extends State<Body> {
                           separatorBuilder: (BuildContext context, int index) {
                             if (snapshot.data!.data[index].status !=
                                     "waiting" &&
-                                DateTime.now()
-                                        .difference(snapshot.data!.data[index].createdAt)
-                                        .inDays == 0) {
+                                DateTime.now().day ==
+                                    snapshot.data!.data[index].createdAt.day) {
                               return SizedBox(
                                 height: 16,
                               );
@@ -106,10 +105,8 @@ class _BodyState extends State<Body> {
                           itemBuilder: (context, index) {
                             var appointment = snapshot.data!.data[index];
                             if (appointment.status != 'waiting' &&
-                                DateTime.now()
-                                        .difference(appointment.createdAt)
-                                        .inDays ==
-                                    0) {
+                                DateTime.now().day ==
+                                    snapshot.data!.data[index].createdAt.day) {
                               return Container(
                                 child: Row(
                                   children: <Widget>[

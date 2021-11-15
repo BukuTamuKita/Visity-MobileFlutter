@@ -31,6 +31,7 @@ class Background extends StatelessWidget {
                 child: Image.asset(
                   'assets/images/loginpage/LPBottomLeft.png',
                   height: size.height / 8,
+                  fit: BoxFit.cover,
                 ),
                 alignment: Alignment.bottomLeft,
               ),

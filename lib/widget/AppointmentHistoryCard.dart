@@ -66,9 +66,13 @@ class AppointmentHistoryCard extends StatelessWidget {
                         ? Align(
                             alignment: Alignment.centerRight,
                             child: acceptedLabel(context))
-                        : Align(
-                            alignment: Alignment.centerRight,
-                            child: declinedLabel(context)),
+                        : status == 'declined'
+                            ? Align(
+                                alignment: Alignment.centerRight,
+                                child: declinedLabel(context))
+                            : Align(
+                                alignment: Alignment.centerRight,
+                                child: cancelledLabel(context)),
                   ))
                 ],
               ),
@@ -144,6 +148,23 @@ class AppointmentHistoryCard extends StatelessWidget {
           child: Text(
             status!.toUpperCase(),
             style: statusTextStyle2,
+          ),
+        ));
+  }
+
+  Widget cancelledLabel(BuildContext context) {
+    return Container(
+        height: 23,
+        width: 84,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(1000)),
+          color: Colors.grey.shade400,
+        ),
+        child: Align(
+          alignment: Alignment.center,
+          child: Text(
+            status!.toUpperCase(),
+            style: statusTextStyle3,
           ),
         ));
   }

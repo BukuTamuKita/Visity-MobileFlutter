@@ -18,7 +18,6 @@ class _mainScreenState extends State<mainScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     checkLoginStatus();
@@ -79,7 +78,6 @@ class _mainScreenState extends State<mainScreen> {
                 selectedIndex: currentIndex,
                 onTabChange: (index) {
                   setState(() {
-                    checkLoginStatus();
                     currentIndex = index;
                   });
                 },
@@ -101,7 +99,7 @@ class _mainScreenState extends State<mainScreen> {
 
     if (expirytimes.isBefore(DateTime.now())) {
       sharedPreferences.remove('token');
-      Navigator.popAndPushNamed(context, '/login');
+      Navigator.pushReplacementNamed(context, '/login');
     }
   }
 }

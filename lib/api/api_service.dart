@@ -9,8 +9,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class APIservice {
-  String urlAppointment = "http://10.0.2.2:8000/api/appointments";
-  String urlHost = "http://10.0.2.2:8000/api/hosts";
+  final String baseUrl = "http://10.0.2.2:8000";
 
   Future<Appointment> getDataAppointment() async {
     var appointment;
@@ -21,7 +20,8 @@ class APIservice {
     print("home = " + loginToken.toString());
 
     try {
-      final response = await http.get(Uri.parse(urlAppointment), headers: {
+      final response =
+          await http.get(Uri.parse('$baseUrl/api/appointments'), headers: {
         'Authorization': 'Bearer $loginToken',
       });
       print(response.statusCode.toString());
@@ -47,7 +47,8 @@ class APIservice {
     final loginToken = sharedPreferences.getString('token');
 
     try {
-      final response = await http.get(Uri.parse(urlHost), headers: {
+      final response =
+          await http.get(Uri.parse('$baseUrl/api/hosts'), headers: {
         'Authorization': 'Bearer $loginToken',
       });
       print("response Host = " + response.statusCode.toString());
@@ -67,7 +68,6 @@ class APIservice {
     final jsonData;
     DateTime _expirydate;
     int timeToken;
-    bool isLogin = false;
     String? _deviceToken;
 
     final SharedPreferences sharedPreferences =
@@ -81,10 +81,13 @@ class APIservice {
       if (response.statusCode == 200) {
         jsonData = json.decode(response.body);
         print("login = " + jsonData['token'].toString());
+
         await Firebase.initializeApp();
         _deviceToken = await FirebaseMessaging.instance.getToken();
         updateToken(_deviceToken, email);
         print("device token = " + _deviceToken!);
+        sharedPreferences.setString('devicetoken', _deviceToken);
+
         sharedPreferences.setString("token", jsonData['token']);
         sharedPreferences.setInt("expiredtime", jsonData['expires_in']);
 
@@ -93,6 +96,7 @@ class APIservice {
 
         sharedPreferences.setString('expiredtoken', _expirydate.toString());
         print(_expirydate);
+
         Navigator.pushNamed(context, '/home');
       } else {
         ScaffoldMessenger.of(context)
@@ -102,23 +106,12 @@ class APIservice {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Blank Field Not Allowed")));
     }
-    return;
   }
 
   Future<void> updateToken(String? deviceToken, email) async {
-    SharedPreferences sharedPreferences;
-    sharedPreferences = await SharedPreferences.getInstance();
-    String token;
-
-    final String baseUrl = "http://10.0.2.2:8000";
-    token = sharedPreferences.getString('token')!;
     try {
-      final response = await http.post(
-          Uri.parse('$baseUrl/api/save-token'),
-          body: {
-            'email': email.text,
-            'token': deviceToken
-          });
+      final response = await http.post(Uri.parse('$baseUrl/api/save-token'),
+          body: {'email': email.text, 'token': deviceToken});
 
       if (response.statusCode == 200) {
         print('update berhasil');
@@ -137,12 +130,11 @@ class APIservice {
     String status, notes;
     String token;
 
-    final String baseUrl = "http://10.0.2.2:8000";
     token = sharedPreferences.getString('token')!;
 
     if (accepted == true) {
       status = "accepted";
-      notes= note.text.toString();
+      notes = note.text.toString();
     } else {
       status = "declined";
       notes = note.text.toString();

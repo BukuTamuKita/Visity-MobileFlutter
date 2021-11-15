@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
-
 import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
@@ -9,10 +7,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 
 String? finalEmail;
 
@@ -25,7 +19,6 @@ class _BodyState extends State<Body> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   late Future<void> _login;
-
   bool isHiddenPassword = true;
 
   @override
@@ -123,17 +116,16 @@ class _BodyState extends State<Body> {
                           topLeft: const Radius.circular(4.0),
                           topRight: const Radius.circular(4.0),
                         )),
-                        suffixIcon: InkWell(
-                          onTap: togglePasswordView,
-                          child: isHiddenPassword
-                              ? Icon(
-                                  Icons.visibility,
-                                  color: MainColor,
-                                )
-                              : Icon(
-                                  Icons.visibility_off,
-                                  color: MainColor,
-                                ),
+                        suffixIcon: IconButton(
+                          icon: Icon(isHiddenPassword
+                              ? Icons.visibility
+                              : Icons.visibility_off),
+                          color: MainColor,
+                          onPressed: () {
+                            setState(() {
+                              isHiddenPassword = !isHiddenPassword;
+                            });
+                          },
                         )),
                   ),
                   Align(
@@ -172,11 +164,5 @@ class _BodyState extends State<Body> {
         )),
       ),
     );
-  }
-
-  void togglePasswordView() {
-    setState(() {
-      isHiddenPassword = !isHiddenPassword;
-    });
   }
 }

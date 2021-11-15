@@ -64,10 +64,12 @@ var profileTextStyle3 = GoogleFonts.inter(
 
 var statusTextStyle1 = GoogleFonts.inter(
     fontWeight: FontWeight.w900, color: greenColor, fontSize: 10);
-var purposeTextStyle = GoogleFonts.inter(
-    fontWeight: FontWeight.w500, color: MainColor, fontSize: 14);
 var statusTextStyle2 = GoogleFonts.inter(
     fontWeight: FontWeight.w900, color: redlabelColor, fontSize: 10);
+var statusTextStyle3 = GoogleFonts.inter(
+    fontWeight: FontWeight.w900, color: textColor3, fontSize: 10);
+var purposeTextStyle = GoogleFonts.inter(
+    fontWeight: FontWeight.w500, color: MainColor, fontSize: 14);
 var nameTextStyle = GoogleFonts.inter(
     fontWeight: FontWeight.w500, color: MainColor, fontSize: 14);
 var timeTextStyle = GoogleFonts.inter(
