@@ -86,7 +86,7 @@ class APIservice {
         print("device token = " + _deviceToken!);
         sharedPreferences.setString("token", jsonData['token']);
         sharedPreferences.setInt("expiredtime", jsonData['expires_in']);
-        sharedPreferences.setString("email", jsonData['email']);
+        // sharedPreferences.setString("email", jsonData['email']);
 
         timeToken = sharedPreferences.getInt('expiredtime')!;
         _expirydate = DateTime.now().add(Duration(seconds: timeToken));

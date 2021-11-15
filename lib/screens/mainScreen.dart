@@ -99,7 +99,7 @@ class _MainScreenState extends State<MainScreen> {
 
     expiredToken = sharedPreferences.getString('expiredtoken')!;
     expirytimes = DateTime.parse(expiredToken);
-    email = sharedPreferences.getString('email');
+    // email = sharedPreferences.getString('email');
     if (expirytimes.isBefore(DateTime.now())) {
       sharedPreferences.remove('token');
       APIservice().deleteToken(email);
