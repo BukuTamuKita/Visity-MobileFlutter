@@ -74,6 +74,7 @@ class _BodyState extends State<Body> {
                                   .addPostFrameCallback((_) {
                                 sum.name = snapshot.data!.users.name;
                                 sum.photo = snapshot.data!.users.photo;
+                                print(sum.photo.toString());
                               });
                               return Container(
                                   height: 50,
