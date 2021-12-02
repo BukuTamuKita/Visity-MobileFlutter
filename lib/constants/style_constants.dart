@@ -59,6 +59,8 @@ var profileTextStyle2 = GoogleFonts.inter(
     fontWeight: FontWeight.w500, color: MainColor, fontSize: 16);
 var profileTextStyle3 = GoogleFonts.inter(
     fontWeight: FontWeight.w300, color: MainColor, fontSize: 14);
+var EditTextStyle = GoogleFonts.inter(
+    fontWeight: FontWeight.w500, color: blueColor, fontSize: 16);
 
 //Historyscreen
 

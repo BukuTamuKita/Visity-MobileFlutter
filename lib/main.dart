@@ -3,12 +3,12 @@ import 'package:bukutamu_android/provider/appointment_provider.dart';
 import 'package:bukutamu_android/provider/information_provider.dart';
 import 'package:bukutamu_android/screens/login/LoginScreen.dart';
 import 'package:bukutamu_android/screens/mainScreen.dart';
+import 'package:bukutamu_android/screens/profile/ProfileScreen.dart';
 import 'package:bukutamu_android/screens/welcomepage/WelcomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 
 int initScreen;
 String token;
@@ -31,7 +31,6 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    
   }
 
   @override
@@ -52,7 +51,8 @@ class _MyAppState extends State<MyApp> {
           routes: {
             '/onboard': (context) => WelcomePage(),
             '/login': (context) => LoginScreen(),
-            '/home': (context) => mainScreen(),
+            '/home': (context) => MainScreen(),
+            '/profile': (context) => ProfileScreen(),
           }),
     );
   }

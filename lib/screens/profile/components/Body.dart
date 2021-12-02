@@ -1,4 +1,8 @@
+import 'dart:async';
+
+import 'package:bouncing_widget/bouncing_widget.dart';
 import 'package:bukutamu_android/api/api_service.dart';
+import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/model/host_model.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +17,8 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   late Future<Host> _host;
+  late String email;
+  TextEditingController _newemailController = TextEditingController();
 
   @override
   void initState() {
@@ -48,6 +54,7 @@ class _BodyState extends State<Body> {
                         future: _host,
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
+                            email = snapshot.data!.users.email;
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -117,9 +124,47 @@ class _BodyState extends State<Body> {
                                 SizedBox(
                                   height: 8,
                                 ),
-                                Text(
-                                  snapshot.data!.users.email,
-                                  style: profileTextStyle2,
+                                Container(
+                                  width: size.width,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        snapshot.data!.users.email,
+                                        style: profileTextStyle2,
+                                      ),
+                                      BouncingWidget(
+                                        duration: Duration(milliseconds: 150),
+                                        scaleFactor: 1.5,
+                                        onPressed: () {
+                                          Timer(Duration(milliseconds: 300),
+                                              () {
+                                            newEmailDialog(
+                                                context,
+                                                snapshot.data!.users.id
+                                                    .toString());
+                                          });
+                                        },
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              'Edit',
+                                              style: EditTextStyle,
+                                            ),
+                                            SizedBox(
+                                              width: 4,
+                                            ),
+                                            Icon(
+                                              Icons.edit,
+                                              color: blueColor,
+                                              size: 20,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                                 Container(
                                   padding: EdgeInsets.all(8),
@@ -181,4 +226,81 @@ class _BodyState extends State<Body> {
     await sharedPreferences.remove('token');
     Navigator.popAndPushNamed(context, '/login');
   }
+
+  void newEmailDialog(BuildContext context, String id) => showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => Dialog(
+            backgroundColor: Color.fromRGBO(228, 227, 227, 1),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  top: 24, left: 16, right: 16, bottom: 16),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text('New Email', style: mainSTextStyle4),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  TextFormField(
+                      controller: _newemailController,
+                      decoration: InputDecoration(
+                          fillColor: WhiteColor,
+                          filled: true,
+                          hintText: 'Input New Email',
+                          contentPadding: EdgeInsets.all(8),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ))),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          print(id + " " + _newemailController.text);
+                          APIservice()
+                              .updateEmail(_newemailController.text, id);
+                          setState(() {
+                            _host = APIservice().getDataHost();
+                          });
+                          Navigator.pop(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: lightblueColor,
+                          minimumSize: Size(91, 34),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          elevation: 3,
+                          shadowColor: Color.fromRGBO(0, 0, 0, 1),
+                        ),
+                        child: Text(
+                          'Save',
+                          style: buttonMainStyle3,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 16,
+                      ),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                            'Cancel',
+                            style: buttonMainStyle4,
+                          ))
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ));
 }

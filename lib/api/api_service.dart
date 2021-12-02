@@ -9,7 +9,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class APIservice {
-  final String baseUrl = "http://10.0.2.2:8000";
+  final String baseUrl = "https://api.visity.me";
 
   Future<Appointment> getDataAppointment() async {
     var appointment;
@@ -17,7 +17,6 @@ class APIservice {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     final loginToken = sharedPreferences.getString('token');
-    print("home = " + loginToken.toString());
 
     try {
       final response =
@@ -27,7 +26,6 @@ class APIservice {
       print(response.statusCode.toString());
 
       if (response.statusCode == 200) {
-        print(response.body);
         final jsonString = response.body;
         final jsonMap = json.decode(jsonString);
 
@@ -51,11 +49,8 @@ class APIservice {
           await http.get(Uri.parse('$baseUrl/api/hosts'), headers: {
         'Authorization': 'Bearer $loginToken',
       });
-      print("response Host = " + response.statusCode.toString());
 
       if (response.statusCode == 200) {
-        print(response.body);
-
         return Host.fromJson(jsonDecode(response.body)['data']);
       } else {}
     } catch (e) {
@@ -64,7 +59,7 @@ class APIservice {
     return host;
   }
 
-  Future<void> login(email, password, context) async {
+  Future<bool> login(email, password, context, isLoading) async {
     final jsonData;
     DateTime _expirydate;
     int timeToken;
@@ -75,36 +70,36 @@ class APIservice {
 
     if (email.text.isNotEmpty && password.text.isNotEmpty) {
       final response = await http.post(
-        Uri.parse("http://10.0.2.2:8000/api/auth/loginHost"),
+        Uri.parse("$baseUrl/api/auth/loginHost"),
         body: ({'email': email.text, 'password': password.text}),
       );
       if (response.statusCode == 200) {
         jsonData = json.decode(response.body);
-        print("login = " + jsonData['token'].toString());
 
         await Firebase.initializeApp();
         _deviceToken = await FirebaseMessaging.instance.getToken();
         updateToken(_deviceToken, email);
-        print("device token = " + _deviceToken!);
-        sharedPreferences.setString('devicetoken', _deviceToken);
 
         sharedPreferences.setString("token", jsonData['token']);
         sharedPreferences.setInt("expiredtime", jsonData['expires_in']);
 
         timeToken = sharedPreferences.getInt('expiredtime')!;
+        print(timeToken);
         _expirydate = DateTime.now().add(Duration(seconds: timeToken));
 
         sharedPreferences.setString('expiredtoken', _expirydate.toString());
         print(_expirydate);
 
-        Navigator.pushNamed(context, '/home');
+        return true;
       } else {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text("Invalid Credentials")));
+        return false;
       }
     } else {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Blank Field Not Allowed")));
+      return false;
     }
   }
 
@@ -112,6 +107,58 @@ class APIservice {
     try {
       final response = await http.post(Uri.parse('$baseUrl/api/save-token'),
           body: {'email': email.text, 'token': deviceToken});
+
+      if (response.statusCode == 200) {
+        print('update berhasil');
+      } else {
+        print('update gagal');
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<void> sendEmail(id) async {
+    SharedPreferences sharedPreferences;
+    sharedPreferences = await SharedPreferences.getInstance();
+
+    String token;
+
+    token = sharedPreferences.getString('token')!;
+
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/api/utils/send_email/' + id.toString()),
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        print('update berhasil');
+      } else {
+        print('update gagal');
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<void> updateEmail(email, id) async {
+    SharedPreferences sharedPreferences;
+    sharedPreferences = await SharedPreferences.getInstance();
+
+    String token;
+
+    token = sharedPreferences.getString('token')!;
+
+    try {
+      final response =
+          await http.put(Uri.parse('$baseUrl/api/users/' + id), headers: {
+        'Authorization': 'Bearer $token',
+      }, body: {
+        'email': email,
+      });
 
       if (response.statusCode == 200) {
         print('update berhasil');

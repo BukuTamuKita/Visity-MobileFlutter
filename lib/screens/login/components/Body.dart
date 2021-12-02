@@ -1,4 +1,6 @@
 import 'dart:async';
+
+import 'package:bouncing_widget/bouncing_widget.dart';
 import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
@@ -18,8 +20,9 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  late Future<void> _login;
+
   bool isHiddenPassword = true;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -138,27 +141,57 @@ class _BodyState extends State<Body> {
                           ))),
                 ],
               )),
-              Container(
-                width: size.width,
-                padding: EdgeInsets.only(right: 20, left: 20),
-                height: 40,
-                child: ElevatedButton(
-                  onPressed: () {
-                    _login = APIservice()
-                        .login(emailController, passwordController, context);
-                  },
-                  style: ElevatedButton.styleFrom(
-                      primary: Color.fromRGBO(46, 77, 167, 10),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.r)),
-                      elevation: 3,
-                      shadowColor: Color.fromRGBO(0, 0, 0, 1)),
-                  child: Text(
-                    "LOGIN",
-                    style: lPTextStyle4,
-                  ),
-                ),
-              )
+              BouncingWidget(
+                duration: Duration(milliseconds: 150),
+                scaleFactor: 1.5,
+                onPressed: () async {
+                  isLoading = await APIservice().login(
+                      emailController, passwordController, context, isLoading);
+
+                  isLoading
+                      ? Timer(Duration(seconds: 0), () {
+                          setState(() {
+                            isLoading = true;
+                          });
+                          Timer(Duration(seconds: 2), () {
+                            Navigator.pushReplacementNamed(context, '/home');
+                          });
+                        })
+                      : SizedBox();
+                },
+                child: Container(
+                    height: 40,
+                    width: size.width,
+                    margin: EdgeInsets.only(right: 20, left: 20),
+                    decoration: BoxDecoration(
+                        color: Color.fromRGBO(46, 77, 167, 10),
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Align(
+                      alignment: AlignmentDirectional.center,
+                      child: isLoading
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ),
+                                  width: 20,
+                                  height: 20,
+                                ),
+                                SizedBox(width: 16),
+                                Text(
+                                  'Please  Wait...',
+                                  style: lPTextStyle4,
+                                )
+                              ],
+                            )
+                          : Text(
+                              "LOGIN",
+                              style: lPTextStyle4,
+                            ),
+                    )),
+              ),
             ],
           ),
         )),

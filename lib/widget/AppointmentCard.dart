@@ -1,35 +1,39 @@
+import 'dart:async';
+
 import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/provider/appointment_provider.dart';
+import 'package:bukutamu_android/screens/home/HomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class AppointmentCard extends StatelessWidget {
-  TextEditingController _notesControler = TextEditingController();
-  bool isAccepted = false;
-  late Future<void> _updateStatus;
-
+class AppointmentCard extends StatefulWidget {
   String? guestPurpose;
   String? guestName;
-  String? time;
-  double? size;
-  double? height;
+  String? hour;
+  String? minutes;
   int id;
 
   AppointmentCard(
       {required this.guestPurpose,
       required this.guestName,
-      required this.size,
-      required this.height,
-      required this.time,
+      required this.hour,
+      required this.minutes,
       required this.id});
+
+  @override
+  State<AppointmentCard> createState() => _AppointmentCardState();
+}
+
+class _AppointmentCardState extends State<AppointmentCard> {
+  TextEditingController _notesControler = TextEditingController();
+
+  bool isAccepted = false;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: size,
-      height: height,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -43,7 +47,7 @@ class AppointmentCard extends StatelessWidget {
         ],
       ),
       child: Container(
-          padding: EdgeInsets.only(left: 24, right: 24, top: 16),
+          padding: EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 16),
           child: Column(
             children: [
               Row(
@@ -53,16 +57,21 @@ class AppointmentCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        guestName!,
+                        widget.guestName!,
                         style: mainSTextStyle4,
                       ),
                       SizedBox(
                         height: 8,
                       ),
-                      Text(
-                        time!,
-                        style: mainSTextStyle5,
-                      )
+                      widget.hour == '0'
+                          ? Text(
+                              widget.minutes! + ' minutes ago',
+                              style: mainSTextStyle5,
+                            )
+                          : Text(
+                              widget.hour! + ' hours ago',
+                              style: mainSTextStyle5,
+                            )
                     ],
                   ),
                 ],
@@ -73,7 +82,7 @@ class AppointmentCard extends StatelessWidget {
               Align(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  guestPurpose!,
+                  widget.guestPurpose!,
                   maxLines: 2,
                 ),
               ),
@@ -117,7 +126,7 @@ class AppointmentCard extends StatelessWidget {
                         showCustomDialog(context, isAccepted);
                       },
                     ),
-                  )
+                  ),
                 ],
               ),
             ],
@@ -163,13 +172,11 @@ class AppointmentCard extends StatelessWidget {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          _updateStatus = APIservice().updateStatus(
-                              id, accepted, _notesControler, context);
-                          Navigator.pushNamedAndRemoveUntil(
-                            context,
-                            '/home',
-                            (Route<dynamic> route) => false,
-                          );
+                          APIservice().updateStatus(
+                              widget.id, accepted, _notesControler, context);
+                          APIservice().sendEmail(widget.id);
+
+                          Navigator.pop(context);
                         },
                         style: ElevatedButton.styleFrom(
                           primary: lightblueColor,

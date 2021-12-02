@@ -9,6 +9,7 @@ import 'package:bukutamu_android/widget/AppointmentCard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class Body extends StatefulWidget {
@@ -21,6 +22,9 @@ class _BodyState extends State<Body> {
   late Future<Appointment> _appointment;
   late Future<Host> _host;
   int appointmentCount = 0;
+  late String hour;
+  late String minutes;
+  bool isFirst = true;
 
   @override
   void initState() {
@@ -63,7 +67,7 @@ class _BodyState extends State<Body> {
                                     Consumer<InformationProvider>(
                                         builder: (context, sum, _) => ClipRRect(
                                               borderRadius:
-                                                  BorderRadius.circular(10),
+                                                  BorderRadius.circular(30),
                                               child: Image.network(
                                                 sum.photo,
                                                 height: 36,
@@ -103,7 +107,7 @@ class _BodyState extends State<Body> {
                       Consumer<InformationProvider>(
                         builder: (context, sum, _) => Text(
                           "You have " +
-                              sum.count.toString() +
+                              (sum.count == 0 ? 'no' : sum.count.toString()) +
                               " visitors today",
                           style: mainSTextStyle3,
                         ),
@@ -119,67 +123,104 @@ class _BodyState extends State<Body> {
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         appointmentCount = 0;
+
                         for (int i = 0; i < snapshot.data!.data.length; i++) {
                           if (snapshot.data!.data[i].status == 'waiting' &&
-                             DateTime.now().day ==
-                                          snapshot.data!.data[i].createdAt
-                                              .day) {
+                              DateTime.now().day.toString() ==
+                                  DateFormat('dd MMM yyyy')
+                                      .parse(snapshot.data!.data[i].dateTime[0]
+                                          .toString())
+                                      .day
+                                      .toString()) {
                             appointmentCount++;
                           }
                         }
-                        return Consumer<InformationProvider>(
-                            builder: (context, sum, _) => ListView.separated(
-                                controller: ScrollController(),
-                                separatorBuilder:
-                                    (BuildContext context, int index) {
-                                  if (snapshot.data!.data[index].status ==
-                                          "waiting" &&
-                                      DateTime.now().day ==
-                                          snapshot.data!.data[index].createdAt
-                                              .day) {
-                                    return SizedBox(
-                                      height: 16,
-                                    );
-                                  } else {
-                                    return SizedBox();
-                                  }
-                                },
-                                shrinkWrap: true,
-                                itemCount: snapshot.data!.data.length,
-                                itemBuilder: (context, index) {
-                                  var appointment = snapshot.data!.data[index];
-                                  WidgetsBinding.instance!
-                                      .addPostFrameCallback((_) {
-                                    sum.count = appointmentCount;
-                                  });
 
-                                  if (appointment.status == "waiting" &&
-                                      DateTime.now().day ==
-                                          snapshot.data!.data[index].createdAt
-                                              .day) {
-                                    return Container(
-                                      child: Row(
+                        if (appointmentCount == 0) {
+                          return Container(
+                              height: size.height / 1.8,
+                              alignment: Alignment.center,
+                              child: Image(
+                                image: AssetImage(
+                                    'assets/images/mainpage/empty_appointment.png'),
+                                fit: BoxFit.cover,
+                              ));
+                        } else {
+                          return Consumer<InformationProvider>(
+                              builder: (context, sum, _) => ListView.separated(
+                                  controller: ScrollController(),
+                                  separatorBuilder:
+                                      (BuildContext context, int index) {
+                                    if (snapshot.data!.data[index].status ==
+                                            "waiting" &&
+                                        DateTime.now().day.toString() ==
+                                            DateFormat('dd MMM yyyy')
+                                                .parse(snapshot.data!
+                                                    .data[index].dateTime[0]
+                                                    .toString())
+                                                .day
+                                                .toString()) {
+                                      return SizedBox(
+                                        height: 16,
+                                      );
+                                    } else {
+                                      return SizedBox();
+                                    }
+                                  },
+                                  shrinkWrap: true,
+                                  itemCount: snapshot.data!.data.length,
+                                  itemBuilder: (context, index) {
+                                    var appointment =
+                                        snapshot.data!.data[index];
+                                    WidgetsBinding.instance!
+                                        .addPostFrameCallback((_) {
+                                      sum.count = appointmentCount;
+                                    });
+
+                                    if (appointment.status == "waiting" &&
+                                        DateTime.now().day.toString() ==
+                                            DateFormat('dd MMM yyyy')
+                                                .parse(snapshot.data!
+                                                    .data[index].dateTime[0]
+                                                    .toString())
+                                                .day
+                                                .toString()) {
+                                      hour = (DateTime.now().hour.toInt() -
+                                              DateFormat('HH:mm:ss')
+                                                  .parse(snapshot.data!
+                                                      .data[index].dateTime[1]
+                                                      .toString())
+                                                  .hour
+                                                  .toInt())
+                                          .toString();
+
+                                      minutes = (DateTime.now().minute.toInt() -
+                                              DateFormat('HH:mm:ss')
+                                                  .parse(snapshot.data!
+                                                      .data[index].dateTime[1]
+                                                      .toString())
+                                                  .minute
+                                                  .toInt())
+                                          .toString();
+
+                                      return Wrap(
                                         children: <Widget>[
-                                          Flexible(
-                                            child: AppointmentCard(
-                                              size: size.width,
-                                              height: 196,
-                                              guestPurpose: appointment.purpose,
-                                              guestName: appointment.guest.name,
-                                              time: appointment.dateTime[1]
-                                                  .toString(),
-                                              id: appointment.id,
-                                            ),
+                                          AppointmentCard(
+                                            guestPurpose: appointment.purpose,
+                                            guestName: appointment.guest.name,
+                                            hour: hour,
+                                            minutes: minutes,
+                                            id: appointment.id,
                                           ),
                                         ],
-                                      ),
-                                    );
-                                  } else {
-                                    return SizedBox();
-                                  }
-                                }));
+                                      );
+                                    } else {
+                                      return SizedBox();
+                                    }
+                                  }));
+                        }
                       } else {
-                        return Center(child: CircularProgressIndicator());
+                        return CircularProgressIndicator();
                       }
                     }),
               ]),
@@ -189,7 +230,7 @@ class _BodyState extends State<Body> {
   }
 
   setUpTimedFetch() {
-    Timer.periodic(Duration(seconds: 5), (timer) {
+    Timer.periodic(Duration(seconds: 2), (timer) {
       setState(() {
         _appointment = APIservice().getDataAppointment();
       });

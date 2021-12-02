@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class Body extends StatefulWidget {
@@ -17,6 +18,7 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   late Future<Appointment> _appointment;
+  int historycount = 0;
 
   @override
   void initState() {
@@ -47,7 +49,7 @@ class _BodyState extends State<Body> {
                       children: [
                         Consumer<InformationProvider>(
                             builder: (context, sum, _) => ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(30),
                                   child: Image.network(
                                     sum.photo,
                                     height: 36,
@@ -86,47 +88,82 @@ class _BodyState extends State<Body> {
                     builder: (context, snapshot) {
                       print(snapshot.hasData.toString());
                       if (snapshot.hasData) {
-                        return ListView.separated(
-                          controller: ScrollController(),
-                          separatorBuilder: (BuildContext context, int index) {
-                            if (snapshot.data!.data[index].status !=
-                                    "waiting" &&
-                                DateTime.now().day ==
-                                    snapshot.data!.data[index].createdAt.day) {
-                              return SizedBox(
-                                height: 16,
-                              );
-                            } else {
-                              return SizedBox();
-                            }
-                          },
-                          shrinkWrap: true,
-                          itemCount: snapshot.data!.data.length,
-                          itemBuilder: (context, index) {
-                            var appointment = snapshot.data!.data[index];
-                            if (appointment.status != 'waiting' &&
-                                DateTime.now().day ==
-                                    snapshot.data!.data[index].createdAt.day) {
-                              return Container(
-                                child: Row(
+                        historycount = 0;
+
+                        for (int i = 0; i < snapshot.data!.data.length; i++) {
+                          if (snapshot.data!.data[i].status == 'waiting' &&
+                              DateTime.now().day.toString() ==
+                                  DateFormat('dd MMM yyyy')
+                                      .parse(snapshot.data!.data[i].dateTime[0]
+                                          .toString())
+                                      .day
+                                      .toString()) {
+                            historycount++;
+                          }
+                        }
+
+                        if (historycount == 0) {
+                          return Container(
+                              height: size.height / 1.8,
+                              alignment: Alignment.center,
+                              child: Image(
+                                image: AssetImage(
+                                    'assets/images/historypage/empty_history.png'),
+                                fit: BoxFit.cover,
+                              ));
+                        } else {
+                          return ListView.separated(
+                            controller: ScrollController(),
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              if (snapshot.data!.data[index].status !=
+                                      "waiting" &&
+                                  DateTime.now().day.toString() ==
+                                      DateFormat('dd MMM yyyy')
+                                          .parse(snapshot
+                                              .data!.data[index].dateTime[0]
+                                              .toString())
+                                          .day
+                                          .toString()) {
+                                return SizedBox(
+                                  height: 16,
+                                );
+                              } else {
+                                return SizedBox();
+                              }
+                            },
+                            shrinkWrap: true,
+                            itemCount: snapshot.data!.data.length,
+                            itemBuilder: (context, index) {
+                              var appointment = snapshot.data!.data[index];
+                              if (appointment.status != 'waiting' &&
+                                  DateTime.now().day.toString() ==
+                                      DateFormat('dd MMM yyyy')
+                                          .parse(snapshot
+                                              .data!.data[index].dateTime[0]
+                                              .toString())
+                                          .day
+                                          .toString()) {
+                                return Wrap(
                                   children: <Widget>[
-                                    Flexible(
-                                        child: AppointmentHistoryCard(
-                                      width: size.width,
+                                    AppointmentHistoryCard(
                                       guestPurpose: appointment.purpose,
                                       guestName: appointment.guest.name,
                                       status: appointment.status,
-                                      time: appointment.dateTime[1].toString(),
+                                      time: DateFormat('HH:mm:ss')
+                                          .parse(appointment.dateTime[1])
+                                          .hour
+                                          .toString(),
                                       noted: appointment.notes,
-                                    )),
+                                    )
                                   ],
-                                ),
-                              );
-                            } else {
-                              return SizedBox();
-                            }
-                          },
-                        );
+                                );
+                              } else {
+                                return SizedBox();
+                              }
+                            },
+                          );
+                        }
                       } else {
                         return Center(
                             child: Center(
