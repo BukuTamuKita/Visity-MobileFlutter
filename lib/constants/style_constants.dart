@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 //homepage text
 var hTextStyle1 = GoogleFonts.inter(
     fontWeight: FontWeight.w600, color: TextColor1, fontSize: 26);
-var hTextStyle2 = GoogleFonts.nunito(
+var hTextStyle2 = GoogleFonts.inter(
     fontWeight: FontWeight.w500, color: TextColor1, fontSize: 24);
 var hTextStyle3 = GoogleFonts.inter(
     fontWeight: FontWeight.w300, color: TextColor1, fontSize: 18);
@@ -24,9 +24,9 @@ var lPTextStyle5 = GoogleFonts.inter(
     fontWeight: FontWeight.w500, color: textColor1, fontSize: 12);
 
 //signup text
-var sUTextStyle1 = GoogleFonts.nunito(
+var sUTextStyle1 = GoogleFonts.inter(
     fontWeight: FontWeight.w900, color: TextColor1, fontSize: 32);
-var sUTextStyle2 = GoogleFonts.nunito(
+var sUTextStyle2 = GoogleFonts.inter(
     fontWeight: FontWeight.w600, color: TextColor1, fontSize: 14);
 
 //mainscreen

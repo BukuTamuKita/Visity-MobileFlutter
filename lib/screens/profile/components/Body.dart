@@ -223,6 +223,7 @@ class _BodyState extends State<Body> {
 
   Future<void> logout() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    // APIservice().deleteToken(email);
     await sharedPreferences.remove('token');
     Navigator.popAndPushNamed(context, '/login');
   }

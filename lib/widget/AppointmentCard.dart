@@ -94,8 +94,6 @@ class _AppointmentCardState extends State<AppointmentCard> {
                 children: [
                   Consumer<AppointmentProvider>(
                     builder: (context, appointment, _) => Container(
-                      width: 125,
-                      height: 32,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             primary: lightblueColor,
@@ -113,20 +111,29 @@ class _AppointmentCardState extends State<AppointmentCard> {
                       ),
                     ),
                   ),
+                  SizedBox(
+                    width: 16,
+                  ),
                   Container(
-                    width: 125,
-                    height: 32,
-                    child: TextButton(
-                      child: Text(
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: Colors.white,
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)))),
+                        onPressed: () {
+                          isAccepted = false;
+                          showCustomDialog(context, isAccepted);
+                        },
+                        child: Text(
                         "DECLINE",
                         style: buttonMainStyle2,
+                        ),
                       ),
-                      onPressed: () {
-                        isAccepted = false;
-                        showCustomDialog(context, isAccepted);
-                      },
+                      
                     ),
-                  ),
+                
                 ],
               ),
             ],

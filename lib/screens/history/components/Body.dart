@@ -1,6 +1,10 @@
+import 'dart:async';
+
+import 'package:bukutamu_android/animation/ShimmeringListHistoryCard.dart';
 import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/model/appointment_model.dart';
+import 'package:bukutamu_android/provider/appointment_provider.dart';
 import 'package:bukutamu_android/provider/information_provider.dart';
 import 'package:bukutamu_android/widget/AppointmentHistoryCard.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,19 +21,26 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  int appointmentCount = 0;
+  bool isLoading = false;
   late Future<Appointment> _appointment;
   int historycount = 0;
 
   @override
   void initState() {
+    Future.delayed(const Duration(seconds: 10), () {
+      setState(() {
+        isLoading = true;
+      });
+    });
     _appointment = APIservice().getDataAppointment();
     super.initState();
+    setUpTimedFetch();
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
     return ScreenUtilInit(
       builder: () => SafeArea(
         child: ListView(children: <Widget>[
@@ -165,10 +176,7 @@ class _BodyState extends State<Body> {
                           );
                         }
                       } else {
-                        return Center(
-                            child: Center(
-                          child: CircularProgressIndicator(),
-                        ));
+                        return Center(child: ShimmerListHistoryCard());
                       }
                     }),
               ],
@@ -177,5 +185,13 @@ class _BodyState extends State<Body> {
         ]),
       ),
     );
+  }
+
+  setUpTimedFetch() {
+    Timer.periodic(Duration(seconds: 5), (timer) {
+      setState(() {
+        _appointment = APIservice().getDataAppointment();
+      });
+    });
   }
 }

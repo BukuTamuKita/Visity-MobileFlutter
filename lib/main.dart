@@ -3,8 +3,8 @@ import 'package:bukutamu_android/provider/appointment_provider.dart';
 import 'package:bukutamu_android/provider/information_provider.dart';
 import 'package:bukutamu_android/screens/login/LoginScreen.dart';
 import 'package:bukutamu_android/screens/mainScreen.dart';
+import 'package:bukutamu_android/screens/onBoarding/onBoardingScreen.dart';
 import 'package:bukutamu_android/screens/profile/ProfileScreen.dart';
-import 'package:bukutamu_android/screens/welcomepage/WelcomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -13,7 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 int initScreen;
 String token;
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();  
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   token = sharedPreferences.getString('token');
   initScreen = sharedPreferences.getInt('initScreen');
@@ -49,7 +49,7 @@ class _MyAppState extends State<MyApp> {
                   ? '/login'
                   : '/home',
           routes: {
-            '/onboard': (context) => WelcomePage(),
+            '/onboard': (context) => OnBoarding(),
             '/login': (context) => LoginScreen(),
             '/home': (context) => MainScreen(),
             '/profile': (context) => ProfileScreen(),

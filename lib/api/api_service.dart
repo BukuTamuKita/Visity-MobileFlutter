@@ -82,6 +82,7 @@ class APIservice {
 
         sharedPreferences.setString("token", jsonData['token']);
         sharedPreferences.setInt("expiredtime", jsonData['expires_in']);
+        // sharedPreferences.setString("email", jsonData['email']);
 
         timeToken = sharedPreferences.getInt('expiredtime')!;
         print(timeToken);
@@ -159,6 +160,25 @@ class APIservice {
       }, body: {
         'email': email,
       });
+
+      if (response.statusCode == 200) {
+        print('update berhasil');
+      } else {
+        print('update gagal');
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<void> deleteToken(email) async {
+
+    try {
+      final response = await http.post(
+          Uri.parse('$baseUrl/api/del-token'),
+          body: {
+            'email': email,
+          });
 
       if (response.statusCode == 200) {
         print('update berhasil');

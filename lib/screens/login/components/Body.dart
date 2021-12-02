@@ -37,11 +37,11 @@ class _BodyState extends State<Body> {
       builder: () => Background(
         child: SingleChildScrollView(
             child: Container(
-          padding: EdgeInsets.only(
-              left: 16,
-              right: 16,
-              top: size.height / 9,
-              bottom: size.height / 7),
+              padding: EdgeInsets.only(
+                left: 16,
+                right: 16,
+                top: size.height / 9,
+                bottom: size.height / 7),
           height: size.height,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

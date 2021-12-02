@@ -174,7 +174,7 @@ class _AppointmentHistoryCardState extends State<AppointmentHistoryCard> {
         width: 84,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(1000)),
-          color: Colors.grey.shade400,
+          color: greyLabelBackground,
         ),
         child: Align(
           alignment: Alignment.center,

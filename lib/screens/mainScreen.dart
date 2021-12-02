@@ -1,3 +1,4 @@
+import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/screens/history/HistoryScreen.dart';
 import 'package:bukutamu_android/screens/home/HomeScreen.dart';
@@ -90,6 +91,7 @@ class _MainScreenState extends State<MainScreen> {
   checkLoginStatus() async {
     DateTime expirytimes;
     String expiredToken;
+    String? email;
 
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
@@ -98,7 +100,9 @@ class _MainScreenState extends State<MainScreen> {
     expirytimes = DateTime.parse(expiredToken);
 
     if (expirytimes.isBefore(DateTime.now())) {
-      Navigator.pushReplacementNamed(context, '/login');
+      sharedPreferences.remove('token');
+      APIservice().deleteToken(email);
+      Navigator.popAndPushNamed(context, '/login');
     }
   }
 }

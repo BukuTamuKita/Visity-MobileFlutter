@@ -1,16 +1,19 @@
 import 'dart:async';
 
+import 'package:bukutamu_android/animation/ShimmerListCard.dart';
+import 'package:bukutamu_android/animation/ShimmerProfile.dart';
 import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/model/appointment_model.dart';
 import 'package:bukutamu_android/model/host_model.dart';
+import 'package:bukutamu_android/provider/appointment_provider.dart';
 import 'package:bukutamu_android/provider/information_provider.dart';
 import 'package:bukutamu_android/widget/AppointmentCard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -19,8 +22,9 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  late Future<Appointment> _appointment;
-  late Future<Host> _host;
+  bool isLoading = false;
+  Future<Appointment> _appointment = APIservice().getDataAppointment();
+  Future<Host> _host = APIservice().getDataHost();
   int appointmentCount = 0;
   late String hour;
   late String minutes;
@@ -30,6 +34,11 @@ class _BodyState extends State<Body> {
   void initState() {
     _host = APIservice().getDataHost();
     _appointment = APIservice().getDataAppointment();
+    Future.delayed(const Duration(seconds: 10), () {
+      setState(() {
+        isLoading = true;
+      });
+    });
     super.initState();
     setUpTimedFetch();
   }
@@ -104,10 +113,12 @@ class _BodyState extends State<Body> {
                             "Visitor",
                             style: mainSTextStyle2,
                           )),
-                      Consumer<InformationProvider>(
+                      Consumer<AppointmentProvider>(
                         builder: (context, sum, _) => Text(
                           "You have " +
-                              (sum.count == 0 ? 'no' : sum.count.toString()) +
+                              (sum.countHome == 0
+                                  ? 'no'
+                                  : sum.countHome.toString()) +
                               " visitors today",
                           style: mainSTextStyle3,
                         ),
@@ -146,7 +157,7 @@ class _BodyState extends State<Body> {
                                 fit: BoxFit.cover,
                               ));
                         } else {
-                          return Consumer<InformationProvider>(
+                          return Consumer<AppointmentProvider>(
                               builder: (context, sum, _) => ListView.separated(
                                   controller: ScrollController(),
                                   separatorBuilder:
@@ -174,7 +185,7 @@ class _BodyState extends State<Body> {
                                         snapshot.data!.data[index];
                                     WidgetsBinding.instance!
                                         .addPostFrameCallback((_) {
-                                      sum.count = appointmentCount;
+                                      sum.countHome = appointmentCount;
                                     });
 
                                     if (appointment.status == "waiting" &&
@@ -220,7 +231,7 @@ class _BodyState extends State<Body> {
                                   }));
                         }
                       } else {
-                        return CircularProgressIndicator();
+                        return Center(child: ShimmerList());
                       }
                     }),
               ]),
