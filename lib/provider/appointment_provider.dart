@@ -5,12 +5,12 @@ class AppointmentProvider with ChangeNotifier {
   int _countHome = 0;
   int _countHistory = 0;
 
-  set countHome (int value) {
+  set countHome(int value) {
     _countHome = value;
     notifyListeners();
   }
 
-  set countHistory (int value) {
+  set countHistory(int value) {
     _countHistory = value;
     notifyListeners();
   }

@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -26,6 +27,7 @@ class _BodyState extends State<Body> {
   Future<Appointment> _appointment = APIservice().getDataAppointment();
   Future<Host> _host = APIservice().getDataHost();
   int appointmentCount = 0;
+  int historycount = 0;
   late String hour;
   late String minutes;
   bool isFirst = true;
@@ -105,26 +107,23 @@ class _BodyState extends State<Body> {
                 Container(
                   width: size.width,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Align(
-                          alignment: Alignment.bottomLeft,
-                          child: Text(
-                            "Visitor",
-                            style: mainSTextStyle2,
-                          )),
-                      Consumer<AppointmentProvider>(
-                        builder: (context, sum, _) => Text(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Text(
+                              "Visitor",
+                              style: mainSTextStyle2,
+                            )),
+                        Text(
                           "You have " +
-                              (sum.countHome == 0
+                              (appointmentCount == 0
                                   ? 'no'
-                                  : sum.countHome.toString()) +
+                                  : appointmentCount.toString()) +
                               " visitors today",
                           style: mainSTextStyle3,
                         ),
-                      )
-                    ],
-                  ),
+                      ]),
                 ),
                 SizedBox(
                   height: 40,
@@ -134,6 +133,7 @@ class _BodyState extends State<Body> {
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         appointmentCount = 0;
+                        historycount = 0;
 
                         for (int i = 0; i < snapshot.data!.data.length; i++) {
                           if (snapshot.data!.data[i].status == 'waiting' &&
@@ -144,9 +144,19 @@ class _BodyState extends State<Body> {
                                       .day
                                       .toString()) {
                             appointmentCount++;
+                          } else if (snapshot.data!.data[i].status !=
+                                  'waiting' &&
+                              DateTime.now().day.toString() ==
+                                  DateFormat('dd MMM yyyy')
+                                      .parse(snapshot.data!.data[i].dateTime[0]
+                                          .toString())
+                                      .day
+                                      .toString()) {
+                            historycount++;
                           }
                         }
 
+                        saveCount(historycount);
                         if (appointmentCount == 0) {
                           return Container(
                               height: size.height / 1.8,
@@ -157,78 +167,72 @@ class _BodyState extends State<Body> {
                                 fit: BoxFit.cover,
                               ));
                         } else {
-                          return Consumer<AppointmentProvider>(
-                              builder: (context, sum, _) => ListView.separated(
-                                  controller: ScrollController(),
-                                  separatorBuilder:
-                                      (BuildContext context, int index) {
-                                    if (snapshot.data!.data[index].status ==
-                                            "waiting" &&
-                                        DateTime.now().day.toString() ==
-                                            DateFormat('dd MMM yyyy')
-                                                .parse(snapshot.data!
-                                                    .data[index].dateTime[0]
-                                                    .toString())
-                                                .day
-                                                .toString()) {
-                                      return SizedBox(
-                                        height: 16,
-                                      );
-                                    } else {
-                                      return SizedBox();
-                                    }
-                                  },
-                                  shrinkWrap: true,
-                                  itemCount: snapshot.data!.data.length,
-                                  itemBuilder: (context, index) {
-                                    var appointment =
-                                        snapshot.data!.data[index];
-                                    WidgetsBinding.instance!
-                                        .addPostFrameCallback((_) {
-                                      sum.countHome = appointmentCount;
-                                    });
+                          return ListView.separated(
+                              controller: ScrollController(),
+                              separatorBuilder:
+                                  (BuildContext context, int index) {
+                                if (snapshot.data!.data[index].status ==
+                                        "waiting" &&
+                                    DateTime.now().day.toString() ==
+                                        DateFormat('dd MMM yyyy')
+                                            .parse(snapshot
+                                                .data!.data[index].dateTime[0]
+                                                .toString())
+                                            .day
+                                            .toString()) {
+                                  return SizedBox(
+                                    height: 16,
+                                  );
+                                } else {
+                                  return SizedBox();
+                                }
+                              },
+                              shrinkWrap: true,
+                              itemCount: snapshot.data!.data.length,
+                              itemBuilder: (context, index) {
+                                var appointment = snapshot.data!.data[index];
 
-                                    if (appointment.status == "waiting" &&
-                                        DateTime.now().day.toString() ==
-                                            DateFormat('dd MMM yyyy')
-                                                .parse(snapshot.data!
-                                                    .data[index].dateTime[0]
-                                                    .toString())
-                                                .day
-                                                .toString()) {
-                                      hour = (DateTime.now().hour.toInt() -
-                                              DateFormat('HH:mm:ss')
-                                                  .parse(snapshot.data!
-                                                      .data[index].dateTime[1]
-                                                      .toString())
-                                                  .hour
-                                                  .toInt())
-                                          .toString();
+                                if (appointment.status == "waiting" &&
+                                    DateTime.now().day.toString() ==
+                                        DateFormat('dd MMM yyyy')
+                                            .parse(snapshot
+                                                .data!.data[index].dateTime[0]
+                                                .toString())
+                                            .day
+                                            .toString()) {
+                                  hour = (DateTime.now().hour.toInt() -
+                                          DateFormat('HH:mm:ss')
+                                              .parse(snapshot
+                                                  .data!.data[index].dateTime[1]
+                                                  .toString())
+                                              .hour
+                                              .toInt())
+                                      .toString();
 
-                                      minutes = (DateTime.now().minute.toInt() -
-                                              DateFormat('HH:mm:ss')
-                                                  .parse(snapshot.data!
-                                                      .data[index].dateTime[1]
-                                                      .toString())
-                                                  .minute
-                                                  .toInt())
-                                          .toString();
+                                  minutes = (DateTime.now().minute.toInt() -
+                                          DateFormat('HH:mm:ss')
+                                              .parse(snapshot
+                                                  .data!.data[index].dateTime[1]
+                                                  .toString())
+                                              .minute
+                                              .toInt())
+                                      .toString();
 
-                                      return Wrap(
-                                        children: <Widget>[
-                                          AppointmentCard(
-                                            guestPurpose: appointment.purpose,
-                                            guestName: appointment.guest.name,
-                                            hour: hour,
-                                            minutes: minutes,
-                                            id: appointment.id,
-                                          ),
-                                        ],
-                                      );
-                                    } else {
-                                      return SizedBox();
-                                    }
-                                  }));
+                                  return Wrap(
+                                    children: <Widget>[
+                                      AppointmentCard(
+                                        guestPurpose: appointment.purpose,
+                                        guestName: appointment.guest.name,
+                                        hour: hour,
+                                        minutes: minutes,
+                                        id: appointment.id,
+                                      ),
+                                    ],
+                                  );
+                                } else {
+                                  return SizedBox();
+                                }
+                              });
                         }
                       } else {
                         return Center(child: ShimmerList());
@@ -246,5 +250,12 @@ class _BodyState extends State<Body> {
         _appointment = APIservice().getDataAppointment();
       });
     });
+  }
+
+  Future<void> saveCount(int historycount) async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+
+    sharedPreferences.setInt('historycount', historycount);
   }
 }

@@ -164,12 +164,14 @@ class _OnBoardingState extends State<OnBoarding> {
                                     Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => LoginScreen()));
+                                            builder: (context) =>
+                                                LoginScreen()));
                                   },
                                   style: ElevatedButton.styleFrom(
                                       primary: Color.fromRGBO(46, 77, 167, 10),
                                       shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(8)),
+                                          borderRadius:
+                                              BorderRadius.circular(8)),
                                       elevation: 3,
                                       shadowColor: Color.fromRGBO(0, 0, 0, 1)),
                                   child: Text(
@@ -179,49 +181,53 @@ class _OnBoardingState extends State<OnBoarding> {
                                 ),
                               ),
                             ] else ...[
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  TextButton(
-                                    onPressed: () {
-                                      _storeOnboardInfo();
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  LoginScreen()));
-                                    },
-                                    child: Text(
-                                      "Skip",
-                                      style: TextStyle(
-                                        color: Colors.black,
+                              Container(
+                                width: size.width,
+                                padding: EdgeInsets.only(right: 12),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    TextButton(
+                                      onPressed: () {
+                                        _storeOnboardInfo();
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    LoginScreen()));
+                                      },
+                                      child: Text(
+                                        "Skip",
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 16,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 30.0, vertical: 10),
-                                    child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Text(
-                                            "Next",
-                                            style: TextStyle(
-                                                fontSize: 16.0,
-                                                color: Colors.black),
-                                          ),
-                                          SizedBox(
-                                            width: 15.0,
-                                          ),
-                                          Icon(
-                                            Icons.arrow_forward_sharp,
-                                            color: Colors.black,
-                                          )
-                                        ]),
-                                  ),
-                                ],
-                              ),
+                                    Container(
+                                      child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text(
+                                              "Next",
+                                              style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  color: Colors.black),
+                                            ),
+                                            SizedBox(
+                                              width: 4,
+                                            ),
+                                            Icon(
+                                              Icons.arrow_forward_sharp,
+                                              color: Colors.black,
+                                              size: 20,
+                                            ),
+                                          ]),
+                                    ),
+                                  ],
+                                ),
+                              )
                             ],
                           ],
                         ),

@@ -2,17 +2,30 @@ import 'package:bukutamu_android/animation/shimmerLayoutCard.dart';
 import 'package:bukutamu_android/provider/appointment_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
-class ShimmerList extends StatelessWidget {
+class ShimmerList extends StatefulWidget {
   const ShimmerList({Key? key}) : super(key: key);
+
+  @override
+  State<ShimmerList> createState() => _ShimmerListState();
+}
+
+class _ShimmerListState extends State<ShimmerList> {
+  int count = 0;
+
+  @override
+  void initState() {
+    getCount();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Consumer<AppointmentProvider>(
-      builder: (context, sum, _) => ListView.separated(
-          itemCount: sum.countHome,
+      child: ListView.separated(
+          itemCount: count,
           shrinkWrap: true,
           separatorBuilder: (BuildContext context, int index) {
             return SizedBox(
@@ -27,6 +40,15 @@ class ShimmerList extends StatelessWidget {
               period: Duration(milliseconds: 1800),
             );
           }),
-    ));
+    );
+  }
+
+  getCount() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+
+    setState(() {
+      count = sharedPreferences.getInt('appointmentcount')!;
+    });
   }
 }

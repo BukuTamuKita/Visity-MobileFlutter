@@ -1,19 +1,26 @@
 import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class AppointmentHistoryCard extends StatefulWidget {
   String? guestPurpose;
   String? guestName;
   String? status;
   String? noted;
-  String? time;
+  int? hour;
+  int? minute;
+  int? day;
+  int? month;
 
   AppointmentHistoryCard(
       {required this.guestPurpose,
       required this.guestName,
       required this.status,
-      required this.time,
+      required this.hour,
+      required this.minute,
+      required this.day,
+      required this.month,
       required this.noted});
 
   @override
@@ -23,7 +30,6 @@ class AppointmentHistoryCard extends StatefulWidget {
 class _AppointmentHistoryCardState extends State<AppointmentHistoryCard> {
   @override
   Widget build(BuildContext context) {
-    int timeInt = int.parse(widget.time!);
     Size size = MediaQuery.of(context).size;
     return Container(
       decoration: BoxDecoration(
@@ -56,24 +62,132 @@ class _AppointmentHistoryCardState extends State<AppointmentHistoryCard> {
                       SizedBox(
                         height: 8,
                       ),
-                      timeInt > 12
-                          ? Text(
-                              (timeInt - 12).toString() + " PM",
-                              style: mainSTextStyle5,
-                            )
-                          : timeInt == 12
-                              ? Text(
-                                  timeInt.toString() + " PM",
+                      widget.hour! > 12
+                          ? Row(
+                              children: [
+                                Text(
+                                  DateFormat('MMM')
+                                          .format(DateTime(widget.month!, 0)) +
+                                      " " +
+                                      (widget.day! < 10
+                                          ? "0" + widget.day!.toString()
+                                          : widget.day!.toString()) +
+                                      "   ",
+                                  style: mainSTextStyle5,
+                                ),
+                                Image(
+                                  image: AssetImage(
+                                      'assets/images/historypage/time.png'),
+                                  width: 20,
+                                  height: 20,
+                                  fit: BoxFit.cover,
+                                ),
+                                Text(
+                                  " 0" +
+                                      (widget.hour! - 12).toString() +
+                                      ":" +
+                                      (widget.minute! == 0
+                                          ? "00"
+                                          : widget.minute!.toString()) +
+                                      " am",
                                   style: mainSTextStyle5,
                                 )
-                              : timeInt == 0
-                                  ? Text(
-                                      (timeInt + 12).toString() + " AM",
+                              ],
+                            )
+                          : widget.hour! == 12
+                              ? Row(
+                                  children: [
+                                    Text(
+                                      DateFormat('MMM').format(
+                                              DateTime(widget.month!, 0)) +
+                                          " " +
+                                          (widget.day! < 10
+                                              ? "0" + widget.day!.toString()
+                                              : widget.day!.toString()) +
+                                          "   ",
+                                      style: mainSTextStyle5,
+                                    ),
+                                    Image(
+                                      image: AssetImage(
+                                          'assets/images/historypage/time.png'),
+                                      width: 20,
+                                      height: 20,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    Text(
+                                      " 0" +
+                                          widget.hour!.toString() +
+                                          ":" +
+                                          (widget.minute! == 0
+                                              ? "00"
+                                              : widget.minute!.toString()) +
+                                          " pm",
                                       style: mainSTextStyle5,
                                     )
-                                  : Text(
-                                      timeInt.toString() + " AM",
-                                      style: mainSTextStyle5,
+                                  ],
+                                )
+                              : widget.hour! == 0
+                                  ? Row(
+                                      children: [
+                                        Text(
+                                          DateFormat('MMM').format(
+                                                  DateTime(widget.month!, 0)) +
+                                              " " +
+                                              (widget.day! < 10
+                                                  ? "0" + widget.day!.toString()
+                                                  : widget.day!.toString()) +
+                                              "   ",
+                                          style: mainSTextStyle5,
+                                        ),
+                                        Image(
+                                          image: AssetImage(
+                                              'assets/images/historypage/time.png'),
+                                          width: 20,
+                                          height: 20,
+                                          fit: BoxFit.cover,
+                                        ),
+                                        Text(
+                                          " 0" +
+                                              (widget.hour! + 12).toString() +
+                                              ":" +
+                                              (widget.minute! == 0
+                                                  ? "00"
+                                                  : widget.minute!.toString()) +
+                                              " am",
+                                          style: mainSTextStyle5,
+                                        )
+                                      ],
+                                    )
+                                  : Row(
+                                      children: [
+                                        Text(
+                                          DateFormat('MMM').format(
+                                                  DateTime(widget.month!, 0)) +
+                                              " " +
+                                              (widget.day! < 10
+                                                  ? "0" + widget.day!.toString()
+                                                  : widget.day!.toString()) +
+                                              "   ",
+                                          style: mainSTextStyle5,
+                                        ),
+                                        Image(
+                                          image: AssetImage(
+                                              'assets/images/historypage/time.png'),
+                                          width: 20,
+                                          height: 20,
+                                          fit: BoxFit.cover,
+                                        ),
+                                        Text(
+                                          " 0" +
+                                              widget.hour!.toString() +
+                                              ":" +
+                                              (widget.minute! == 0
+                                                  ? "00"
+                                                  : widget.minute!.toString()) +
+                                              " am",
+                                          style: mainSTextStyle5,
+                                        )
+                                      ],
                                     )
                     ],
                   ),

@@ -1,6 +1,7 @@
 // @dart=2.9
 import 'package:bukutamu_android/provider/appointment_provider.dart';
 import 'package:bukutamu_android/provider/information_provider.dart';
+import 'package:bukutamu_android/screens/history/HistoryScreen.dart';
 import 'package:bukutamu_android/screens/login/LoginScreen.dart';
 import 'package:bukutamu_android/screens/mainScreen.dart';
 import 'package:bukutamu_android/screens/onBoarding/onBoardingScreen.dart';
@@ -13,7 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 int initScreen;
 String token;
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();  
+  WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   token = sharedPreferences.getString('token');
   initScreen = sharedPreferences.getInt('initScreen');
@@ -53,6 +54,7 @@ class _MyAppState extends State<MyApp> {
             '/login': (context) => LoginScreen(),
             '/home': (context) => MainScreen(),
             '/profile': (context) => ProfileScreen(),
+            '/history': (context) => HistoryScreen(),
           }),
     );
   }

@@ -33,6 +33,8 @@ class _AppointmentCardState extends State<AppointmentCard> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -97,6 +99,9 @@ class _AppointmentCardState extends State<AppointmentCard> {
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             primary: lightblueColor,
+                            padding: EdgeInsets.only(
+                                right: size.width / 7.7,
+                                left: size.width / 7.7),
                             shape: RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10)))),
@@ -116,24 +121,24 @@ class _AppointmentCardState extends State<AppointmentCard> {
                   ),
                   Container(
                     child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            primary: Colors.white,
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)))),
-                        onPressed: () {
-                          isAccepted = false;
-                          showCustomDialog(context, isAccepted);
-                        },
-                        child: Text(
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.white,
+                          padding: EdgeInsets.only(
+                              right: size.width / 7.7, left: size.width / 7.7),
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)))),
+                      onPressed: () {
+                        isAccepted = false;
+                        showCustomDialog(context, isAccepted);
+                      },
+                      child: Text(
                         "DECLINE",
                         style: buttonMainStyle2,
-                        ),
                       ),
-                      
                     ),
-                
+                  ),
                 ],
               ),
             ],

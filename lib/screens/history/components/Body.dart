@@ -4,6 +4,7 @@ import 'package:bukutamu_android/animation/ShimmeringListHistoryCard.dart';
 import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/model/appointment_model.dart';
+import 'package:bukutamu_android/model/host_model.dart';
 import 'package:bukutamu_android/provider/appointment_provider.dart';
 import 'package:bukutamu_android/provider/information_provider.dart';
 import 'package:bukutamu_android/widget/AppointmentHistoryCard.dart';
@@ -13,6 +14,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -21,10 +23,10 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  int appointmentCount = 0;
   bool isLoading = false;
   late Future<Appointment> _appointment;
   int historycount = 0;
+  int appointmentCount = 0;
 
   @override
   void initState() {
@@ -46,17 +48,15 @@ class _BodyState extends State<Body> {
         child: ListView(children: <Widget>[
           Container(
             padding: EdgeInsets.only(left: 16, right: 16, bottom: 16),
-            width: MediaQuery.of(context).size.width,
-            alignment: Alignment.center,
+            width: size.width,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 SizedBox(height: 28),
                 Container(
                     height: 50,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Consumer<InformationProvider>(
                             builder: (context, sum, _) => ClipRRect(
@@ -82,16 +82,9 @@ class _BodyState extends State<Body> {
                       ],
                     )),
                 SizedBox(height: 34),
-                Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "History",
-                        style: mainSTextStyle2,
-                      )
-                    ],
-                  ),
+                Text(
+                  "History",
+                  style: mainSTextStyle2,
                 ),
                 SizedBox(height: 40),
                 FutureBuilder<Appointment>(
@@ -99,6 +92,7 @@ class _BodyState extends State<Body> {
                     builder: (context, snapshot) {
                       print(snapshot.hasData.toString());
                       if (snapshot.hasData) {
+                        appointmentCount = 0;
                         historycount = 0;
 
                         for (int i = 0; i < snapshot.data!.data.length; i++) {
@@ -109,9 +103,20 @@ class _BodyState extends State<Body> {
                                           .toString())
                                       .day
                                       .toString()) {
+                            appointmentCount++;
+                          } else if (snapshot.data!.data[i].status !=
+                                  'waiting' &&
+                              DateTime.now().day.toString() ==
+                                  DateFormat('dd MMM yyyy')
+                                      .parse(snapshot.data!.data[i].dateTime[0]
+                                          .toString())
+                                      .day
+                                      .toString()) {
                             historycount++;
                           }
                         }
+
+                        saveCount(appointmentCount);
 
                         if (historycount == 0) {
                           return Container(
@@ -124,6 +129,8 @@ class _BodyState extends State<Body> {
                               ));
                         } else {
                           return ListView.separated(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
                             controller: ScrollController(),
                             separatorBuilder:
                                 (BuildContext context, int index) {
@@ -143,10 +150,10 @@ class _BodyState extends State<Body> {
                                 return SizedBox();
                               }
                             },
-                            shrinkWrap: true,
                             itemCount: snapshot.data!.data.length,
                             itemBuilder: (context, index) {
                               var appointment = snapshot.data!.data[index];
+
                               if (appointment.status != 'waiting' &&
                                   DateTime.now().day.toString() ==
                                       DateFormat('dd MMM yyyy')
@@ -161,10 +168,18 @@ class _BodyState extends State<Body> {
                                       guestPurpose: appointment.purpose,
                                       guestName: appointment.guest.name,
                                       status: appointment.status,
-                                      time: DateFormat('HH:mm:ss')
+                                      hour: DateFormat('HH:mm:ss')
                                           .parse(appointment.dateTime[1])
-                                          .hour
-                                          .toString(),
+                                          .hour,
+                                      minute: DateFormat('HH:mm:ss')
+                                          .parse(appointment.dateTime[1])
+                                          .minute,
+                                      day: DateFormat('dd MMM yyyy')
+                                          .parse(appointment.dateTime[0])
+                                          .day,
+                                      month: DateFormat('dd MMM yyyy')
+                                          .parse(appointment.dateTime[0])
+                                          .month,
                                       noted: appointment.notes,
                                     )
                                   ],
@@ -188,10 +203,17 @@ class _BodyState extends State<Body> {
   }
 
   setUpTimedFetch() {
-    Timer.periodic(Duration(seconds: 5), (timer) {
+    Timer.periodic(Duration(seconds: 2), (timer) {
       setState(() {
         _appointment = APIservice().getDataAppointment();
       });
     });
+  }
+
+  Future<void> saveCount(int appointmentcount) async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+
+    sharedPreferences.setInt('appointmentcount', appointmentcount);
   }
 }
