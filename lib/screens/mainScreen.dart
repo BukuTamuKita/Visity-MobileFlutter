@@ -6,6 +6,7 @@ import 'package:bukutamu_android/screens/profile/ProfileScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int currentIndex = 1;
-
+  
   @override
   void initState() {
     super.initState();
@@ -30,63 +31,80 @@ class _MainScreenState extends State<MainScreen> {
     ProfileScreen(),
   ];
 
+  
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: screens[currentIndex],
-        bottomNavigationBar: Container(
-          decoration: BoxDecoration(
-            color: blueColor,
-            boxShadow: [
-              BoxShadow(
-                blurRadius: 20,
-                color: Colors.black.withOpacity(.1),
-              )
-            ],
+    PersistentTabController _controller;
+
+    _controller = PersistentTabController(initialIndex: 1);
+    return SafeArea(
+      child: Scaffold(
+          body: screens[currentIndex],
+          bottomNavigationBar: PersistentTabView(
+          context,
+          controller: _controller,
+          screens: _buildScreens(),
+          items: _navBarsItems(),
+          confineInSafeArea: true,
+          backgroundColor: navbarColor, // Default is Colors.white.
+          handleAndroidBackButtonPress: true, // Default is true.
+          resizeToAvoidBottomInset: true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
+          stateManagement: true, // Default is true.
+          hideNavigationBarWhenKeyboardShows: true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
+          decoration: NavBarDecoration(
+            borderRadius: BorderRadius.circular(10.0),
+            colorBehindNavBar: Colors.white,
           ),
-          child: SafeArea(
-            child: Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
-              child: GNav(
-                tabBorderRadius: 8,
-                rippleColor: purpleColor,
-                hoverColor: purpleColor,
-                gap: 8,
-                activeColor: Colors.white,
-                iconSize: 24,
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                duration: Duration(milliseconds: 400),
-                tabBackgroundColor: purpleColor,
-                color: Colors.black,
-                tabs: [
-                  GButton(
-                    icon: Icons.history,
-                    iconColor: Colors.white,
-                    text: 'History',
-                  ),
-                  GButton(
-                    icon: Icons.home_outlined,
-                    text: 'Home',
-                    iconColor: Colors.white,
-                  ),
-                  GButton(
-                    icon: Icons.account_circle_outlined,
-                    text: 'Profile',
-                    iconColor: Colors.white,
-                  ),
-                ],
-                selectedIndex: currentIndex,
-                onTabChange: (index) {
-                  setState(() {
-                    currentIndex = index;
-                  });
-                },
-              ),
-            ),
+          popAllScreensOnTapOfSelectedTab: true,
+          popActionScreens: PopActionScreensType.all,
+          itemAnimationProperties: ItemAnimationProperties( // Navigation Bar's items animation properties.
+            duration: Duration(milliseconds: 200),
+            curve: Curves.ease,
           ),
-        ));
+          screenTransitionAnimation: ScreenTransitionAnimation( // Screen transition animation on change of selected tab.
+            animateTabTransition: true,
+            curve: Curves.ease,
+            duration: Duration(milliseconds: 200),
+          ),
+          navBarStyle: NavBarStyle.style6, // Choose the nav bar style with this property.
+          )
+      ),
+    );
   }
+  
+  List<Widget> _buildScreens() {
+        return [
+          HistoryScreen(),
+          HomeScreen(),
+          ProfileScreen()
+        ];
+  }
+
+  List<PersistentBottomNavBarItem> _navBarsItems() {
+        return [
+            PersistentBottomNavBarItem(
+                icon: Image.asset(
+                  "assets/mainpage/iconHistory.png"
+                ),
+                title: ("History"),
+                activeColorPrimary: Colors.blue,
+                inactiveColorPrimary: Colors.grey,
+            ),
+            PersistentBottomNavBarItem(
+                icon: new Image.asset("assets/mainpage/iconHome.png"),
+                title: ("Home"),
+                activeColorPrimary: Colors.blue,
+                inactiveColorPrimary: Colors.grey,
+            ),
+            PersistentBottomNavBarItem(
+                icon: new Image.asset("assets/mainpage/iconUser.png"),
+                title: ("Profile"),
+                activeColorPrimary: Colors.blue,
+                inactiveColorPrimary: Colors.grey,
+            ),
+        ];
+    }
 
   checkLoginStatus() async {
     DateTime expirytimes;
@@ -106,3 +124,7 @@ class _MainScreenState extends State<MainScreen> {
     }
   }
 }
+
+
+
+
