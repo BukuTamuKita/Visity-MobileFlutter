@@ -97,20 +97,18 @@ class _BodyState extends State<Body> {
 
                         for (int i = 0; i < snapshot.data!.data.length; i++) {
                           if (snapshot.data!.data[i].status == 'waiting' &&
-                              DateTime.now().day.toString() ==
-                                  DateFormat('dd MMM yyyy')
-                                      .parse(snapshot.data!.data[i].dateTime[0]
-                                          .toString())
-                                      .day
+                              DateFormat('dd MMM yyyy')
+                                      .format(DateTime.now())
+                                      .toString() ==
+                                  snapshot.data!.data[i].dateTime[0]
                                       .toString()) {
                             appointmentCount++;
                           } else if (snapshot.data!.data[i].status !=
                                   'waiting' &&
-                              DateTime.now().day.toString() ==
-                                  DateFormat('dd MMM yyyy')
-                                      .parse(snapshot.data!.data[i].dateTime[0]
-                                          .toString())
-                                      .day
+                              DateFormat('dd MMM yyyy')
+                                      .format(DateTime.now())
+                                      .toString() ==
+                                  snapshot.data!.data[i].dateTime[0]
                                       .toString()) {
                             historycount++;
                           }
@@ -136,12 +134,10 @@ class _BodyState extends State<Body> {
                                 (BuildContext context, int index) {
                               if (snapshot.data!.data[index].status !=
                                       "waiting" &&
-                                  DateTime.now().day.toString() ==
-                                      DateFormat('dd MMM yyyy')
-                                          .parse(snapshot
-                                              .data!.data[index].dateTime[0]
-                                              .toString())
-                                          .day
+                                  DateFormat('dd MMM yyyy')
+                                          .format(DateTime.now())
+                                          .toString() ==
+                                      snapshot.data!.data[index].dateTime[0]
                                           .toString()) {
                                 return SizedBox(
                                   height: 16,
@@ -155,13 +151,10 @@ class _BodyState extends State<Body> {
                               var appointment = snapshot.data!.data[index];
 
                               if (appointment.status != 'waiting' &&
-                                  DateTime.now().day.toString() ==
-                                      DateFormat('dd MMM yyyy')
-                                          .parse(snapshot
-                                              .data!.data[index].dateTime[0]
-                                              .toString())
-                                          .day
-                                          .toString()) {
+                                  DateFormat('dd MMM yyyy')
+                                          .format(DateTime.now())
+                                          .toString() ==
+                                      appointment.dateTime[0].toString()) {
                                 return Wrap(
                                   children: <Widget>[
                                     AppointmentHistoryCard(

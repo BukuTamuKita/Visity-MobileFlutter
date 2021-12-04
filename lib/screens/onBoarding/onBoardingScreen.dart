@@ -67,7 +67,7 @@ class _OnBoardingState extends State<OnBoarding> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Padding(
+        child: Container(
           padding: const EdgeInsets.only(left: 32, right: 32),
           child: PageView.builder(
               itemCount: screens.length,
@@ -80,7 +80,8 @@ class _OnBoardingState extends State<OnBoarding> {
               },
               itemBuilder: (_, index) {
                 return Padding(
-                  padding: EdgeInsets.only(top: 64),
+                  padding:
+                      EdgeInsets.only(top: getProportionateScreenHeight(64)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -153,7 +154,7 @@ class _OnBoardingState extends State<OnBoarding> {
                         child: Column(
                           children: [
                             SizedBox(
-                              height: getProportionateScreenHeight(120),
+                              height: getProportionateScreenHeight(100),
                             ),
                             if (currentIndex == 2) ...[
                               Container(

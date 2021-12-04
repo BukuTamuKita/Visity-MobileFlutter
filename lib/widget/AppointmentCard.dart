@@ -3,8 +3,10 @@ import 'dart:async';
 import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
+
 import 'package:bukutamu_android/provider/appointment_provider.dart';
-import 'package:bukutamu_android/screens/home/HomeScreen.dart';
+
+import 'package:bukutamu_android/screens/home/components/Body.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -187,7 +189,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
                           APIservice().updateStatus(
                               widget.id, accepted, _notesControler, context);
                           APIservice().sendEmail(widget.id);
-
+                          
                           Navigator.pop(context);
                         },
                         style: ElevatedButton.styleFrom(
