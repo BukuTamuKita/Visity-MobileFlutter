@@ -68,7 +68,12 @@ class _OnBoardingState extends State<OnBoarding> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
-          padding: const EdgeInsets.only(left: 32, right: 32),
+          height: size.height,
+          padding: EdgeInsets.only(
+            left: 32,
+            right: 32,
+            bottom: size.height / 14,
+          ),
           child: PageView.builder(
               itemCount: screens.length,
               controller: _pageController,
@@ -79,162 +84,149 @@ class _OnBoardingState extends State<OnBoarding> {
                 });
               },
               itemBuilder: (_, index) {
-                return Padding(
-                  padding:
-                      EdgeInsets.only(top: getProportionateScreenHeight(64)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        screens[index].img,
-                        height: getProportionateScreenHeight(365),
-                        width: getProportionateScreenWidth(315),
-                      ),
-                      SizedBox(
-                        height: getProportionateScreenHeight(32),
-                      ),
-                      Container(
-                        height: 10.0,
-                        child: ListView.builder(
-                          itemCount: screens.length,
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            return Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 3.0),
-                                    width: currentIndex == index ? 25 : 8,
-                                    height: 8,
-                                    decoration: BoxDecoration(
-                                      color: currentIndex == index
-                                          ? TextColor2
-                                          : Colors.grey[300],
-                                      borderRadius: BorderRadius.circular(10.0),
-                                    ),
-                                  ),
-                                ]);
-                          },
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Column(
+                      children: [
+                        SizedBox(
+                          height: getProportionateScreenHeight(64),
                         ),
-                      ),
-                      SizedBox(
-                        height: getProportionateScreenHeight(16),
-                      ),
-                      Text(
-                        screens[index].text,
-                        textAlign: TextAlign.center,
-                        style: hTextStyle1,
-                      ),
-                      SizedBox(
-                        height: getProportionateScreenHeight(16),
-                      ),
-                      Text(
-                        screens[index].desc,
-                        textAlign: TextAlign.center,
-                        style: hTextStyle3,
-                      ),
-                      InkWell(
-                        onTap: () async {
-                          print(index);
-                          if (index == screens.length - 1) {
-                            await _storeOnboardInfo();
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => LoginScreen()));
-                          }
-
-                          _pageController.nextPage(
-                            duration: Duration(milliseconds: 300),
-                            curve: Curves.bounceIn,
-                          );
-                        },
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: getProportionateScreenHeight(100),
-                            ),
-                            if (currentIndex == 2) ...[
-                              Container(
-                                width: size.width,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    _storeOnboardInfo();
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                LoginScreen()));
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                      primary: Color.fromRGBO(46, 77, 167, 10),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8)),
-                                      elevation: 3,
-                                      shadowColor: Color.fromRGBO(0, 0, 0, 1)),
-                                  child: Text(
-                                    "Get Started",
-                                    style: lPTextStyle4,
-                                  ),
-                                ),
-                              ),
-                            ] else ...[
-                              Container(
-                                width: size.width,
-                                padding: EdgeInsets.only(right: 12),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                        Image.asset(
+                          screens[index].img,
+                          height: getProportionateScreenHeight(365),
+                          width: getProportionateScreenWidth(315),
+                        ),
+                        SizedBox(
+                          height: getProportionateScreenHeight(32),
+                        ),
+                        Container(
+                          height: 10.0,
+                          child: ListView.builder(
+                            itemCount: screens.length,
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              return Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    TextButton(
-                                      onPressed: () {
-                                        _storeOnboardInfo();
-                                        Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    LoginScreen()));
-                                      },
-                                      child: Text(
-                                        "Skip",
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                        ),
+                                    Container(
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 3.0),
+                                      width: currentIndex == index ? 25 : 8,
+                                      height: 8,
+                                      decoration: BoxDecoration(
+                                        color: currentIndex == index
+                                            ? TextColor2
+                                            : Colors.grey[300],
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
                                       ),
                                     ),
-                                    Container(
-                                      child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Text(
-                                              "Next",
-                                              style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  color: Colors.black),
-                                            ),
-                                            SizedBox(
-                                              width: 4,
-                                            ),
-                                            Icon(
-                                              Icons.arrow_forward_sharp,
-                                              color: Colors.black,
-                                              size: 20,
-                                            ),
-                                          ]),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ],
+                                  ]);
+                            },
+                          ),
                         ),
-                      )
-                    ],
-                  ),
+                        SizedBox(
+                          height: getProportionateScreenHeight(16),
+                        ),
+                        Text(
+                          screens[index].text,
+                          textAlign: TextAlign.center,
+                          style: hTextStyle1,
+                        ),
+                        SizedBox(
+                          height: getProportionateScreenHeight(16),
+                        ),
+                        Text(
+                          screens[index].desc,
+                          textAlign: TextAlign.center,
+                          style: hTextStyle3,
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: getProportionateScreenHeight(16),
+                    ),
+                    InkWell(
+                      onTap: () async {
+                        print(index);
+                        if (index == screens.length - 1) {
+                          await _storeOnboardInfo();
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginScreen()));
+                        }
+
+                        _pageController.nextPage(
+                          duration: Duration(milliseconds: 300),
+                          curve: Curves.bounceIn,
+                        );
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          if (currentIndex == 2) ...[
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  _storeOnboardInfo();
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => LoginScreen()));
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    primary: Color.fromRGBO(46, 77, 167, 10),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8)),
+                                    elevation: 3,
+                                    shadowColor: Color.fromRGBO(0, 0, 0, 1)),
+                                child: Text(
+                                  "Get Started",
+                                  style: lPTextStyle4,
+                                ),
+                              ),
+                            ),
+                          ] else ...[
+                            TextButton(
+                              onPressed: () {
+                                _storeOnboardInfo();
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => LoginScreen()));
+                              },
+                              child: Text(
+                                "Skip",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                            Row(mainAxisSize: MainAxisSize.min, children: [
+                              Text(
+                                "Next",
+                                style: TextStyle(
+                                    fontSize: 16.0, color: Colors.black),
+                              ),
+                              SizedBox(
+                                width: 4,
+                              ),
+                              Icon(
+                                Icons.arrow_forward_sharp,
+                                color: Colors.black,
+                                size: 20,
+                              ),
+                            ]),
+                          ],
+                        ],
+                      ),
+                    )
+                  ],
                 );
               }),
         ),

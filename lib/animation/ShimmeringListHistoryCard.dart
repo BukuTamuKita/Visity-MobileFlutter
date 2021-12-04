@@ -25,8 +25,7 @@ class _ShimmerListHistoryCardState extends State<ShimmerListHistoryCard> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: ListView.separated(
-          shrinkWrap: true,
-
+            shrinkWrap: true,
             itemCount: count,
             separatorBuilder: (BuildContext context, int index) {
               return SizedBox(
@@ -44,11 +43,15 @@ class _ShimmerListHistoryCardState extends State<ShimmerListHistoryCard> {
   }
 
   getCount() async {
+    var getCount;
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
 
+    getCount = sharedPreferences.getInt('historycount');
     setState(() {
-      count = sharedPreferences.getInt('historycount')!;
+      if (getCount != null) {
+        count = getCount;
+      }
     });
   }
 }

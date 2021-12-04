@@ -44,11 +44,14 @@ class _ShimmerListState extends State<ShimmerList> {
   }
 
   getCount() async {
+    var getCount;
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
 
+    getCount = sharedPreferences.getInt('appointmentcount');
+
     setState(() {
-      count = sharedPreferences.getInt('appointmentcount')!;
+      if (getCount != null) count = getCount;
     });
   }
 }
