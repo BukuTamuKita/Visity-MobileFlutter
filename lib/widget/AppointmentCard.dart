@@ -97,13 +97,10 @@ class _AppointmentCardState extends State<AppointmentCard> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Consumer<AppointmentProvider>(
-                    builder: (context, appointment, _) => Container(
+                    builder: (context, appointment, _) => Expanded(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             primary: lightblueColor,
-                            padding: EdgeInsets.only(
-                                right: size.width / 7.7,
-                                left: size.width / 7.7),
                             shape: RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10)))),
@@ -121,12 +118,10 @@ class _AppointmentCardState extends State<AppointmentCard> {
                   SizedBox(
                     width: 16,
                   ),
-                  Container(
+                  Expanded(
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           primary: Colors.white,
-                          padding: EdgeInsets.only(
-                              right: size.width / 7.7, left: size.width / 7.7),
                           elevation: 0,
                           shape: RoundedRectangleBorder(
                               borderRadius:
@@ -189,7 +184,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
                           APIservice().updateStatus(
                               widget.id, accepted, _notesControler, context);
                           APIservice().sendEmail(widget.id);
-                          
+
                           Navigator.pop(context);
                         },
                         style: ElevatedButton.styleFrom(
