@@ -19,4 +19,7 @@ const blacklabelColor = Colors.black12;
 const greyLabelColor = Color.fromRGBO(68, 68, 68, 1);
 const greyLabelBackground = Color.fromRGBO(151, 151, 151, 1);
 const BackgroundColor = Color(0xFFFFFF);
-const navbarColor = Color.fromRGBO(195, 203, 231, 1);
+const navbarColor = Color.fromRGBO(251, 249, 255, 1);
+const unActiveceBar = Color.fromRGBO(195, 203, 231, 1);
+
+
