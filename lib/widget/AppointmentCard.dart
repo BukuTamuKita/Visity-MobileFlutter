@@ -35,8 +35,6 @@ class _AppointmentCardState extends State<AppointmentCard> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
