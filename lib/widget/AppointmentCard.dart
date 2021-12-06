@@ -1,8 +1,14 @@
+import 'dart:async';
+
 import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
+
 import 'package:bukutamu_android/provider/appointment_provider.dart';
+
+import 'package:bukutamu_android/screens/home/components/Body.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class AppointmentCard extends StatefulWidget {
@@ -23,14 +29,40 @@ class AppointmentCard extends StatefulWidget {
   State<AppointmentCard> createState() => _AppointmentCardState();
 }
 
-class _AppointmentCardState extends State<AppointmentCard> {
+class _AppointmentCardState extends State<AppointmentCard> with SingleTickerProviderStateMixin {
   TextEditingController _notesControler = TextEditingController();
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    
+    _controller = AnimationController(
+      duration: Duration(seconds: 3),
+      vsync: this,
+    );
+
+    _controller.addStatusListener((status) async { 
+      if (status == AnimationStatus.completed) {
+        Navigator.pop(context);
+        _controller.reset();
+      }
+    });
+  }
 
   bool isAccepted = false;
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    _controller.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    
 
     return Container(
       decoration: BoxDecoration(
@@ -137,7 +169,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
           )),
     );
   }
-  
+
   void showCustomDialog(BuildContext context, bool accepted) => showDialog(
       context: context,
       barrierDismissible: false,
@@ -176,11 +208,14 @@ class _AppointmentCardState extends State<AppointmentCard> {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          APIservice().updateStatus(
+                          if(accepted == true) {
+                            APIservice().updateStatus(
                               widget.id, accepted, _notesControler, context);
-                          APIservice().sendEmail(widget.id);
-
-                          Navigator.pop(context);
+                            APIservice().sendEmail(widget.id);
+                            acceptedDialog(context, accepted);
+                          } else {
+                            acceptedDialog(context, accepted);
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           primary: lightblueColor,
@@ -212,4 +247,46 @@ class _AppointmentCardState extends State<AppointmentCard> {
               ),
             ),
           ));
+
+  void acceptedDialog (BuildContext context, bool accepted) => showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => Dialog(
+        child: Column(children: [
+          Lottie.asset(
+            'assets/loadingSuccess.json',
+            repeat: false,
+            controller: _controller,
+            onLoaded: (composition) {
+              _controller.forward();
+            }
+          ),
+          Text(
+            "Accepted",
+            style: mainSTextStyle1,
+          )
+        ],),
+      )
+  );
+
+  void failedDialog (BuildContext context, bool accepted) => showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => Dialog(
+        child: Column(children: [
+          Lottie.asset(
+            'assets/loadingFailed.json',
+            repeat: false,
+            controller: _controller,
+            onLoaded: (composition) {
+              _controller.forward();
+            }
+          ),
+          Text(
+            "Accepted",
+            style: mainSTextStyle1,
+          )
+        ],),
+      )
+  );
 }

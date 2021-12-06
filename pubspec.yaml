@@ -57,6 +57,7 @@ dependencies:
   introduction_screen: ^2.1.0
   bouncing_widget: ^2.0.0
   stylish_bottom_bar: ^0.0.6
+  lottie: ^1.2.1
 
 dev_dependencies:
   flutter_test:
@@ -173,6 +174,8 @@ flutter:
     - assets/svg/estate.svg
     - assets/svg/history.svg
     - assets/svg/user.svg
+    - assets/loadingSuccess.json
+    - assets/loadingFailed.json
 
   # To add assets to your application, add an assets section, like this:
   # assets:

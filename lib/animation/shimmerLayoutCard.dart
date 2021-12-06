@@ -10,8 +10,8 @@ class ShimmerLayoutCard extends StatelessWidget {
       guestPurpose: "",
       guestName: "",
       id: 0,
-      hour: '',
-      minutes: '',
+      hour: '0',
+      minutes: '0',
     );
   }
 }
