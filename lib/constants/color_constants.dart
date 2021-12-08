@@ -26,3 +26,5 @@ const lightGreyColor = Color.fromRGBO(226, 224, 232, 1);
 const greyColor = Color.fromRGBO(191, 189, 197, 1);
 const navbarColor = Color.fromRGBO(251, 249, 255, 1);
 const unActiveceBar = Color.fromRGBO(195, 203, 231, 1);
+
+

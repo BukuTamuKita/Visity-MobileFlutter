@@ -1,7 +1,5 @@
 import 'package:bukutamu_android/animation/ShimmerLayoutHistoryCard.dart';
-
 import 'package:flutter/material.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 

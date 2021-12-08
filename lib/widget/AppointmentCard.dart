@@ -1,7 +1,6 @@
 import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
-
 import 'package:bukutamu_android/provider/appointment_provider.dart';
 
 import 'package:flutter/material.dart';
