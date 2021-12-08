@@ -75,7 +75,10 @@ class _AppointmentHistoryCardState extends State<AppointmentHistoryCard> {
                               Container(
                                 padding: EdgeInsets.all(16),
                                 child: Column(
-                                  children: [topCard(), bottomCard(size)],
+                                  children: [
+                                    topCard(),
+                                    bottomCard(size, context)
+                                  ],
                                 ),
                               )
                             ],
@@ -327,7 +330,7 @@ class _AppointmentHistoryCardState extends State<AppointmentHistoryCard> {
     );
   }
 
-  bottomCard(size) {
+  bottomCard(size, BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

@@ -5,6 +5,7 @@ import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/model/host_model.dart';
+import 'package:bukutamu_android/screens/login/LoginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -18,7 +19,8 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   late Future<Host> _host;
   late String email;
-  late String password;
+  String pinpass = '';
+  String pass = '';
   late String identifier;
   TextEditingController _newAuthController = TextEditingController();
 
@@ -34,12 +36,14 @@ class _BodyState extends State<Body> {
     Size size = MediaQuery.of(context).size;
 
     return SafeArea(
-      child: FutureBuilder<Host>(
+        child: Wrap(children: [
+      FutureBuilder<Host>(
           future: _host,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               email = snapshot.data!.users.email;
               return Container(
+                height: size.height / 1.3,
                 margin: EdgeInsets.only(
                     left: 16, right: 16, top: 16, bottom: size.height / 9),
                 child: Column(
@@ -159,7 +163,7 @@ class _BodyState extends State<Body> {
                                   style: profileTextStyle3,
                                 ),
                                 Text(
-                                  password,
+                                  pinpass,
                                   style: profileTextStyle2,
                                 ),
                               ],
@@ -170,10 +174,11 @@ class _BodyState extends State<Body> {
                                 onPressed: () {
                                   Timer(Duration(milliseconds: 300), () {
                                     identifier = 'Password';
+
                                     resetAuthDialog(
                                       context,
                                       snapshot.data!.users.id.toString(),
-                                      password,
+                                      pass,
                                     );
                                   });
                                 },
@@ -231,20 +236,35 @@ class _BodyState extends State<Body> {
                 ),
               );
             } else {
-              return Center(
-                child: CircularProgressIndicator(),
+              return Container(
+                height: size.height / 1.3,
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
               );
             }
           }),
-    );
+    ]));
   }
 
   Future<void> getPassword() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    password = sharedPreferences.getString('password').toString();
+    pass = sharedPreferences.getString('password').toString();
+    void convertPin() {
+      for (int i = 0; i < pass.length; i++) {
+        pinpass += '*';
+      }
+    }
+
+    convertPin();
     Timer.periodic(Duration(seconds: 2), (timer) {
       setState(() {
-        password = sharedPreferences.getString('password').toString();
+        pass = sharedPreferences.getString('password').toString();
+        if (pass.length == pinpass.length) {
+        } else {
+          pinpass = '';
+          convertPin();
+        }
       });
     });
   }
@@ -301,7 +321,7 @@ class _BodyState extends State<Body> {
                             controller: _newAuthController,
                             decoration: InputDecoration(
                               fillColor: WhiteColor,
-                              filled: true,
+                              filled: false,
                               contentPadding: EdgeInsets.all(8),
                               enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(

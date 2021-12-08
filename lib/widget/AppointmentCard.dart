@@ -1,8 +1,10 @@
+import 'dart:async';
+
 import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/provider/appointment_provider.dart';
-
+import 'package:lottie/lottie.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -24,16 +26,58 @@ class AppointmentCard extends StatefulWidget {
   State<AppointmentCard> createState() => _AppointmentCardState();
 }
 
-class _AppointmentCardState extends State<AppointmentCard> {
+class _AppointmentCardState extends State<AppointmentCard>
+    with TickerProviderStateMixin {
   TextEditingController _notesControler = TextEditingController();
+  late AnimationController _controllerAccepted;
+  late AnimationController _controllerCancel;
+  // late AnimationController _controllerCancel;
+  late Timer _timer;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controllerAccepted = AnimationController(
+      duration: Duration(seconds: 4),
+      vsync: this,
+    );
+
+    _controllerAccepted.addStatusListener((status) async {
+      if (status == AnimationStatus.completed) {
+        Navigator.of(context).pop();
+        _controllerAccepted.reset();
+      }
+    });
+
+    _controllerCancel = AnimationController(
+      duration: Duration(seconds: 4),
+      vsync: this,
+    );
+
+    _controllerCancel.addStatusListener((status) async {
+      if (status == AnimationStatus.completed) {
+        Navigator.pop(context);
+        _controllerCancel.reset();
+      }
+    });
+  }
 
   bool isAccepted = false;
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _controllerAccepted.dispose();
+    _controllerCancel.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return Container(
+    return  Container(
         padding: EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 16),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -136,7 +180,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
         ));
   }
 
-  showCustomDialog(BuildContext context, bool accepted) => showDialog(
+  showCustomDialog(BuildContext buildContext, bool accepted) => showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => Dialog(
@@ -239,6 +283,11 @@ class _AppointmentCardState extends State<AppointmentCard> {
                             APIservice().sendEmail(widget.id);
 
                             Navigator.pop(context);
+                            if (accepted) {
+                              acceptedDialog(buildContext);
+                            } else {
+                              cancelDialog(buildContext);
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                             primary: lightOrangeColor,
@@ -260,4 +309,59 @@ class _AppointmentCardState extends State<AppointmentCard> {
               ),
             ],
           )));
+  void acceptedDialog(buildcontext) => showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext builderContext) {
+            _timer = Timer(Duration(seconds: 5), () {
+              Navigator.pop(buildcontext);
+            });
+
+            return Dialog(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Lottie.asset('assets/loadingSuccess.json',
+                      repeat: false,
+                      controller: _controllerAccepted, onLoaded: (composition) {
+                    _controllerAccepted.forward();
+                  }),
+                ],
+              ),
+            );
+          }).then((val) {
+        if (_timer.isActive) {
+          _timer.cancel();
+        }
+      });
+
+  void cancelDialog(buildcontext) => showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext builderContext) {
+            _timer = Timer(Duration(seconds: 5), () {
+              Navigator.pop(buildcontext);
+            });
+
+            return Dialog(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Lottie.asset('assets/loadingFailed.json',
+                      repeat: false,
+                      controller: _controllerAccepted, onLoaded: (composition) {
+                    _controllerAccepted.forward();
+                  }),
+                ],
+              ),
+            );
+          }).then((val) {
+        if (_timer.isActive) {
+          _timer.cancel();
+        }
+      });
 }
