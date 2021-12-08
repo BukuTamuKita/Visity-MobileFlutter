@@ -171,8 +171,14 @@ class _AppointmentCardState extends State<AppointmentCard>
                                   BorderRadius.all(Radius.circular(10)))),
                       onPressed: () {
                         isAccepted = false;
-                        showCustomDialog(context, isAccepted);
-                        cancelDialog(context);
+                        showCustomDialog(context, isAccepted).then((bool isSaved) {
+                          if(isSaved) {
+                            acceptedDialog(context);
+                          } else {
+                            ScaffoldMessenger.of(context)
+                              .showSnackBar(SnackBar(content: Text("Blank Field Not Allowed")));
+                          }
+                        });
                       },
                       child: Text(
                         "DECLINE",
