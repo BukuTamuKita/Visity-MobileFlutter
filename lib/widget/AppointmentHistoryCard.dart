@@ -31,8 +31,14 @@ class _AppointmentHistoryCardState extends State<AppointmentHistoryCard> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     return Container(
+      padding: EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 16),
       decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/historypage/background_card.png'),
+          alignment: Alignment.bottomLeft,
+        ),
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(10)),
         boxShadow: [
@@ -44,207 +50,56 @@ class _AppointmentHistoryCardState extends State<AppointmentHistoryCard> {
           ),
         ],
       ),
-      child: Container(
-          padding: EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.guestName!,
-                        style: mainSTextStyle4,
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      widget.hour! > 12
-                          ? Row(
-                              children: [
-                                Text(
-                                  DateFormat('MMM')
-                                          .format(DateTime(widget.month!, 0)) +
-                                      " " +
-                                      (widget.day! < 10
-                                          ? "0" + widget.day!.toString()
-                                          : widget.day!.toString()) +
-                                      "   ",
-                                  style: mainSTextStyle5,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          topCard(),
+          SizedBox(
+            height: 24,
+          ),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: ElevatedButton(
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return Dialog(
+                          backgroundColor: Colors.white,
+                          insetPadding: EdgeInsets.only(left: 16, right: 16),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12)),
+                          elevation: 0,
+                          child: Wrap(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.all(16),
+                                child: Column(
+                                  children: [topCard(), bottomCard(size)],
                                 ),
-                                Image(
-                                  image: AssetImage(
-                                      'assets/images/historypage/time.png'),
-                                  width: 20,
-                                  height: 20,
-                                  fit: BoxFit.cover,
-                                ),
-                                Text(
-                                  " 0" +
-                                      (widget.hour! - 12).toString() +
-                                      ":" +
-                                      (widget.minute! == 0
-                                          ? "00"
-                                          : widget.minute!.toString()) +
-                                      " am",
-                                  style: mainSTextStyle5,
-                                )
-                              ],
-                            )
-                          : widget.hour! == 12
-                              ? Row(
-                                  children: [
-                                    Text(
-                                      DateFormat('MMM').format(
-                                              DateTime(widget.month!, 0)) +
-                                          " " +
-                                          (widget.day! < 10
-                                              ? "0" + widget.day!.toString()
-                                              : widget.day!.toString()) +
-                                          "   ",
-                                      style: mainSTextStyle5,
-                                    ),
-                                    Image(
-                                      image: AssetImage(
-                                          'assets/images/historypage/time.png'),
-                                      width: 20,
-                                      height: 20,
-                                      fit: BoxFit.cover,
-                                    ),
-                                    Text(
-                                      " 0" +
-                                          widget.hour!.toString() +
-                                          ":" +
-                                          (widget.minute! == 0
-                                              ? "00"
-                                              : widget.minute!.toString()) +
-                                          " pm",
-                                      style: mainSTextStyle5,
-                                    )
-                                  ],
-                                )
-                              : widget.hour! == 0
-                                  ? Row(
-                                      children: [
-                                        Text(
-                                          DateFormat('MMM').format(
-                                                  DateTime(widget.month!, 0)) +
-                                              " " +
-                                              (widget.day! < 10
-                                                  ? "0" + widget.day!.toString()
-                                                  : widget.day!.toString()) +
-                                              "   ",
-                                          style: mainSTextStyle5,
-                                        ),
-                                        Image(
-                                          image: AssetImage(
-                                              'assets/images/historypage/time.png'),
-                                          width: 20,
-                                          height: 20,
-                                          fit: BoxFit.cover,
-                                        ),
-                                        Text(
-                                          " 0" +
-                                              (widget.hour! + 12).toString() +
-                                              ":" +
-                                              (widget.minute! == 0
-                                                  ? "00"
-                                                  : widget.minute!.toString()) +
-                                              " am",
-                                          style: mainSTextStyle5,
-                                        )
-                                      ],
-                                    )
-                                  : Row(
-                                      children: [
-                                        Text(
-                                          DateFormat('MMM').format(
-                                                  DateTime(widget.month!, 0)) +
-                                              " " +
-                                              (widget.day! < 10
-                                                  ? "0" + widget.day!.toString()
-                                                  : widget.day!.toString()) +
-                                              "   ",
-                                          style: mainSTextStyle5,
-                                        ),
-                                        Image(
-                                          image: AssetImage(
-                                              'assets/images/historypage/time.png'),
-                                          width: 20,
-                                          height: 20,
-                                          fit: BoxFit.cover,
-                                        ),
-                                        Text(
-                                          " 0" +
-                                              widget.hour!.toString() +
-                                              ":" +
-                                              (widget.minute! == 0
-                                                  ? "00"
-                                                  : widget.minute!.toString()) +
-                                              " am",
-                                          style: mainSTextStyle5,
-                                        )
-                                      ],
-                                    )
-                    ],
-                  ),
-                  Expanded(
-                      child: Container(
-                    child: widget.status == 'accepted'
-                        ? Align(
-                            alignment: Alignment.centerRight,
-                            child: acceptedLabel(context))
-                        : widget.status == 'declined'
-                            ? Align(
-                                alignment: Alignment.centerRight,
-                                child: declinedLabel(context))
-                            : Align(
-                                alignment: Alignment.centerRight,
-                                child: cancelledLabel(context)),
-                  ))
-                ],
+                              )
+                            ],
+                          ));
+                    });
+              },
+              child: Text(
+                'See More',
+                style: mainSTextStyle4,
               ),
-              SizedBox(
-                height: 36,
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(98, 38),
+                elevation: 0,
+                primary: transparentColor,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12)),
               ),
-              Text(
-                widget.guestPurpose!,
-                maxLines: 2,
-                softWrap: true,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.left,
-                style: purposeTextStyle,
-              ),
-              SizedBox(
-                height: 24,
-              ),
-              Text(
-                'Noted',
-                style: nameTextStyle,
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              Container(
-                width: size.width,
-                padding: EdgeInsets.all(8),
-                height: 90,
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black38, width: 1),
-                    borderRadius: BorderRadius.circular(10)),
-                child: Text(
-                  widget.noted!,
-                  style: purposeTextStyle,
-                  overflow: TextOverflow.ellipsis,
-                  softWrap: true,
-                  maxLines: 4,
-                ),
-              )
-            ],
-          )),
+            ),
+          ),
+          SizedBox(
+            height: 16,
+          )
+        ],
+      ),
     );
   }
 
@@ -254,7 +109,7 @@ class _AppointmentHistoryCardState extends State<AppointmentHistoryCard> {
         width: 84,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(1000)),
-          color: lightgreenColor,
+          color: shadeGreenColor,
         ),
         child: Align(
           alignment: Alignment.center,
@@ -271,7 +126,7 @@ class _AppointmentHistoryCardState extends State<AppointmentHistoryCard> {
         width: 84,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(1000)),
-          color: Color.fromRGBO(255, 134, 135, 1),
+          color: shadeRedColor,
         ),
         child: Align(
           alignment: Alignment.center,
@@ -288,14 +143,240 @@ class _AppointmentHistoryCardState extends State<AppointmentHistoryCard> {
         width: 84,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(1000)),
-          color: greyLabelBackground,
+          color: shadeYellowColor,
         ),
         child: Align(
           alignment: Alignment.center,
           child: Text(
-            widget.status!.toUpperCase(),
+            'CANCELLED',
             style: statusTextStyle3,
           ),
         ));
+  }
+
+  topCard() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.guestName!,
+                  style: mainSTextStyle4,
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                widget.hour! > 12
+                    ? Row(
+                        children: [
+                          Text(
+                            DateFormat('MMM')
+                                    .format(DateTime(widget.month!, 0)) +
+                                " " +
+                                (widget.day! < 10
+                                    ? "0" + widget.day!.toString()
+                                    : widget.day!.toString()) +
+                                "   ",
+                            style: timeTextStyle,
+                          ),
+                          Icon(
+                            Icons.schedule,
+                            color: greyColor,
+                            size: 18,
+                          ),
+                          Text(
+                            " 0" +
+                                (widget.hour! - 12).toString() +
+                                ":" +
+                                (widget.minute! == 0
+                                    ? "00"
+                                    : widget.minute!.toString()) +
+                                " am",
+                            style: timeTextStyle,
+                          )
+                        ],
+                      )
+                    : widget.hour! == 12
+                        ? Row(
+                            children: [
+                              Text(
+                                DateFormat('MMM')
+                                        .format(DateTime(widget.month!, 0)) +
+                                    " " +
+                                    (widget.day! < 10
+                                        ? "0" + widget.day!.toString()
+                                        : widget.day!.toString()) +
+                                    "   ",
+                                style: timeTextStyle,
+                              ),
+                              Icon(
+                                Icons.schedule,
+                                color: greyColor,
+                                size: 18,
+                              ),
+                              Text(
+                                ' ' +
+                                    widget.hour!.toString() +
+                                    ":" +
+                                    (widget.minute! == 0
+                                        ? "00"
+                                        : widget.minute!.toString()) +
+                                    " pm",
+                                style: timeTextStyle,
+                              )
+                            ],
+                          )
+                        : widget.hour! == 0
+                            ? Row(
+                                children: [
+                                  Text(
+                                    DateFormat('MMM').format(
+                                            DateTime(widget.month!, 0)) +
+                                        " " +
+                                        (widget.day! < 10
+                                            ? "0" + widget.day!.toString()
+                                            : widget.day!.toString()) +
+                                        "   ",
+                                    style: timeTextStyle,
+                                  ),
+                                  Icon(
+                                    Icons.schedule,
+                                    color: greyColor,
+                                    size: 18,
+                                  ),
+                                  Text(
+                                    " 0" +
+                                        (widget.hour! + 12).toString() +
+                                        ":" +
+                                        (widget.minute! == 0
+                                            ? "00"
+                                            : widget.minute!.toString()) +
+                                        " am",
+                                    style: timeTextStyle,
+                                  )
+                                ],
+                              )
+                            : Row(
+                                children: [
+                                  Text(
+                                    DateFormat('MMM').format(
+                                            DateTime(widget.month!, 0)) +
+                                        " " +
+                                        (widget.day! < 10
+                                            ? "0" + widget.day!.toString()
+                                            : widget.day!.toString()) +
+                                        "   ",
+                                    style: timeTextStyle,
+                                  ),
+                                  Icon(
+                                    Icons.schedule,
+                                    color: greyColor,
+                                    size: 18,
+                                  ),
+                                  Text(
+                                    (widget.hour! < 10
+                                            ? ' 0' + widget.hour.toString()
+                                            : ' ' + widget.hour.toString()) +
+                                        ":" +
+                                        (widget.minute! == 0
+                                            ? "00"
+                                            : widget.minute!.toString()) +
+                                        " am",
+                                    style: timeTextStyle,
+                                  )
+                                ],
+                              )
+              ],
+            ),
+            Expanded(
+                child: Container(
+              child: widget.status == 'accepted'
+                  ? Align(
+                      alignment: Alignment.centerRight,
+                      child: acceptedLabel(context))
+                  : widget.status == 'declined'
+                      ? Align(
+                          alignment: Alignment.centerRight,
+                          child: declinedLabel(context))
+                      : Align(
+                          alignment: Alignment.centerRight,
+                          child: cancelledLabel(context)),
+            ))
+          ],
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Text(
+          'Purpose',
+          style: purposeTextStyle1,
+        ),
+        SizedBox(
+          height: 4,
+        ),
+        Text(
+          widget.guestPurpose!,
+          style: purposeTextStyle,
+        ),
+      ],
+    );
+  }
+
+  bottomCard(size) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: 16,
+        ),
+        Text(
+          'Note to Guest',
+          style: purposeTextStyle1,
+        ),
+        SizedBox(
+          height: 8,
+        ),
+        Wrap(
+          children: [
+            Container(
+              width: size.width,
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                  border: Border.all(color: lightGreyColor, width: 1),
+                  borderRadius: BorderRadius.circular(10)),
+              child: Text(
+                widget.noted!,
+                style: purposeTextStyle,
+              ),
+            )
+          ],
+        ),
+        SizedBox(
+          height: 8,
+        ),
+        Align(
+          alignment: Alignment.bottomRight,
+          child: ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text(
+                'Close',
+                style: barTextStyle1,
+              ),
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(90, 38),
+                primary: shadeBlueColor,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
+              )),
+        )
+      ],
+    );
   }
 }

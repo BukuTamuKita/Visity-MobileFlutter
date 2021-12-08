@@ -171,14 +171,38 @@ class APIservice {
     }
   }
 
-  Future<void> deleteToken(email) async {
+  Future<void> updatePassword(password, id) async {
+    SharedPreferences sharedPreferences;
+    sharedPreferences = await SharedPreferences.getInstance();
+
+    String token;
+
+    token = sharedPreferences.getString('token')!;
 
     try {
-      final response = await http.post(
-          Uri.parse('$baseUrl/api/del-token'),
-          body: {
-            'email': email,
-          });
+      final response =
+          await http.put(Uri.parse('$baseUrl/api/users/' + id), headers: {
+        'Authorization': 'Bearer $token',
+      }, body: {
+        'password': password,
+      });
+
+      if (response.statusCode == 200) {
+        print('update berhasil');
+      } else {
+        print('update gagal');
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<void> deleteToken(email) async {
+    try {
+      final response =
+          await http.post(Uri.parse('$baseUrl/api/del-token'), body: {
+        'email': email,
+      });
 
       if (response.statusCode == 200) {
         print('update berhasil');

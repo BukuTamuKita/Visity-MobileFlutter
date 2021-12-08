@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:bukutamu_android/animation/ShimmerListCard.dart';
-import 'package:bukutamu_android/animation/ShimmerProfile.dart';
+
 import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/model/appointment_model.dart';
 import 'package:bukutamu_android/model/host_model.dart';
-import 'package:bukutamu_android/provider/appointment_provider.dart';
+
 import 'package:bukutamu_android/provider/information_provider.dart';
 import 'package:bukutamu_android/widget/AppointmentCard.dart';
 import 'package:flutter/cupertino.dart';
@@ -57,7 +57,7 @@ class _BodyState extends State<Body> {
           alignment: Alignment.center,
           child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 SizedBox(height: 28),
                 Consumer<InformationProvider>(
@@ -103,27 +103,23 @@ class _BodyState extends State<Body> {
                             return SizedBox();
                           }
                         }))),
-                SizedBox(height: 36),
-                Container(
-                  width: size.width,
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Align(
-                            alignment: Alignment.bottomLeft,
-                            child: Text(
-                              "Visitor",
-                              style: mainSTextStyle2,
-                            )),
-                        Text(
-                          "You have " +
-                              (appointmentCount == 0
-                                  ? 'no'
-                                  : appointmentCount.toString()) +
-                              " visitors today",
-                          style: mainSTextStyle3,
-                        ),
-                      ]),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  "Appointment",
+                  style: mainSTextStyle2,
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Text(
+                  "You have " +
+                      (appointmentCount == 0
+                          ? 'no'
+                          : appointmentCount.toString()) +
+                      " visitors today",
+                  style: mainSTextStyle3,
                 ),
                 SizedBox(
                   height: 40,
@@ -154,7 +150,7 @@ class _BodyState extends State<Body> {
                           }
                         }
 
-                        saveCount(historycount);
+                        saveCount(appointmentCount, historycount);
                         if (appointmentCount == 0) {
                           return Container(
                               height: size.height / 1.8,
@@ -246,10 +242,11 @@ class _BodyState extends State<Body> {
     });
   }
 
-  Future<void> saveCount(int historycount) async {
+  Future<void> saveCount(appointmentcount, historycount) async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
 
+    sharedPreferences.setInt('appointmentcount', appointmentcount);
     sharedPreferences.setInt('historycount', historycount);
   }
 }

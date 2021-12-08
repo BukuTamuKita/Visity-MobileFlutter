@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 String? finalEmail;
 
@@ -23,9 +24,11 @@ class _BodyState extends State<Body> {
 
   bool isHiddenPassword = true;
   bool isLoading = false;
+  bool _isChecked = false;
 
   @override
   void initState() {
+    _loadUserEmailPassword();
     super.initState();
   }
 
@@ -37,11 +40,11 @@ class _BodyState extends State<Body> {
       builder: () => Background(
         child: SingleChildScrollView(
             child: Container(
-              padding: EdgeInsets.only(
-                left: 16,
-                right: 16,
-                top: size.height / 9,
-                bottom: size.height / 7),
+          padding: EdgeInsets.only(
+              left: 16,
+              right: 16,
+              top: size.height / 9,
+              bottom: size.height / 7),
           height: size.height,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -131,14 +134,39 @@ class _BodyState extends State<Body> {
                           },
                         )),
                   ),
-                  Align(
-                      alignment: Alignment.topRight,
-                      child: TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            "Forgot Password?",
-                            style: lPTextStyle3,
-                          ))),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      SizedBox(
+                          height: 24.0,
+                          width: 24.0,
+                          child: Theme(
+                            data: ThemeData(unselectedWidgetColor: blueColor),
+                            child: Checkbox(
+                              activeColor: blueColor,
+                              value: this._isChecked,
+                              onChanged: (bool? value) {
+                                if (value != null &&
+                                    emailController.text != '' &&
+                                    passwordController.text != '')
+                                  setState(() {
+                                    this._isChecked = value;
+                                  });
+                              },
+                            ),
+                          )),
+                      SizedBox(
+                        width: 4,
+                      ),
+                      Text(
+                        'Remember Me',
+                        style: lPTextStyle3,
+                      )
+                    ],
+                  )
                 ],
               )),
               BouncingWidget(
@@ -153,6 +181,7 @@ class _BodyState extends State<Body> {
                           setState(() {
                             isLoading = true;
                           });
+                          _handleRememberMe(_isChecked);
                           Timer(Duration(seconds: 2), () {
                             Navigator.pushReplacementNamed(context, '/home');
                           });
@@ -197,5 +226,40 @@ class _BodyState extends State<Body> {
         )),
       ),
     );
+  }
+
+  _handleRememberMe(bool value) {
+    _isChecked = value;
+    SharedPreferences.getInstance().then(
+      (prefs) {
+        prefs.setBool("remember_me", value);
+        prefs.setString('email', emailController.text);
+        prefs.setString('password', passwordController.text);
+      },
+    );
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      _isChecked = value;
+    });
+  }
+
+  void _loadUserEmailPassword() async {
+    try {
+      SharedPreferences _prefs = await SharedPreferences.getInstance();
+      var _email = _prefs.getString("email") ?? "";
+      var _password = _prefs.getString("password") ?? "";
+      var _remeberMe = _prefs.getBool("remember_me") ?? false;
+      print(_remeberMe);
+      print(_email);
+      print(_password);
+      if (_remeberMe) {
+        setState(() {
+          _isChecked = true;
+        });
+        emailController.text = _email;
+        passwordController.text = _password;
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 }

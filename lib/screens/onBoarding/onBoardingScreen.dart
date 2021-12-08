@@ -16,7 +16,7 @@ class _OnBoardingState extends State<OnBoarding> {
   late PageController _pageController;
   List<OnboardModel> screens = <OnboardModel>[
     OnboardModel(
-      img: 'assets/images/onboardingpage/welcomepagepurple.png',
+      img: 'assets/images/onboardingpage/welcomepage.png',
       text: "What is Visity ? ",
       desc:
           "Kami dapat membantu anda untuk melakukan appointment dengan mudah dan cepat",
@@ -202,16 +202,18 @@ class _OnBoardingState extends State<OnBoarding> {
                               child: Text(
                                 "Skip",
                                 style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                ),
+                                    color: Color.fromRGBO(191, 189, 197, 1),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold),
                               ),
                             ),
                             Row(mainAxisSize: MainAxisSize.min, children: [
                               Text(
                                 "Next",
                                 style: TextStyle(
-                                    fontSize: 16.0, color: Colors.black),
+                                    fontSize: 18.0,
+                                    color: Color.fromRGBO(35, 33, 39, 1),
+                                    fontWeight: FontWeight.bold),
                               ),
                               SizedBox(
                                 width: 4,

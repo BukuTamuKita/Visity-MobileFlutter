@@ -101,7 +101,7 @@ class _MainScreenState extends State<MainScreen> {
 
     if (expirytimes.isBefore(DateTime.now())) {
       sharedPreferences.remove('token');
-      APIservice().deleteToken(email);
+      
       Navigator.popAndPushNamed(context, '/login');
     }
   }
