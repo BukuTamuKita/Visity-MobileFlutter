@@ -3,13 +3,13 @@ import 'dart:async';
 import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
-
 import 'package:bukutamu_android/provider/appointment_provider.dart';
-
-import 'package:bukutamu_android/screens/home/components/Body.dart';
+import 'package:bukutamu_android/screens/home/HomeScreen.dart';
+import 'package:bukutamu_android/screens/mainScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppointmentCard extends StatefulWidget {
   String? guestPurpose;
@@ -29,25 +29,40 @@ class AppointmentCard extends StatefulWidget {
   State<AppointmentCard> createState() => _AppointmentCardState();
 }
 
-class _AppointmentCardState extends State<AppointmentCard> with SingleTickerProviderStateMixin {
+class _AppointmentCardState extends State<AppointmentCard>
+    with SingleTickerProviderStateMixin {
   TextEditingController _notesControler = TextEditingController();
-  late AnimationController _controller;
+  late AnimationController _controllerAccepted;
+  // late AnimationController _controllerCancel;
+  late Timer _timer;
+  bool isSaved = false;
 
   @override
   void initState() {
     super.initState();
-    
-    _controller = AnimationController(
-      duration: Duration(seconds: 3),
+
+    _controllerAccepted = AnimationController(
+      duration: Duration(seconds: 4),
       vsync: this,
     );
 
-    _controller.addStatusListener((status) async { 
+    _controllerAccepted.addStatusListener((status) async {
       if (status == AnimationStatus.completed) {
-        Navigator.pop(context);
-        _controller.reset();
+        _controllerAccepted.reset();
       }
     });
+
+    // _controllerCancel = AnimationController(
+    //   duration: Duration(seconds: 4),
+    //   vsync: this,
+    // );
+
+    // _controllerCancel.addStatusListener((status) async {
+    //   if (status == AnimationStatus.completed) {
+    //     Navigator.pop(context);
+    //     _controllerCancel.reset();
+    //   }
+    // });
   }
 
   bool isAccepted = false;
@@ -55,15 +70,14 @@ class _AppointmentCardState extends State<AppointmentCard> with SingleTickerProv
   @override
   void dispose() {
     // TODO: implement dispose
-    _controller.dispose();
-
     super.dispose();
+
+    _controllerAccepted.dispose();
+    // _controllerCancel.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    
-
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -134,6 +148,8 @@ class _AppointmentCardState extends State<AppointmentCard> with SingleTickerProv
                         onPressed: () {
                           isAccepted = true;
                           showCustomDialog(context, isAccepted);
+                          isSaved ? acceptedDialog(context) : ScaffoldMessenger.of(context)
+                                    .showSnackBar(SnackBar(content: Text("Failed")));
                         },
                         child: Text(
                           "ACCEPT",
@@ -156,6 +172,7 @@ class _AppointmentCardState extends State<AppointmentCard> with SingleTickerProv
                       onPressed: () {
                         isAccepted = false;
                         showCustomDialog(context, isAccepted);
+                        cancelDialog(context);
                       },
                       child: Text(
                         "DECLINE",
@@ -170,7 +187,7 @@ class _AppointmentCardState extends State<AppointmentCard> with SingleTickerProv
     );
   }
 
-  void showCustomDialog(BuildContext context, bool accepted) => showDialog(
+  showCustomDialog(BuildContext context, bool accepted) => showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => Dialog(
@@ -208,14 +225,12 @@ class _AppointmentCardState extends State<AppointmentCard> with SingleTickerProv
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          if(accepted == true) {
-                            APIservice().updateStatus(
-                              widget.id, accepted, _notesControler, context);
-                            APIservice().sendEmail(widget.id);
-                            acceptedDialog(context, accepted);
-                          } else {
-                            acceptedDialog(context, accepted);
-                          }
+                          APIservice().updateStatus(
+                                widget.id, accepted, _notesControler, context);
+                          APIservice().sendEmail(widget.id);
+                          bool isSend = true;
+                          setSend(isSend);
+                          Navigator.pop(context);
                         },
                         style: ElevatedButton.styleFrom(
                           primary: lightblueColor,
@@ -248,45 +263,75 @@ class _AppointmentCardState extends State<AppointmentCard> with SingleTickerProv
             ),
           ));
 
-  void acceptedDialog (BuildContext context, bool accepted) => showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => Dialog(
-        child: Column(children: [
-          Lottie.asset(
-            'assets/loadingSuccess.json',
-            repeat: false,
-            controller: _controller,
-            onLoaded: (composition) {
-              _controller.forward();
-            }
-          ),
-          Text(
-            "Accepted",
-            style: mainSTextStyle1,
-          )
-        ],),
-      )
-  );
+  void acceptedDialog(BuildContext context) => showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext builderContext) {
+            _timer = Timer(Duration(seconds: 1), () {
+              Navigator.of(context).pop();
+            });
 
-  void failedDialog (BuildContext context, bool accepted) => showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => Dialog(
-        child: Column(children: [
-          Lottie.asset(
-            'assets/loadingFailed.json',
-            repeat: false,
-            controller: _controller,
-            onLoaded: (composition) {
-              _controller.forward();
-            }
-          ),
-          Text(
-            "Accepted",
-            style: mainSTextStyle1,
-          )
-        ],),
-      )
-  );
+            return Dialog(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Lottie.asset('assets/loadingSuccess.json',
+                      repeat: false,
+                      controller: _controllerAccepted, onLoaded: (composition) {
+                    _controllerAccepted.forward();
+                  }),
+                ],
+              ),
+            );
+          }).then((val) {
+        if (_timer.isActive) {
+          _timer.cancel();
+        }
+      });
+
+      void cancelDialog(BuildContext context) => showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext builderContext) {
+            _timer = Timer(Duration(seconds: 7), () {
+              Navigator.of(context).pop();
+            });
+
+            return Dialog(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Lottie.asset('assets/loadingFailed.json',
+                      repeat: false,
+                      controller: _controllerAccepted, onLoaded: (composition) {
+                    _controllerAccepted.forward();
+                  }),
+                ],
+              ),
+            );
+          }).then((val) {
+        if (_timer.isActive) {
+          _timer.cancel();
+        }
+      });
+
+   Future<void> setSend (bool send) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      sharedPreferences.setBool('send', send);
+    });
+  }
+  
+  Future<void> getSend (bool send) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      isSaved = sharedPreferences.getBool('send')!;
+    });
+  }
 }
+
+
