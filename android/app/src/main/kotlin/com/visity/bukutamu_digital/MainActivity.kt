@@ -1,4 +1,4 @@
-package com.example.bukutamu_android
+package com.visity.bukutamu_digital
 
 import io.flutter.embedding.android.FlutterActivity
 
