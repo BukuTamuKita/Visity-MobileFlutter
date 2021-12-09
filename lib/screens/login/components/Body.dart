@@ -248,9 +248,7 @@ class _BodyState extends State<Body> {
       var _email = _prefs.getString("email") ?? "";
       var _password = _prefs.getString("password") ?? "";
       var _remeberMe = _prefs.getBool("remember_me") ?? false;
-      print(_remeberMe);
-      print(_email);
-      print(_password);
+      
       if (_remeberMe) {
         setState(() {
           _isChecked = true;

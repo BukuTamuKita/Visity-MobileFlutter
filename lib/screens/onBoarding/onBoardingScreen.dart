@@ -53,11 +53,11 @@ class _OnBoardingState extends State<OnBoarding> {
   }
 
   _storeOnboardInfo() async {
-    print("Shared pref called");
+    
     int isViewed = 0;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setInt('onBoard', isViewed);
-    print(prefs.getInt('onBoard'));
+    
   }
 
   @override
@@ -151,7 +151,7 @@ class _OnBoardingState extends State<OnBoarding> {
                     ),
                     InkWell(
                       onTap: () async {
-                        print(index);
+                        
                         if (index == screens.length - 1) {
                           await _storeOnboardInfo();
                           Navigator.pushReplacement(

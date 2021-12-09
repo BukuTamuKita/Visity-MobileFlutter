@@ -214,7 +214,7 @@ class APIservice {
     }
   }
 
-  Future<void> updateStatus(id, accepted, note, context) async {
+  Future<bool> updateStatus(id, accepted, note, context) async {
     SharedPreferences sharedPreferences;
     sharedPreferences = await SharedPreferences.getInstance();
 
@@ -242,12 +242,12 @@ class APIservice {
           });
 
       if (response.statusCode == 200) {
-        print('update berhasil');
+        return true;
       } else {
-        print('update gagal');
+        return false;
       }
     } catch (e) {
-      print(e.toString());
+      return false;
     }
   }
 }

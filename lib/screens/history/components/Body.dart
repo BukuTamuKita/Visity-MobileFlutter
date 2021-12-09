@@ -191,7 +191,7 @@ class _BodyState extends State<Body> {
                 FutureBuilder<Appointment>(
                     future: _appointment,
                     builder: (context, snapshot) {
-                      print(snapshot.hasData.toString());
+                      
                       if (snapshot.hasData) {
                         int dataLength = snapshot.data!.data.length;
 

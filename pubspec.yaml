@@ -154,30 +154,19 @@ flutter:
 
   assets:
     - assets/icons/
-    - assets/icons/mainscreen/ProfileIcon.png
-    - assets/icons/mainscreen/ProfileIcon_black.png
-    - assets/icons/mainscreen/Settings.png
-    - assets/icons/welcomepage/Arrow.png
-    - assets/icons/logo/logo.png
+    - assets/icons/welcomepage/
+    - assets/icons/logo/
     - assets/images/
     - assets/images/onboardingpage/
-    - assets/images/loginpage/
-    - assets/images/signuppage/
-    - assets/images/signuppage/SPTopLeft2.png
+    - assets/images/loginpage/    
     - assets/images/mainpage/
-    - assets/icons/logo/splash_screen.png
+    - assets/icons/logo/
     - assets/images/historypage/
-    - assets/images/profilepage/
-    - assets/images/mainpage/iconHistory.png
-    - assets/images/mainpage/iconHome.png
-    - assets/images/mainpage/iconUser.png
+    - assets/images/profilepage/ 
     - assets/svg/
-    - assets/svg/estate.svg
-    - assets/svg/history.svg
-    - assets/svg/user.svg
     - assets/loadingSuccess.json
     - assets/loadingFailed.json
-    - assets/icons/logo/splash_screen1.png
+   
 
   # To add assets to your application, add an assets section, like this:
   # assets:

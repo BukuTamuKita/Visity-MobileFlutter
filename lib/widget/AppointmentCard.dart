@@ -31,53 +31,53 @@ class _AppointmentCardState extends State<AppointmentCard>
   TextEditingController _notesControler = TextEditingController();
   late AnimationController _controllerAccepted;
   late AnimationController _controllerCancel;
-  // late AnimationController _controllerCancel;
   late Timer _timer;
 
   @override
   void initState() {
     super.initState();
 
-    _controllerAccepted = AnimationController(
-      duration: Duration(seconds: 4),
-      vsync: this,
-    );
 
-    _controllerAccepted.addStatusListener((status) async {
-      if (status == AnimationStatus.completed) {
-        Navigator.of(context).pop();
-        _controllerAccepted.reset();
-      }
-    });
+      _controllerAccepted = AnimationController(
+        duration: Duration(seconds: 3),
+        vsync: this,
+      );
 
-    _controllerCancel = AnimationController(
-      duration: Duration(seconds: 4),
-      vsync: this,
-    );
+      _controllerAccepted.addStatusListener((status) async {
+        if (status == AnimationStatus.completed) {
+          Navigator.of(context).pop();
+          _controllerAccepted.reset();
+        }
+      });
 
-    _controllerCancel.addStatusListener((status) async {
-      if (status == AnimationStatus.completed) {
-        Navigator.pop(context);
-        _controllerCancel.reset();
-      }
-    });
+      _controllerCancel = AnimationController(
+        duration: Duration(seconds: 3),
+        vsync: this,
+      );
+
+      _controllerCancel.addStatusListener((status) async {
+        if (status == AnimationStatus.completed) {
+          Navigator.of(context).pop();
+          _controllerCancel.reset();
+        }
+      });
+    
   }
 
   bool isAccepted = false;
 
   @override
   void dispose() {
-    // TODO: implement dispose
+    
     _controllerAccepted.dispose();
     _controllerCancel.dispose();
+
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
-    return  Container(
+    return Container(
         padding: EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 16),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -283,11 +283,13 @@ class _AppointmentCardState extends State<AppointmentCard>
                             APIservice().sendEmail(widget.id);
 
                             Navigator.pop(context);
-                            if (accepted) {
-                              acceptedDialog(buildContext);
-                            } else {
-                              cancelDialog(buildContext);
-                            }
+                            
+                              if (accepted) {
+                                acceptedDialog(buildContext);
+                              } else {
+                                cancelDialog(buildContext);
+                              }
+                            
                           },
                           style: ElevatedButton.styleFrom(
                             primary: lightOrangeColor,
@@ -314,7 +316,7 @@ class _AppointmentCardState extends State<AppointmentCard>
           barrierDismissible: false,
           builder: (BuildContext builderContext) {
             _timer = Timer(Duration(seconds: 5), () {
-              Navigator.pop(buildcontext);
+              Navigator.of(context).pop();
             });
 
             return Dialog(
@@ -342,7 +344,7 @@ class _AppointmentCardState extends State<AppointmentCard>
           barrierDismissible: false,
           builder: (BuildContext builderContext) {
             _timer = Timer(Duration(seconds: 5), () {
-              Navigator.pop(buildcontext);
+              Navigator.of(context).pop();
             });
 
             return Dialog(
