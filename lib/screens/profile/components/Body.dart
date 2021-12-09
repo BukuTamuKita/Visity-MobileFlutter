@@ -6,6 +6,7 @@ import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/model/host_model.dart';
 import 'package:bukutamu_android/screens/login/LoginScreen.dart';
+import 'package:bukutamu_android/screens/mainScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -279,8 +280,8 @@ class _BodyState extends State<Body> {
   Future<void> logout() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     // APIservice().deleteToken(email);
-    await sharedPreferences.remove('token');
-    Navigator.popAndPushNamed(context, '/login');
+    sharedPreferences.remove('token');
+    sharedPreferences.setBool('isLogout', true);
   }
 
   void resetAuthDialog(BuildContext context, String id, String auth) =>
@@ -346,6 +347,7 @@ class _BodyState extends State<Body> {
                           children: [
                             TextButton(
                                 onPressed: () {
+                                  _newAuthController.clear();
                                   Navigator.pop(context);
                                 },
                                 child: Text(
@@ -368,6 +370,7 @@ class _BodyState extends State<Body> {
                                       ? _host = APIservice().getDataHost()
                                       : updatePassword(_newAuthController.text);
                                 });
+                                _newAuthController.clear();
                                 Navigator.pop(context);
                               },
                               style: ElevatedButton.styleFrom(
