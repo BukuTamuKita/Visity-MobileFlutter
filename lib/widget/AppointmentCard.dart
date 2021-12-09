@@ -37,38 +37,35 @@ class _AppointmentCardState extends State<AppointmentCard>
   void initState() {
     super.initState();
 
+    _controllerAccepted = AnimationController(
+      duration: Duration(seconds: 2),
+      vsync: this,
+    );
 
-      _controllerAccepted = AnimationController(
-        duration: Duration(seconds: 3),
-        vsync: this,
-      );
+    _controllerAccepted.addStatusListener((status) async {
+      if (status == AnimationStatus.completed) {
+        Navigator.of(context).pop();
+        _controllerAccepted.reset();
+      }
+    });
 
-      _controllerAccepted.addStatusListener((status) async {
-        if (status == AnimationStatus.completed) {
-          Navigator.of(context).pop();
-          _controllerAccepted.reset();
-        }
-      });
+    _controllerCancel = AnimationController(
+      duration: Duration(seconds: 2),
+      vsync: this,
+    );
 
-      _controllerCancel = AnimationController(
-        duration: Duration(seconds: 3),
-        vsync: this,
-      );
-
-      _controllerCancel.addStatusListener((status) async {
-        if (status == AnimationStatus.completed) {
-          Navigator.of(context).pop();
-          _controllerCancel.reset();
-        }
-      });
-    
+    _controllerCancel.addStatusListener((status) async {
+      if (status == AnimationStatus.completed) {
+        Navigator.of(context).pop();
+        _controllerCancel.reset();
+      }
+    });
   }
 
   bool isAccepted = false;
 
   @override
   void dispose() {
-    
     _controllerAccepted.dispose();
     _controllerCancel.dispose();
 
@@ -283,13 +280,12 @@ class _AppointmentCardState extends State<AppointmentCard>
                             APIservice().sendEmail(widget.id);
 
                             Navigator.pop(context);
-                            
-                              if (accepted) {
-                                acceptedDialog(buildContext);
-                              } else {
-                                cancelDialog(buildContext);
-                              }
-                            
+
+                            if (accepted) {
+                              acceptedDialog(buildContext);
+                            } else {
+                              cancelDialog(buildContext);
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                             primary: lightOrangeColor,

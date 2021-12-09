@@ -18,8 +18,7 @@ class _OnBoardingState extends State<OnBoarding> {
     OnboardModel(
       img: 'assets/images/onboardingpage/welcomepage.png',
       text: "What is Visity ? ",
-      desc:
-          "Kami dapat membantu anda untuk melakukan appointment dengan mudah dan cepat",
+      desc: "We can help you to make an appointment easily and quickly",
       bg: Colors.white,
       button: Color(0xFF4756DF),
     ),
@@ -27,14 +26,14 @@ class _OnBoardingState extends State<OnBoarding> {
       img: 'assets/images/onboardingpage/onboarding2.png',
       text: "Get Notified",
       desc:
-          "Anda dapat menghetahui siapa yang melakukan appointment dengan anda  di notifikasi",
+          "You can easily find out who made an appointment with you on your smartphone notification.",
       bg: Color(0xFF4756DF),
       button: Colors.white,
     ),
     OnboardModel(
       img: 'assets/images/onboardingpage/onboarding3.png',
       text: "One Click !",
-      desc: "Hanya dengan satu click anda dapat melakukan Appointment",
+      desc: "With just one click, and voila! You have made an appointment.",
       bg: Colors.white,
       button: Color(0xFF4756DF),
     ),
@@ -53,11 +52,9 @@ class _OnBoardingState extends State<OnBoarding> {
   }
 
   _storeOnboardInfo() async {
-    
     int isViewed = 0;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setInt('onBoard', isViewed);
-    
   }
 
   @override
@@ -151,7 +148,6 @@ class _OnBoardingState extends State<OnBoarding> {
                     ),
                     InkWell(
                       onTap: () async {
-                        
                         if (index == screens.length - 1) {
                           await _storeOnboardInfo();
                           Navigator.pushReplacement(
