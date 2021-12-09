@@ -5,6 +5,7 @@ import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/model/host_model.dart';
+import 'package:bukutamu_android/screens/login/LoginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -225,7 +226,8 @@ class _BodyState extends State<Body> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     // APIservice().deleteToken(email);
     await sharedPreferences.remove('token');
-    Navigator.popAndPushNamed(context, '/login');
+    Navigator.push(context, new MaterialPageRoute(
+   builder: (context) => new LoginScreen()));
   }
 
   void newEmailDialog(BuildContext context, String id) => showDialog(

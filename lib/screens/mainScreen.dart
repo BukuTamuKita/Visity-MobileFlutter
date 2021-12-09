@@ -15,7 +15,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int currentIndex = 1;
 
   @override
   void initState() {
@@ -37,7 +36,6 @@ class _MainScreenState extends State<MainScreen> {
 
     return SafeArea(
         child: Scaffold(
-      body: screens[currentIndex],
       bottomNavigationBar: PersistentTabView(
             context,
             controller: _controller,
