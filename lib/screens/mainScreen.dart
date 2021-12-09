@@ -34,9 +34,7 @@ class _MainScreenState extends State<MainScreen> {
     PersistentTabController _controller;
     _controller = PersistentTabController(initialIndex: 1);
 
-    return SafeArea(
-        child: Scaffold(
-      bottomNavigationBar: PersistentTabView(
+    return PersistentTabView(
             context,
             controller: _controller,
             screens: _buildScreens(),
@@ -68,8 +66,7 @@ class _MainScreenState extends State<MainScreen> {
             ),
             navBarStyle: NavBarStyle
                 .style6, // Choose the nav bar style with this property.
-          )
-    ));
+          );
   }
 
   List<Widget> _buildScreens() {

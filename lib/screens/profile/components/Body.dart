@@ -7,6 +7,7 @@ import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/model/host_model.dart';
 import 'package:bukutamu_android/screens/login/LoginScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Body extends StatefulWidget {
@@ -30,6 +31,7 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    RouteAndNavigatorSettings _route;
 
     return SafeArea(
       child: SingleChildScrollView(
@@ -226,8 +228,12 @@ class _BodyState extends State<Body> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     // APIservice().deleteToken(email);
     await sharedPreferences.remove('token');
-    Navigator.push(context, new MaterialPageRoute(
-   builder: (context) => new LoginScreen()));
+       pushNewScreen(
+        context,
+        screen: LoginScreen(),
+        withNavBar: false, // OPTIONAL VALUE. True by default.
+        pageTransitionAnimation: PageTransitionAnimation.fade,
+    );
   }
 
   void newEmailDialog(BuildContext context, String id) => showDialog(
