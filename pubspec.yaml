@@ -58,6 +58,7 @@ dependencies:
   bouncing_widget: ^2.0.0
   stylish_bottom_bar: ^0.0.6
   lottie: ^1.2.1
+  change_app_package_name: ^1.0.0
 
 dev_dependencies:
   flutter_test:
