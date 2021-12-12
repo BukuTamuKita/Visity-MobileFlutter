@@ -59,7 +59,7 @@ class APIservice {
     return host;
   }
 
-  Future<bool> login(email, password, context, isLoading) async {
+  Future<bool> login(email, password, context) async {
     final jsonData;
     DateTime _expirydate;
     int timeToken;
