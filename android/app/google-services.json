@@ -7,44 +7,7 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:426931245962:android:5ca74bfeec69ab7087ae73",
-        "android_client_info": {
-          "package_name": "com.example.bukutamu_android"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "426931245962-pb534k5qdu0ripvj0ae8iufpp8a0of62.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.bukutamu_android",
-            "certificate_hash": "15d3be17412dd752ef559d101abde67a8e9f22b6"
-          }
-        },
-        {
-          "client_id": "426931245962-vbcppoeucjishb1b5dr0rpet6ud1s54r.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBzBtyT3x_i0bzFuG-6cjky6y_q7p1uvoU"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "426931245962-vbcppoeucjishb1b5dr0rpet6ud1s54r.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:426931245962:android:4b976c7f1acdc7ac87ae73",
+        "mobilesdk_app_id": "1:426931245962:android:bd3ae2f7aae4682687ae73",
         "android_client_info": {
           "package_name": "com.visity.bukutamu"
         }
