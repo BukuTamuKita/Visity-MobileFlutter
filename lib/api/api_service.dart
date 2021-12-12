@@ -9,8 +9,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class APIservice {
-  String urlAppointment = "http://10.0.2.2:8000/api/appointments";
-  String urlHost = "http://10.0.2.2:8000/api/hosts";
+  final String baseUrl = "https://api.visity.me";
 
   Future<Appointment> getDataAppointment() async {
     var appointment;
@@ -18,16 +17,15 @@ class APIservice {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     final loginToken = sharedPreferences.getString('token');
-    print("home = " + loginToken.toString());
 
     try {
-      final response = await http.get(Uri.parse(urlAppointment), headers: {
+      final response =
+          await http.get(Uri.parse('$baseUrl/api/appointments'), headers: {
         'Authorization': 'Bearer $loginToken',
       });
       print(response.statusCode.toString());
 
       if (response.statusCode == 200) {
-        print(response.body);
         final jsonString = response.body;
         final jsonMap = json.decode(jsonString);
 
@@ -47,14 +45,12 @@ class APIservice {
     final loginToken = sharedPreferences.getString('token');
 
     try {
-      final response = await http.get(Uri.parse(urlHost), headers: {
+      final response =
+          await http.get(Uri.parse('$baseUrl/api/hosts'), headers: {
         'Authorization': 'Bearer $loginToken',
       });
-      print("response Host = " + response.statusCode.toString());
 
       if (response.statusCode == 200) {
-        print(response.body);
-
         return Host.fromJson(jsonDecode(response.body)['data']);
       } else {}
     } catch (e) {
@@ -63,11 +59,10 @@ class APIservice {
     return host;
   }
 
-  Future<void> login(email, password, context) async {
+  Future<bool> login(email, password, context, isLoading) async {
     final jsonData;
     DateTime _expirydate;
     int timeToken;
-    bool isLogin = false;
     String? _deviceToken;
 
     final SharedPreferences sharedPreferences =
@@ -75,51 +70,44 @@ class APIservice {
 
     if (email.text.isNotEmpty && password.text.isNotEmpty) {
       final response = await http.post(
-        Uri.parse("http://10.0.2.2:8000/api/auth/loginHost"),
+        Uri.parse("$baseUrl/api/auth/loginHost"),
         body: ({'email': email.text, 'password': password.text}),
       );
       if (response.statusCode == 200) {
-        isLogin = true;
         jsonData = json.decode(response.body);
-        print("login = " + jsonData['token'].toString());
+
         await Firebase.initializeApp();
         _deviceToken = await FirebaseMessaging.instance.getToken();
         updateToken(_deviceToken, email);
-        print("device token = " + _deviceToken!);
+
         sharedPreferences.setString("token", jsonData['token']);
         sharedPreferences.setInt("expiredtime", jsonData['expires_in']);
+        // sharedPreferences.setString("email", jsonData['email']);
 
         timeToken = sharedPreferences.getInt('expiredtime')!;
+        print(timeToken);
         _expirydate = DateTime.now().add(Duration(seconds: timeToken));
 
         sharedPreferences.setString('expiredtoken', _expirydate.toString());
         print(_expirydate);
-        Navigator.pushNamed(context, '/home');
+
+        return true;
       } else {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text("Invalid Credentials")));
+        return false;
       }
     } else {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Blank Field Not Allowed")));
+      return false;
     }
-    return;
   }
 
   Future<void> updateToken(String? deviceToken, email) async {
-    SharedPreferences sharedPreferences;
-    sharedPreferences = await SharedPreferences.getInstance();
-    String token;
-
-    final String baseUrl = "http://10.0.2.2:8000";
-    token = sharedPreferences.getString('token')!;
     try {
-      final response = await http.post(
-          Uri.parse('$baseUrl/api/save-token'),
-          body: {
-            'email': email.text,
-            'token': deviceToken
-          });
+      final response = await http.post(Uri.parse('$baseUrl/api/save-token'),
+          body: {'email': email.text, 'token': deviceToken});
 
       if (response.statusCode == 200) {
         print('update berhasil');
@@ -131,19 +119,113 @@ class APIservice {
     }
   }
 
-  Future<void> updateStatus(id, accepted, note, context) async {
+  Future<void> sendEmail(id) async {
+    SharedPreferences sharedPreferences;
+    sharedPreferences = await SharedPreferences.getInstance();
+
+    String token;
+
+    token = sharedPreferences.getString('token')!;
+
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/api/utils/send_email/' + id.toString()),
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        print('update berhasil');
+      } else {
+        print('update gagal');
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<void> updateEmail(email, id) async {
+    SharedPreferences sharedPreferences;
+    sharedPreferences = await SharedPreferences.getInstance();
+
+    String token;
+
+    token = sharedPreferences.getString('token')!;
+
+    try {
+      final response =
+          await http.put(Uri.parse('$baseUrl/api/users/' + id), headers: {
+        'Authorization': 'Bearer $token',
+      }, body: {
+        'email': email,
+      });
+
+      if (response.statusCode == 200) {
+        print('update berhasil');
+      } else {
+        print('update gagal');
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<void> updatePassword(password, id) async {
+    SharedPreferences sharedPreferences;
+    sharedPreferences = await SharedPreferences.getInstance();
+
+    String token;
+
+    token = sharedPreferences.getString('token')!;
+
+    try {
+      final response =
+          await http.put(Uri.parse('$baseUrl/api/users/' + id), headers: {
+        'Authorization': 'Bearer $token',
+      }, body: {
+        'password': password,
+      });
+
+      if (response.statusCode == 200) {
+        print('update berhasil');
+      } else {
+        print('update gagal');
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<void> deleteToken(email) async {
+    try {
+      final response =
+          await http.post(Uri.parse('$baseUrl/api/del-token'), body: {
+        'email': email,
+      });
+
+      if (response.statusCode == 200) {
+        print('update berhasil');
+      } else {
+        print('update gagal');
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<bool> updateStatus(id, accepted, note, context) async {
     SharedPreferences sharedPreferences;
     sharedPreferences = await SharedPreferences.getInstance();
 
     String status, notes;
     String token;
 
-    final String baseUrl = "http://10.0.2.2:8000";
     token = sharedPreferences.getString('token')!;
 
     if (accepted == true) {
       status = "accepted";
-      notes= note.text.toString();
+      notes = note.text.toString();
     } else {
       status = "declined";
       notes = note.text.toString();
@@ -160,12 +242,12 @@ class APIservice {
           });
 
       if (response.statusCode == 200) {
-        print('update berhasil');
+        return true;
       } else {
-        print('update gagal');
+        return false;
       }
     } catch (e) {
-      print(e.toString());
+      return false;
     }
   }
 }

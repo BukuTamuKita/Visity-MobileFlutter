@@ -1,18 +1,15 @@
 import 'dart:async';
-import 'dart:convert';
 
+import 'package:bouncing_widget/bouncing_widget.dart';
 import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/screens/login/components/Background.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 
 String? finalEmail;
 
@@ -24,12 +21,14 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  late Future<void> _login;
 
   bool isHiddenPassword = true;
+  bool isLoading = false;
+  bool _isChecked = false;
 
   @override
   void initState() {
+    _loadUserEmailPassword();
     super.initState();
   }
 
@@ -123,50 +122,105 @@ class _BodyState extends State<Body> {
                           topLeft: const Radius.circular(4.0),
                           topRight: const Radius.circular(4.0),
                         )),
-                        suffixIcon: InkWell(
-                          onTap: togglePasswordView,
-                          child: isHiddenPassword
-                              ? Icon(
-                                  Icons.visibility,
-                                  color: MainColor,
-                                )
-                              : Icon(
-                                  Icons.visibility_off,
-                                  color: MainColor,
-                                ),
+                        suffixIcon: IconButton(
+                          icon: Icon(isHiddenPassword
+                              ? Icons.visibility
+                              : Icons.visibility_off),
+                          color: MainColor,
+                          onPressed: () {
+                            setState(() {
+                              isHiddenPassword = !isHiddenPassword;
+                            });
+                          },
                         )),
                   ),
-                  Align(
-                      alignment: Alignment.topRight,
-                      child: TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            "Forgot Password?",
-                            style: lPTextStyle3,
-                          ))),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      SizedBox(
+                          height: 24.0,
+                          width: 24.0,
+                          child: Theme(
+                            data: ThemeData(unselectedWidgetColor: blueColor),
+                            child: Checkbox(
+                              activeColor: blueColor,
+                              value: this._isChecked,
+                              onChanged: (bool? value) {
+                                if (value != null &&
+                                    emailController.text != '' &&
+                                    passwordController.text != '')
+                                  setState(() {
+                                    this._isChecked = value;
+                                  });
+                              },
+                            ),
+                          )),
+                      SizedBox(
+                        width: 4,
+                      ),
+                      Text(
+                        'Remember Me',
+                        style: lPTextStyle3,
+                      )
+                    ],
+                  )
                 ],
               )),
-              Container(
-                width: size.width,
-                padding: EdgeInsets.only(right: 20, left: 20),
-                height: 40,
-                child: ElevatedButton(
-                  onPressed: () {
-                    _login = APIservice()
-                        .login(emailController, passwordController, context);
-                  },
-                  style: ElevatedButton.styleFrom(
-                      primary: Color.fromRGBO(46, 77, 167, 10),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.r)),
-                      elevation: 3,
-                      shadowColor: Color.fromRGBO(0, 0, 0, 1)),
-                  child: Text(
-                    "LOGIN",
-                    style: lPTextStyle4,
-                  ),
-                ),
-              )
+              BouncingWidget(
+                duration: Duration(milliseconds: 150),
+                scaleFactor: 1.5,
+                onPressed: () async {
+                  isLoading = await APIservice().login(
+                      emailController, passwordController, context, isLoading);
+
+                  isLoading
+                      ? Timer(Duration(seconds: 0), () {
+                          setState(() {
+                            isLoading = true;
+                          });
+                          _handleRememberMe(_isChecked);
+                          Timer(Duration(seconds: 2), () {
+                            Navigator.pushReplacementNamed(context, '/home');
+                          });
+                        })
+                      : SizedBox();
+                },
+                child: Container(
+                    height: 40,
+                    width: size.width,
+                    margin: EdgeInsets.only(right: 20, left: 20),
+                    decoration: BoxDecoration(
+                        color: Color.fromRGBO(46, 77, 167, 10),
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Align(
+                      alignment: AlignmentDirectional.center,
+                      child: isLoading
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ),
+                                  width: 20,
+                                  height: 20,
+                                ),
+                                SizedBox(width: 16),
+                                Text(
+                                  'Please  Wait...',
+                                  style: lPTextStyle4,
+                                )
+                              ],
+                            )
+                          : Text(
+                              "LOGIN",
+                              style: lPTextStyle4,
+                            ),
+                    )),
+              ),
             ],
           ),
         )),
@@ -174,9 +228,36 @@ class _BodyState extends State<Body> {
     );
   }
 
-  void togglePasswordView() {
-    setState(() {
-      isHiddenPassword = !isHiddenPassword;
+  _handleRememberMe(bool value) {
+    _isChecked = value;
+    SharedPreferences.getInstance().then(
+      (prefs) {
+        prefs.setBool("remember_me", value);
+        prefs.setString('email', emailController.text);
+        prefs.setString('password', passwordController.text);
+      },
+    );
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      _isChecked = value;
     });
+  }
+
+  void _loadUserEmailPassword() async {
+    try {
+      SharedPreferences _prefs = await SharedPreferences.getInstance();
+      var _email = _prefs.getString("email") ?? "";
+      var _password = _prefs.getString("password") ?? "";
+      var _remeberMe = _prefs.getBool("remember_me") ?? false;
+      
+      if (_remeberMe) {
+        setState(() {
+          _isChecked = true;
+        });
+        emailController.text = _email;
+        passwordController.text = _password;
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 }

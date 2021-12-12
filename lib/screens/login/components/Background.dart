@@ -22,15 +22,16 @@ class Background extends StatelessWidget {
               Align(
                 child: Image.asset(
                   'assets/images/loginpage/LPTopRight.png',
-                  height: size.height / 1.4,
                   fit: BoxFit.cover,
+                  scale: 1 / size.height * 800,
                 ),
                 alignment: Alignment.topRight,
               ),
               Align(
                 child: Image.asset(
                   'assets/images/loginpage/LPBottomLeft.png',
-                  height: size.height / 8,
+                  scale: 1 / size.height * 800,
+                  fit: BoxFit.cover,
                 ),
                 alignment: Alignment.bottomLeft,
               ),

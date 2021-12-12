@@ -1,9 +1,11 @@
 // @dart=2.9
 import 'package:bukutamu_android/provider/appointment_provider.dart';
 import 'package:bukutamu_android/provider/information_provider.dart';
+import 'package:bukutamu_android/screens/history/HistoryScreen.dart';
 import 'package:bukutamu_android/screens/login/LoginScreen.dart';
 import 'package:bukutamu_android/screens/mainScreen.dart';
-import 'package:bukutamu_android/screens/welcomepage/WelcomeScreen.dart';
+import 'package:bukutamu_android/screens/onBoarding/onBoardingScreen.dart';
+import 'package:bukutamu_android/screens/profile/ProfileScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -30,12 +32,10 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    
   }
 
-  @override
+  @override 
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
@@ -51,9 +51,11 @@ class _MyAppState extends State<MyApp> {
                   ? '/login'
                   : '/home',
           routes: {
-            '/onboard': (context) => WelcomePage(),
+            '/onboard': (context) => OnBoarding(),
             '/login': (context) => LoginScreen(),
-            '/home': (context) => mainScreen(),
+            '/home': (context) => MainScreen(),
+            '/profile': (context) => ProfileScreen(),
+            '/history': (context) => HistoryScreen(),
           }),
     );
   }
