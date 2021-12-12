@@ -6,9 +6,9 @@ import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/model/appointment_model.dart';
 import 'package:bukutamu_android/widget/AppointmentHistoryCard.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
@@ -191,7 +191,6 @@ class _BodyState extends State<Body> {
                 FutureBuilder<Appointment>(
                     future: _appointment,
                     builder: (context, snapshot) {
-                      
                       if (snapshot.hasData) {
                         int dataLength = snapshot.data!.data.length;
 
@@ -200,7 +199,7 @@ class _BodyState extends State<Body> {
 
                         for (int i = 0; i < dataLength; i++) {
                           if (snapshot.data!.data[i].status == 'waiting' &&
-                              DateFormat('dd MMM yyyy')
+                              DateFormat('EEE, dd MMM yyyy')
                                       .format(DateTime.now())
                                       .toString() ==
                                   snapshot.data!.data[i].dateTime[0]
@@ -208,7 +207,7 @@ class _BodyState extends State<Body> {
                             appointmentCount++;
                           } else if (status == 'all' &&
                               snapshot.data!.data[i].status != 'waiting' &&
-                              DateFormat('dd MMM yyyy')
+                              DateFormat('EEE, dd MMM yyyy')
                                       .format(DateTime.now())
                                       .toString() ==
                                   snapshot.data!.data[i].dateTime[0]
@@ -216,7 +215,7 @@ class _BodyState extends State<Body> {
                             historycount++;
                           } else if (status != 'all' &&
                               snapshot.data!.data[i].status == status &&
-                              DateFormat('dd MMM yyyy')
+                              DateFormat('EEE, dd MMM yyyy')
                                       .format(DateTime.now())
                                       .toString() ==
                                   snapshot.data!.data[i].dateTime[0]
@@ -246,7 +245,7 @@ class _BodyState extends State<Body> {
                               if (status == 'all' &&
                                   snapshot.data!.data[index].status !=
                                       "waiting" &&
-                                  DateFormat('dd MMM yyyy')
+                                  DateFormat('EEE, dd MMM yyyy')
                                           .format(DateTime.now())
                                           .toString() ==
                                       snapshot.data!.data[index].dateTime[0]
@@ -256,7 +255,7 @@ class _BodyState extends State<Body> {
                                 );
                               } else if (status != 'all' &&
                                   snapshot.data!.data[index].status == status &&
-                                  DateFormat('dd MMM yyyy')
+                                  DateFormat('EEE, dd MMM yyyy')
                                           .format(DateTime.now())
                                           .toString() ==
                                       snapshot.data!.data[index].dateTime[0]
@@ -274,7 +273,7 @@ class _BodyState extends State<Body> {
 
                               if (status == 'all' &&
                                   appointment.status != 'waiting' &&
-                                  DateFormat('dd MMM yyyy')
+                                  DateFormat('EEE, dd MMM yyyy')
                                           .format(DateTime.now())
                                           .toString() ==
                                       appointment.dateTime[0].toString()) {
@@ -290,10 +289,10 @@ class _BodyState extends State<Body> {
                                       minute: DateFormat('HH:mm:ss')
                                           .parse(appointment.dateTime[1])
                                           .minute,
-                                      day: DateFormat('dd MMM yyyy')
+                                      day: DateFormat('EEE, dd MMM yyyy')
                                           .parse(appointment.dateTime[0])
                                           .day,
-                                      month: DateFormat('dd MMM yyyy')
+                                      month: DateFormat('EEE, dd MMM yyyy')
                                           .parse(appointment.dateTime[0])
                                           .month,
                                       noted: appointment.notes,
@@ -302,7 +301,7 @@ class _BodyState extends State<Body> {
                                 );
                               } else if (status != 'all' &&
                                   appointment.status == status &&
-                                  DateFormat('dd MMM yyyy')
+                                  DateFormat('EEE, dd MMM yyyy')
                                           .format(DateTime.now())
                                           .toString() ==
                                       appointment.dateTime[0].toString()) {
@@ -318,10 +317,10 @@ class _BodyState extends State<Body> {
                                       minute: DateFormat('HH:mm:ss')
                                           .parse(appointment.dateTime[1])
                                           .minute,
-                                      day: DateFormat('dd MMM yyyy')
+                                      day: DateFormat('EEE, dd MMM yyyy')
                                           .parse(appointment.dateTime[0])
                                           .day,
-                                      month: DateFormat('dd MMM yyyy')
+                                      month: DateFormat('EEE, dd MMM yyyy')
                                           .parse(appointment.dateTime[0])
                                           .month,
                                       noted: appointment.notes,

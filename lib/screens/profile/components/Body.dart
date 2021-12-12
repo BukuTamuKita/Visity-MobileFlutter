@@ -62,6 +62,7 @@ class _BodyState extends State<Body> {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(16),
                               child: Image.network(
+                                 'https://api.visity.me/' +
                                 snapshot.data!.users.photo,
                                 width: size.height / 6,
                                 height: size.height / 6,

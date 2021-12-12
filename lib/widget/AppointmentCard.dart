@@ -38,7 +38,7 @@ class _AppointmentCardState extends State<AppointmentCard>
     super.initState();
 
     _controllerAccepted = AnimationController(
-      duration: Duration(seconds: 2),
+      duration: Duration(seconds: 3),
       vsync: this,
     );
 
@@ -50,7 +50,7 @@ class _AppointmentCardState extends State<AppointmentCard>
     });
 
     _controllerCancel = AnimationController(
-      duration: Duration(seconds: 2),
+      duration: Duration(seconds: 3),
       vsync: this,
     );
 
@@ -274,18 +274,27 @@ class _AppointmentCardState extends State<AppointmentCard>
                           width: 16,
                         ),
                         ElevatedButton(
-                          onPressed: () {
-                            APIservice().updateStatus(
+                          onPressed: () async {
+                            bool isUpdate = await APIservice().updateStatus(
                                 widget.id, accepted, _notesControler, context);
-                            APIservice().sendEmail(widget.id);
+
+                            Timer(Duration(seconds: 5), () {
+                              if (isUpdate) {
+                                if (accepted) {
+                                  acceptedDialog(buildContext);
+                                } else {
+                                  cancelDialog(buildContext);
+                                }
+                              }
+                            });
+
+                            Timer(Duration(seconds: 15), () {
+                              if (isUpdate) {
+                                APIservice().sendEmail(widget.id);
+                              }
+                            });
 
                             Navigator.pop(context);
-
-                            if (accepted) {
-                              acceptedDialog(buildContext);
-                            } else {
-                              cancelDialog(buildContext);
-                            }
                           },
                           style: ElevatedButton.styleFrom(
                             primary: lightOrangeColor,
@@ -308,58 +317,42 @@ class _AppointmentCardState extends State<AppointmentCard>
             ],
           )));
   void acceptedDialog(buildcontext) => showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (BuildContext builderContext) {
-            _timer = Timer(Duration(seconds: 5), () {
-              Navigator.of(context).pop();
-            });
-
-            return Dialog(
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Lottie.asset('assets/loadingSuccess.json',
-                      repeat: false,
-                      controller: _controllerAccepted, onLoaded: (composition) {
-                    _controllerAccepted.forward();
-                  }),
-                ],
-              ),
-            );
-          }).then((val) {
-        if (_timer.isActive) {
-          _timer.cancel();
-        }
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext builderContext) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Lottie.asset('assets/loadingSuccess.json',
+                  repeat: false,
+                  controller: _controllerAccepted, onLoaded: (composition) {
+                _controllerAccepted.forward();
+              }),
+            ],
+          ),
+        );
       });
 
   void cancelDialog(buildcontext) => showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (BuildContext builderContext) {
-            _timer = Timer(Duration(seconds: 5), () {
-              Navigator.of(context).pop();
-            });
-
-            return Dialog(
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Lottie.asset('assets/loadingFailed.json',
-                      repeat: false,
-                      controller: _controllerAccepted, onLoaded: (composition) {
-                    _controllerAccepted.forward();
-                  }),
-                ],
-              ),
-            );
-          }).then((val) {
-        if (_timer.isActive) {
-          _timer.cancel();
-        }
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext builderContext) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Lottie.asset('assets/loadingFailed.json',
+                  repeat: false,
+                  controller: _controllerAccepted, onLoaded: (composition) {
+                _controllerAccepted.forward();
+              }),
+            ],
+          ),
+        );
       });
 }

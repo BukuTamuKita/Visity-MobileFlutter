@@ -9,9 +9,8 @@ import 'package:bukutamu_android/model/host_model.dart';
 
 import 'package:bukutamu_android/provider/information_provider.dart';
 import 'package:bukutamu_android/widget/AppointmentCard.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -75,25 +74,25 @@ class _BodyState extends State<Body> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Consumer<InformationProvider>(
-                                        builder: (context, sum, _) => ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(30),
-                                              child: Image.network(
-                                                sum.photo,
-                                                height: 36,
-                                                width: 36,
-                                                fit: BoxFit.fill,
-                                              ),
-                                            )),
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(30),
+                                      child: Image.network(
+                                        'https://api.visity.me/' +
+                                            snapshot.data!.users.photo,
+                                        height: 36,
+                                        width: 36,
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
                                     SizedBox(width: 20),
-                                    Consumer<InformationProvider>(
-                                        builder: (context, sum, _) => Expanded(
-                                              child: (Text(
-                                                "Hello, " + sum.name + "!",
-                                                style: mainSTextStyle1,
-                                              )),
-                                            )),
+                                    Expanded(
+                                      child: (Text(
+                                        "Hello, " +
+                                            snapshot.data!.users.name +
+                                            "!",
+                                        style: mainSTextStyle1,
+                                      )),
+                                    ),
                                     SizedBox(
                                       width: 90,
                                     ),
@@ -133,7 +132,7 @@ class _BodyState extends State<Body> {
 
                         for (int i = 0; i < snapshot.data!.data.length; i++) {
                           if (snapshot.data!.data[i].status == 'waiting' &&
-                              DateFormat('dd MMM yyyy')
+                              DateFormat('EEE, dd MMM yyyy')
                                       .format(DateTime.now())
                                       .toString() ==
                                   snapshot.data!.data[i].dateTime[0]
@@ -141,7 +140,7 @@ class _BodyState extends State<Body> {
                             appointmentCount++;
                           } else if (snapshot.data!.data[i].status !=
                                   'waiting' &&
-                              DateFormat('dd MMM yyyy')
+                              DateFormat('EEE, dd MMM yyyy')
                                       .format(DateTime.now())
                                       .toString() ==
                                   snapshot.data!.data[i].dateTime[0]
@@ -167,7 +166,7 @@ class _BodyState extends State<Body> {
                                   (BuildContext context, int index) {
                                 if (snapshot.data!.data[index].status ==
                                         "waiting" &&
-                                    DateFormat('dd MMM yyyy')
+                                    DateFormat('EEE, dd MMM yyyy')
                                             .format(DateTime.now())
                                             .toString() ==
                                         snapshot.data!.data[index].dateTime[0]
@@ -185,7 +184,7 @@ class _BodyState extends State<Body> {
                                 var appointment = snapshot.data!.data[index];
 
                                 if (appointment.status == "waiting" &&
-                                    DateFormat('dd MMM yyyy')
+                                    DateFormat('EEE, dd MMM yyyy')
                                             .format(DateTime.now())
                                             .toString() ==
                                         snapshot.data!.data[index].dateTime[0]
