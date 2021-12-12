@@ -7,12 +7,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:426931245962:android:5ca74bfeec69ab7087ae73",
+        "mobilesdk_app_id": "1:426931245962:android:bd3ae2f7aae4682687ae73",
         "android_client_info": {
           "package_name": "com.visity.bukutamu"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "426931245962-gan0h6fo90t93aji1q42na3fe5b8q5uf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.visity.bukutamu",
+            "certificate_hash": "15d3be17412dd752ef559d101abde67a8e9f22b6"
+          }
+        },
         {
           "client_id": "426931245962-vbcppoeucjishb1b5dr0rpet6ud1s54r.apps.googleusercontent.com",
           "client_type": 3
