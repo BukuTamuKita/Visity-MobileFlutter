@@ -27,37 +27,25 @@ class AppointmentCard extends StatefulWidget {
 }
 
 class _AppointmentCardState extends State<AppointmentCard>
-    with TickerProviderStateMixin {
+    with SingleTickerProviderStateMixin {
   TextEditingController _notesControler = TextEditingController();
   late AnimationController _controllerAccepted;
   late AnimationController _controllerCancel;
-  late Timer _timer;
+  bool isDone = false;
 
   @override
   void initState() {
     super.initState();
 
     _controllerAccepted = AnimationController(
-      duration: Duration(seconds: 3),
+      duration: Duration(seconds: 1),
       vsync: this,
     );
 
     _controllerAccepted.addStatusListener((status) async {
       if (status == AnimationStatus.completed) {
-        Navigator.of(context).pop();
+        Navigator.pop(context);
         _controllerAccepted.reset();
-      }
-    });
-
-    _controllerCancel = AnimationController(
-      duration: Duration(seconds: 3),
-      vsync: this,
-    );
-
-    _controllerCancel.addStatusListener((status) async {
-      if (status == AnimationStatus.completed) {
-        Navigator.of(context).pop();
-        _controllerCancel.reset();
       }
     });
   }
@@ -67,8 +55,6 @@ class _AppointmentCardState extends State<AppointmentCard>
   @override
   void dispose() {
     _controllerAccepted.dispose();
-    _controllerCancel.dispose();
-
     super.dispose();
   }
 
@@ -138,10 +124,15 @@ class _AppointmentCardState extends State<AppointmentCard>
                         shape: RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(10)))),
-                    onPressed: () {
+                    onPressed: () async {
                       isAccepted = false;
-
-                      showCustomDialog(context, isAccepted);
+                      showCustomDialog(isAccepted);
+                      /*String isDone = await showCustomDialog(isAccepted);
+                      isDone == 'true'
+                          ? acceptedDialog()
+                          : isDone == 'false'
+                              ? cancelDialog()
+                              : SizedBox();*/
                     },
                     child: Text(
                       "Decline",
@@ -157,9 +148,15 @@ class _AppointmentCardState extends State<AppointmentCard>
                           shape: RoundedRectangleBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10)))),
-                      onPressed: () {
+                      onPressed: () async {
                         isAccepted = true;
-                        showCustomDialog(context, isAccepted);
+                        showCustomDialog(isAccepted);
+                        /*String isDone = await showCustomDialog(isAccepted);
+                      isDone == 'true'
+                          ? acceptedDialog()
+                          : isDone == 'false'
+                              ? cancelDialog()
+                              : SizedBox();*/
                       },
                       child: Text(
                         "Accept",
@@ -177,7 +174,7 @@ class _AppointmentCardState extends State<AppointmentCard>
         ));
   }
 
-  showCustomDialog(BuildContext buildContext, bool accepted) => showDialog(
+  showCustomDialog(bool accepted) => showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => Dialog(
@@ -264,6 +261,7 @@ class _AppointmentCardState extends State<AppointmentCard>
                       children: [
                         TextButton(
                             onPressed: () {
+                              //String result = 'null';
                               Navigator.pop(context);
                             },
                             child: Text(
@@ -278,22 +276,12 @@ class _AppointmentCardState extends State<AppointmentCard>
                             bool isUpdate = await APIservice().updateStatus(
                                 widget.id, accepted, _notesControler, context);
 
-                            Timer(Duration(seconds: 5), () {
-                              if (isUpdate) {
-                                if (accepted) {
-                                  acceptedDialog(buildContext);
-                                } else {
-                                  cancelDialog(buildContext);
-                                }
-                              }
-                            });
-
                             Timer(Duration(seconds: 15), () {
                               if (isUpdate) {
                                 APIservice().sendEmail(widget.id);
                               }
                             });
-
+                            //String result = isUpdate.toString();
                             Navigator.pop(context);
                           },
                           style: ElevatedButton.styleFrom(
@@ -316,10 +304,13 @@ class _AppointmentCardState extends State<AppointmentCard>
               ),
             ],
           )));
-  void acceptedDialog(buildcontext) => showDialog(
+  /*void acceptedDialog() => showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext builderContext) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.pop(context);
+        });
         return Dialog(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -336,10 +327,13 @@ class _AppointmentCardState extends State<AppointmentCard>
         );
       });
 
-  void cancelDialog(buildcontext) => showDialog(
+  void cancelDialog() => showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext builderContext) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.pop(context);
+        });
         return Dialog(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -354,5 +348,5 @@ class _AppointmentCardState extends State<AppointmentCard>
             ],
           ),
         );
-      });
+      });*/
 }
