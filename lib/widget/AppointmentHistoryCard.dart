@@ -37,6 +37,7 @@ class _AppointmentHistoryCardState extends State<AppointmentHistoryCard> {
       decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage('assets/images/historypage/background_card.png'),
+          scale: 1 / 400 * 300,
           alignment: Alignment.bottomLeft,
         ),
         color: Colors.white,
@@ -46,7 +47,7 @@ class _AppointmentHistoryCardState extends State<AppointmentHistoryCard> {
             color: Colors.grey.withOpacity(0.5),
             spreadRadius: 1,
             blurRadius: 5,
-            offset: Offset(0, 4), // changes position of shadow
+            offset: Offset(0, 4),
           ),
         ],
       ),
@@ -198,13 +199,15 @@ class _AppointmentHistoryCardState extends State<AppointmentHistoryCard> {
                                 ":" +
                                 (widget.minute! == 0
                                     ? "00"
-                                    : widget.minute!.toString()) +
+                                    : widget.minute! < 10
+                                        ? '0' + widget.minute!.toString()
+                                        : widget.minute!.toString()) +
                                 " am",
                             style: timeTextStyle,
                           )
                         ],
                       )
-                    : widget.hour! == 12
+                    : widget.hour == 12
                         ? Row(
                             children: [
                               Text(
@@ -228,13 +231,15 @@ class _AppointmentHistoryCardState extends State<AppointmentHistoryCard> {
                                     ":" +
                                     (widget.minute! == 0
                                         ? "00"
-                                        : widget.minute!.toString()) +
+                                        : widget.minute! < 10
+                                            ? '0' + widget.minute!.toString()
+                                            : widget.minute!.toString()) +
                                     " pm",
                                 style: timeTextStyle,
                               )
                             ],
                           )
-                        : widget.hour! == 0
+                        : widget.hour == 0
                             ? Row(
                                 children: [
                                   Text(
@@ -253,12 +258,15 @@ class _AppointmentHistoryCardState extends State<AppointmentHistoryCard> {
                                     size: 18,
                                   ),
                                   Text(
-                                    " 0" +
+                                    ' ' +
                                         (widget.hour! + 12).toString() +
                                         ":" +
                                         (widget.minute! == 0
                                             ? "00"
-                                            : widget.minute!.toString()) +
+                                            : widget.minute! < 10
+                                                ? '0' +
+                                                    widget.minute!.toString()
+                                                : widget.minute!.toString()) +
                                         " am",
                                     style: timeTextStyle,
                                   )
@@ -288,7 +296,10 @@ class _AppointmentHistoryCardState extends State<AppointmentHistoryCard> {
                                         ":" +
                                         (widget.minute! == 0
                                             ? "00"
-                                            : widget.minute!.toString()) +
+                                            : widget.minute! < 10
+                                                ? '0' +
+                                                    widget.minute!.toString()
+                                                : widget.minute!.toString()) +
                                         " am",
                                     style: timeTextStyle,
                                   )

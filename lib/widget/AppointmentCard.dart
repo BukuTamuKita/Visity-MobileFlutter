@@ -3,10 +3,8 @@ import 'dart:async';
 import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
-import 'package:bukutamu_android/provider/appointment_provider.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class AppointmentCard extends StatefulWidget {
   String? guestPurpose;
@@ -26,35 +24,30 @@ class AppointmentCard extends StatefulWidget {
   State<AppointmentCard> createState() => _AppointmentCardState();
 }
 
-class _AppointmentCardState extends State<AppointmentCard>
-    with SingleTickerProviderStateMixin {
+class _AppointmentCardState extends State<AppointmentCard> {
   TextEditingController _notesControler = TextEditingController();
-  late AnimationController _controllerAccepted;
-  late AnimationController _controllerCancel;
-  bool isDone = false;
+
+  String isDone = '';
+  late String result;
 
   @override
   void initState() {
-    super.initState();
-
-    _controllerAccepted = AnimationController(
-      duration: Duration(seconds: 1),
-      vsync: this,
-    );
-
-    _controllerAccepted.addStatusListener((status) async {
-      if (status == AnimationStatus.completed) {
-        Navigator.pop(context);
-        _controllerAccepted.reset();
-      }
+    Timer.periodic(Duration(seconds: 0), (timer) {
+      isDone == 'true'
+          ? acceptedDialog(context)
+          : isDone == 'false'
+              ? cancelDialog(context)
+              : SizedBox();
+      isDone = '';
     });
+
+    super.initState();
   }
 
   bool isAccepted = false;
 
   @override
   void dispose() {
-    _controllerAccepted.dispose();
     super.dispose();
   }
 
@@ -74,7 +67,7 @@ class _AppointmentCardState extends State<AppointmentCard>
               color: Colors.grey.withOpacity(0.5),
               spreadRadius: 1,
               blurRadius: 5,
-              offset: Offset(0, 4), // changes position of shadow
+              offset: Offset(0, 4),
             ),
           ],
         ),
@@ -93,10 +86,12 @@ class _AppointmentCardState extends State<AppointmentCard>
                   height: 8,
                 ),
                 widget.hour == '0'
-                    ? Text(
-                        widget.minutes! + ' minutes ago',
-                        style: mainSTextStyle5,
-                      )
+                    ? widget.minutes == '0'
+                        ? Text('a few seconds ago', style: mainSTextStyle5)
+                        : Text(
+                            widget.minutes! + ' minutes ago',
+                            style: mainSTextStyle5,
+                          )
                     : Text(
                         widget.hour! + ' hours ago',
                         style: mainSTextStyle5,
@@ -126,13 +121,13 @@ class _AppointmentCardState extends State<AppointmentCard>
                                 BorderRadius.all(Radius.circular(10)))),
                     onPressed: () async {
                       isAccepted = false;
-                      showCustomDialog(isAccepted);
-                      /*String isDone = await showCustomDialog(isAccepted);
+
+                      isDone = await showCustomDialog(isAccepted);
                       isDone == 'true'
-                          ? acceptedDialog()
+                          ? acceptedDialog(context)
                           : isDone == 'false'
-                              ? cancelDialog()
-                              : SizedBox();*/
+                              ? cancelDialog(context)
+                              : SizedBox();
                     },
                     child: Text(
                       "Decline",
@@ -140,28 +135,20 @@ class _AppointmentCardState extends State<AppointmentCard>
                     ),
                   ),
                 ),
-                Consumer<AppointmentProvider>(
-                  builder: (context, appointment, _) => Expanded(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: lightOrangeColor,
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)))),
-                      onPressed: () async {
-                        isAccepted = true;
-                        showCustomDialog(isAccepted);
-                        /*String isDone = await showCustomDialog(isAccepted);
-                      isDone == 'true'
-                          ? acceptedDialog()
-                          : isDone == 'false'
-                              ? cancelDialog()
-                              : SizedBox();*/
-                      },
-                      child: Text(
-                        "Accept",
-                        style: buttonMainStyle1,
-                      ),
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        primary: lightOrangeColor,
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10)))),
+                    onPressed: () async {
+                      isAccepted = true;
+                      isDone = await showCustomDialog(isAccepted);
+                    },
+                    child: Text(
+                      "Accept",
+                      style: buttonMainStyle1,
                     ),
                   ),
                 ),
@@ -261,8 +248,8 @@ class _AppointmentCardState extends State<AppointmentCard>
                       children: [
                         TextButton(
                             onPressed: () {
-                              //String result = 'null';
-                              Navigator.pop(context);
+                              result = 'null';
+                              Navigator.pop(context, result);
                             },
                             child: Text(
                               'Cancel',
@@ -281,8 +268,8 @@ class _AppointmentCardState extends State<AppointmentCard>
                                 APIservice().sendEmail(widget.id);
                               }
                             });
-                            //String result = isUpdate.toString();
-                            Navigator.pop(context);
+                            result = isUpdate.toString();
+                            Navigator.pop(context, result);
                           },
                           style: ElevatedButton.styleFrom(
                             primary: lightOrangeColor,
@@ -304,12 +291,12 @@ class _AppointmentCardState extends State<AppointmentCard>
               ),
             ],
           )));
-  /*void acceptedDialog() => showDialog(
+  Future<void> acceptedDialog(BuildContext context) async => showDialog<void>(
       context: context,
       barrierDismissible: false,
-      builder: (BuildContext builderContext) {
+      builder: (BuildContext context) {
         Future.delayed(Duration(seconds: 1), () {
-          Navigator.pop(context);
+          Navigator.of(context, rootNavigator: true).pop(result);
         });
         return Dialog(
           backgroundColor: Colors.transparent,
@@ -317,22 +304,21 @@ class _AppointmentCardState extends State<AppointmentCard>
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Lottie.asset('assets/loadingSuccess.json',
-                  repeat: false,
-                  controller: _controllerAccepted, onLoaded: (composition) {
-                _controllerAccepted.forward();
-              }),
+              Lottie.asset(
+                'assets/loadingSuccess.json',
+                repeat: false,
+              ),
             ],
           ),
         );
       });
 
-  void cancelDialog() => showDialog(
+  Future<void> cancelDialog(BuildContext context) => showDialog<void>(
       context: context,
       barrierDismissible: false,
-      builder: (BuildContext builderContext) {
+      builder: (BuildContext context) {
         Future.delayed(Duration(seconds: 1), () {
-          Navigator.pop(context);
+          Navigator.of(context, rootNavigator: true).pop(result);
         });
         return Dialog(
           backgroundColor: Colors.transparent,
@@ -340,13 +326,12 @@ class _AppointmentCardState extends State<AppointmentCard>
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Lottie.asset('assets/loadingFailed.json',
-                  repeat: false,
-                  controller: _controllerAccepted, onLoaded: (composition) {
-                _controllerAccepted.forward();
-              }),
+              Lottie.asset(
+                'assets/loadingFailed.json',
+                repeat: false,
+              ),
             ],
           ),
         );
-      });*/
+      });
 }

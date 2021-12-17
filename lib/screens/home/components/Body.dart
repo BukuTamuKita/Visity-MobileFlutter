@@ -7,29 +7,30 @@ import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/model/appointment_model.dart';
 import 'package:bukutamu_android/model/host_model.dart';
 
-import 'package:bukutamu_android/provider/information_provider.dart';
 import 'package:bukutamu_android/widget/AppointmentCard.dart';
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
+
   @override
   _BodyState createState() => _BodyState();
 }
 
 class _BodyState extends State<Body> {
-  bool isLoading = false;
-  Future<Appointment> _appointment = APIservice().getDataAppointment();
-  Future<Host> _host = APIservice().getDataHost();
   int appointmentCount = 0;
   int historycount = 0;
   late String hour;
-  late String minutes;
   bool isFirst = true;
+  bool isLoading = false;
+  late String minutes;
+
+  Future<Appointment> _appointment = APIservice().getDataAppointment();
+  Future<Host> _host = APIservice().getDataHost();
 
   @override
   void initState() {
@@ -42,6 +43,22 @@ class _BodyState extends State<Body> {
     });
     super.initState();
     setUpTimedFetch();
+  }
+
+  setUpTimedFetch() {
+    Timer.periodic(Duration(seconds: 2), (timer) {
+      setState(() {
+        _appointment = APIservice().getDataAppointment();
+      });
+    });
+  }
+
+  Future<void> saveCount(appointmentcount, historycount) async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+
+    sharedPreferences.setInt('appointmentcount', appointmentcount);
+    sharedPreferences.setInt('historycount', historycount);
   }
 
   @override
@@ -59,49 +76,43 @@ class _BodyState extends State<Body> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 SizedBox(height: 28),
-                Consumer<InformationProvider>(
-                    builder: (context, sum, _) => (FutureBuilder<Host>(
-                        future: _host,
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            WidgetsBinding.instance!.addPostFrameCallback((_) {
-                              sum.name = snapshot.data!.users.name;
-                              sum.photo = snapshot.data!.users.photo;
-                            });
-
-                            return Container(
-                                height: 50,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(30),
-                                      child: Image.network(
-                                        'https://api.visity.me/' +
+                FutureBuilder<Host>(
+                    future: _host,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Container(
+                            height: 50,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(30),
+                                  child: Image.network(
+                                    snapshot.data!.users.photo == null
+                                        ? 'https://www.pinclipart.com/picdir/big/533-5337235_pink-running-clip-art-user-icon-png-transparent.png'
+                                        : 'https://api.visity.me/' +
                                             snapshot.data!.users.photo,
-                                        height: 36,
-                                        width: 36,
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                    SizedBox(width: 20),
-                                    Expanded(
-                                      child: (Text(
-                                        "Hello, " +
-                                            snapshot.data!.users.name +
-                                            "!",
-                                        style: mainSTextStyle1,
-                                      )),
-                                    ),
-                                    SizedBox(
-                                      width: 90,
-                                    ),
-                                  ],
-                                ));
-                          } else {
-                            return SizedBox();
-                          }
-                        }))),
+                                    height: 36,
+                                    width: 36,
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                                SizedBox(width: 20),
+                                Expanded(
+                                  child: (Text(
+                                    "Hello, " + snapshot.data!.users.name + "!",
+                                    style: mainSTextStyle1,
+                                  )),
+                                ),
+                                SizedBox(
+                                  width: 90,
+                                ),
+                              ],
+                            ));
+                      } else {
+                        return SizedBox();
+                      }
+                    }),
                 SizedBox(
                   height: 20,
                 ),
@@ -224,28 +235,21 @@ class _BodyState extends State<Body> {
                               });
                         }
                       } else {
-                        return Center(child: ShimmerList());
+                        if (appointmentCount != 0) {
+                          return Center(child: ShimmerList());
+                        } else {
+                          return Container(
+                            height: size.height / 1.8,
+                            child: Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          );
+                        }
                       }
                     }),
               ]),
         ),
       ),
     ));
-  }
-
-  setUpTimedFetch() {
-    Timer.periodic(Duration(seconds: 2), (timer) {
-      setState(() {
-        _appointment = APIservice().getDataAppointment();
-      });
-    });
-  }
-
-  Future<void> saveCount(appointmentcount, historycount) async {
-    final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
-
-    sharedPreferences.setInt('appointmentcount', appointmentcount);
-    sharedPreferences.setInt('historycount', historycount);
   }
 }

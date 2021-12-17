@@ -45,7 +45,7 @@ class _BodyState extends State<Body> {
               return Container(
                 height: size.height / 1.3,
                 margin: EdgeInsets.only(
-                    left: 16, right: 16, top: 16, bottom: size.height / 9),
+                    left: 16, right: 16, top: 28, bottom: size.height / 9),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -62,8 +62,10 @@ class _BodyState extends State<Body> {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(16),
                               child: Image.network(
-                                 'https://api.visity.me/' +
-                                snapshot.data!.users.photo,
+                                snapshot.data!.users.photo == null
+                                    ? 'https://www.pinclipart.com/picdir/big/533-5337235_pink-running-clip-art-user-icon-png-transparent.png'
+                                    : 'https://api.visity.me/' +
+                                        snapshot.data!.users.photo,
                                 width: size.height / 6,
                                 height: size.height / 6,
                                 fit: BoxFit.cover,
@@ -270,10 +272,12 @@ class _BodyState extends State<Body> {
     });
   }
 
-  Future<void> updatePassword(String text) async {
+  Future<void> updateAuth(String text) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     setState(() {
-      sharedPreferences.setString('password', text);
+      identifier == 'Email'
+          ? sharedPreferences.setString('email', text)
+          : sharedPreferences.setString('password', text);
     });
   }
 
@@ -368,8 +372,11 @@ class _BodyState extends State<Body> {
 
                                 setState(() {
                                   identifier == 'Email'
-                                      ? _host = APIservice().getDataHost()
-                                      : updatePassword(_newAuthController.text);
+                                      ? Timer(Duration(seconds: 1), () {
+                                          _host = APIservice().getDataHost();
+                                        })
+                                      : SizedBox();
+                                  updateAuth(_newAuthController.text);
                                 });
                                 _newAuthController.clear();
                                 Navigator.pop(context);

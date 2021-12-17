@@ -7,15 +7,17 @@ import 'package:bukutamu_android/screens/mainScreen.dart';
 import 'package:bukutamu_android/screens/onBoarding/onBoardingScreen.dart';
 import 'package:bukutamu_android/screens/profile/ProfileScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 
 int initScreen;
 String token;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(systemNavigationBarColor: Colors.black));
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   token = sharedPreferences.getString('token');
   initScreen = sharedPreferences.getInt('initScreen');
@@ -35,7 +37,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
   }
 
-  @override 
+  @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [

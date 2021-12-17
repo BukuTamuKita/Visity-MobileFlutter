@@ -82,7 +82,7 @@ class APIservice {
 
         sharedPreferences.setString("token", jsonData['token']);
         sharedPreferences.setInt("expiredtime", jsonData['expires_in']);
-        // sharedPreferences.setString("email", jsonData['email']);
+        
 
         timeToken = sharedPreferences.getInt('expiredtime')!;
         print(timeToken);
