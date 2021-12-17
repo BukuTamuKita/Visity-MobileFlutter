@@ -36,7 +36,7 @@ class _BodyState extends State<Body> {
     });
     _appointment = APIservice().getDataAppointment();
     super.initState();
-    //setUpTimedFetch();
+    setUpTimedFetch();
   }
 
   @override
@@ -334,7 +334,16 @@ class _BodyState extends State<Body> {
                           );
                         }
                       } else {
-                        return Center(child: ShimmerListHistoryCard());
+                        if (historycount != 0) {
+                          return Center(child: ShimmerListHistoryCard());
+                        } else {
+                          return Container(
+                            height: size.height / 1.8,
+                            child: Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          );
+                        }
                       }
                     }),
               ],

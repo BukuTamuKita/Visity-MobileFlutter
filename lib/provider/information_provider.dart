@@ -8,27 +8,27 @@ class InformationProvider with ChangeNotifier {
   String _position = 'null';
   String _email = 'null';
 
-  set count (int value) {
+  set count(int value) {
     _count = value;
     notifyListeners();
   }
 
-  set name (String value) {
+  set name(String value) {
     _name = value;
     notifyListeners();
   }
 
-  set photo (String value) {
+  set photo(String value) {
     _photo = value;
     notifyListeners();
   }
 
-  set position (String value) {
+  set position(String value) {
     _position = value;
     notifyListeners();
   }
 
-  set email (String value) {
+  set email(String value) {
     _email = value;
     notifyListeners();
   }

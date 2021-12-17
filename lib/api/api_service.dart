@@ -59,7 +59,7 @@ class APIservice {
     return host;
   }
 
-  Future<bool> login(email, password, context, isLoading) async {
+  Future<bool> login(email, password, context) async {
     final jsonData;
     DateTime _expirydate;
     int timeToken;
@@ -82,7 +82,7 @@ class APIservice {
 
         sharedPreferences.setString("token", jsonData['token']);
         sharedPreferences.setInt("expiredtime", jsonData['expires_in']);
-        // sharedPreferences.setString("email", jsonData['email']);
+        
 
         timeToken = sharedPreferences.getInt('expiredtime')!;
         print(timeToken);

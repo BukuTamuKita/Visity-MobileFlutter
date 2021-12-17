@@ -174,7 +174,7 @@ class _BodyState extends State<Body> {
                 scaleFactor: 1.5,
                 onPressed: () async {
                   isLoading = await APIservice().login(
-                      emailController, passwordController, context, isLoading);
+                      emailController, passwordController, context);
 
                   isLoading
                       ? Timer(Duration(seconds: 0), () {
