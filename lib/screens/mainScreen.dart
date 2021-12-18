@@ -46,7 +46,7 @@ class _MainScreenState extends State<MainScreen> {
         showElevation: true,
         selectedIndex: currentIndex,
         animationDuration: const Duration(milliseconds: 0),
-        backgroundColor: Colors.grey.shade100,
+        backgroundColor: primaryColor,
         onItemSelected: (index) {
           setState(() => currentIndex = index);
         },
@@ -56,24 +56,24 @@ class _MainScreenState extends State<MainScreen> {
             activeBackgroundColor: Colors.transparent,
             icon: const ImageIcon(
                 AssetImage('assets/images/mainpage/iconHistory.png')),
-            activeColor: blueColor,
-            inactiveColor: Colors.grey.shade600,
+            activeColor: Colors.white,
+            inactiveColor: primaryColor200,
           ),
           BottomNavBarItem(
             title: 'Home',
             activeBackgroundColor: Colors.transparent,
             icon: const ImageIcon(
                 AssetImage('assets/images/mainpage/iconHome.png')),
-            activeColor: blueColor,
-            inactiveColor: Colors.grey.shade600,
+            activeColor: Colors.white,
+            inactiveColor: primaryColor200,
           ),
           BottomNavBarItem(
             title: 'Profile',
             activeBackgroundColor: Colors.transparent,
             icon: const ImageIcon(
                 AssetImage('assets/images/mainpage/iconUser.png')),
-            activeColor: blueColor,
-            inactiveColor: Colors.grey.shade600,
+            activeColor: Colors.white,
+            inactiveColor: primaryColor200,
           ),
         ],
       );

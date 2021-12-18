@@ -295,7 +295,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        Future.delayed(Duration(seconds: 1), () {
+        Future.delayed(Duration(seconds: 3), () {
           Navigator.of(context, rootNavigator: true).pop(result);
         });
         return Dialog(
@@ -317,7 +317,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        Future.delayed(Duration(seconds: 1), () {
+        Future.delayed(Duration(seconds: 3), () {
           Navigator.of(context, rootNavigator: true).pop(result);
         });
         return Dialog(

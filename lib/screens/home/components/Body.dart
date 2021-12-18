@@ -10,6 +10,7 @@ import 'package:bukutamu_android/model/host_model.dart';
 import 'package:bukutamu_android/widget/AppointmentCard.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -165,11 +166,11 @@ class _BodyState extends State<Body> {
                           return Container(
                               height: size.height / 1.8,
                               alignment: Alignment.center,
-                              child: Image(
-                                image: AssetImage(
-                                    'assets/images/mainpage/empty_appointment.png'),
+                              child: SvgPicture.asset(
+                                'assets/images/mainpage/noAppointment.svg',
                                 fit: BoxFit.cover,
-                              ));
+                                ),
+                              );
                         } else {
                           return ListView.separated(
                               controller: ScrollController(),

@@ -52,6 +52,8 @@ var buttonMainStyle4 = GoogleFonts.inter(
     fontWeight: FontWeight.bold, color: textColor5, fontSize: 14);
 var hintTextStyle = GoogleFonts.inter(
     fontWeight: FontWeight.w400, color: lightGreyColor, fontSize: 14);
+var mainSTextStyle7 = GoogleFonts.inter(
+    fontWeight: FontWeight.w600, color: blueColor, fontSize: 14);
 
 //profilescreen
 

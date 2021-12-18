@@ -7,6 +7,7 @@ import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/model/host_model.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Body extends StatefulWidget {
@@ -139,12 +140,12 @@ class _BodyState extends State<Body> {
                                     );
                                   });
                                 },
-                                child: Image.asset(
-                                  'assets/images/profilepage/edit_icon.png',
+                                child: SvgPicture.asset(
+                                  "assets/images/profilepage/edit_icon2.svg",
                                   width: 24,
                                   height: 24,
                                   fit: BoxFit.cover,
-                                )),
+                                  )),
                           ],
                         ),
                         Container(
@@ -185,12 +186,12 @@ class _BodyState extends State<Body> {
                                     );
                                   });
                                 },
-                                child: Image.asset(
-                                  'assets/images/profilepage/edit_icon.png',
+                                child: SvgPicture.asset(
+                                  "assets/images/profilepage/edit_icon2.svg"  ,
                                   width: 24,
                                   height: 24,
                                   fit: BoxFit.cover,
-                                )),
+                                  )),
                           ],
                         ),
                         Container(
@@ -225,13 +226,13 @@ class _BodyState extends State<Body> {
                               SizedBox(
                                 width: 4,
                               ),
-                              Image.asset(
-                                'assets/images/profilepage/logout.png',
-                                width: 16,
-                                height: 16,
-                                fit: BoxFit.cover,
-                                color: WhiteColor,
-                              )
+                              SvgPicture.asset(
+                                  "assets/images/profilepage/logout2.svg",
+                                  width: 16,
+                                  height: 16,
+                                  fit: BoxFit.cover,
+                                  color: WhiteColor,
+                                  )
                             ]),
                       ),
                     ),

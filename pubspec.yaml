@@ -60,6 +60,7 @@ dependencies:
   lottie: ^1.2.1
   change_app_package_name: ^1.0.0
   bottom_nav_bar: ^1.0.3
+  http: ^0.13.3
 
 dev_dependencies:
   flutter_test:
@@ -93,7 +94,7 @@ flutter_native_splash:
 
   # The image parameter allows you to specify an image used in the splash screen.  It must be a 
   # png file and should be sized for 4x pixel density.
-  image: assets/icons/logo/splash_screen3.png
+  image: assets/icons/logo/splash_screen4.png
 
   # The color_dark, background_image_dark, and image_dark are parameters that set the background
   # and image when the device is in dark mode. If they are not specified, the app will use the
