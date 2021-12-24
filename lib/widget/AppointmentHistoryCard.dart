@@ -55,7 +55,7 @@ class _AppointmentHistoryCardState extends State<AppointmentHistoryCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          topCard(isPressed),
+          topCard(isPressed, size),
           SizedBox(
             height: 24,
           ),
@@ -79,7 +79,7 @@ class _AppointmentHistoryCardState extends State<AppointmentHistoryCard> {
                                 padding: EdgeInsets.all(16),
                                 child: Column(
                                   children: [
-                                    topCard(isPressed),
+                                    topCard(isPressed, size),
                                     bottomCard(size, context)
                                   ],
                                 ),
@@ -90,7 +90,7 @@ class _AppointmentHistoryCardState extends State<AppointmentHistoryCard> {
               },
               child: Text(
                 'See More',
-                style: mainSTextStyle4,
+                style: seeTextStyle,
               ),
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(98, 38),
@@ -160,7 +160,7 @@ class _AppointmentHistoryCardState extends State<AppointmentHistoryCard> {
         ));
   }
 
-  topCard(isPress) {
+  topCard(isPress, size) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -170,9 +170,13 @@ class _AppointmentHistoryCardState extends State<AppointmentHistoryCard> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  widget.guestName!,
-                  style: mainSTextStyle4,
+                SizedBox(
+                  width: size.width / 2,
+                  child: Text(
+                    widget.guestName!,
+                    style: mainSTextStyle4,
+                    softWrap: true,
+                  ),
                 ),
                 SizedBox(
                   height: 8,

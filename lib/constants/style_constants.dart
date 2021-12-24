@@ -95,8 +95,10 @@ var statusTextStyle3 = GoogleFonts.inter(
 var purposeTextStyle = GoogleFonts.inter(
     fontWeight: FontWeight.w400, color: MainColor, fontSize: 14);
 var purposeTextStyle1 = GoogleFonts.inter(
-    fontWeight: FontWeight.w700, color: MainColor, fontSize: 14);
+    fontWeight: FontWeight.w700, color: Colors.grey[800], fontSize: 14);
 var nameTextStyle = GoogleFonts.inter(
-    fontWeight: FontWeight.w500, color: MainColor, fontSize: 14);
+    fontWeight: FontWeight.w500, color: Colors.grey[800], fontSize: 14);
 var timeTextStyle = GoogleFonts.inter(
     fontWeight: FontWeight.w500, color: greyColor, fontSize: 14);
+var seeTextStyle = GoogleFonts.inter(
+    fontWeight: FontWeight.w500, color: blueColor, fontSize: 16);

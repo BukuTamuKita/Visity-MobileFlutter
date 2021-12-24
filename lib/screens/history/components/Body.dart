@@ -10,6 +10,7 @@ import 'package:bukutamu_android/widget/AppointmentHistoryCard.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -230,10 +231,8 @@ class _BodyState extends State<Body> {
                           return Container(
                               height: size.height / 1.7,
                               alignment: Alignment.center,
-                              child: Image(
-                                image: AssetImage(
-                                    'assets/images/historypage/empty_history.png'),
-                                fit: BoxFit.cover,
+                              child: SvgPicture.asset('assets/images/historypage/empty_history1.svg',
+                              fit: BoxFit.cover,
                               ));
                         } else {
                           return ListView.separated(
