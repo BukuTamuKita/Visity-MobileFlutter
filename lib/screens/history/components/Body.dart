@@ -10,6 +10,7 @@ import 'package:bukutamu_android/widget/AppointmentHistoryCard.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,22 +22,26 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  bool isLoading = false;
-  late Future<Appointment> _appointment;
+  Future<Appointment> _appointment = APIservice().getDataAppointment();
   int historycount = 0;
   int appointmentCount = 0;
   String status = 'all';
+  late Timer appointTimer;
 
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 10), () {
+    appointTimer = Timer.periodic(Duration(seconds: 5), (timer) {
       setState(() {
-        isLoading = true;
+        _appointment = APIservice().getDataAppointment();
       });
     });
-    _appointment = APIservice().getDataAppointment();
     super.initState();
-    setUpTimedFetch();
+  }
+
+  @override
+  void dispose() {
+    appointTimer.cancel();
+    super.dispose();
   }
 
   @override
@@ -230,18 +235,16 @@ class _BodyState extends State<Body> {
                           return Container(
                               height: size.height / 1.7,
                               alignment: Alignment.center,
-                              child: Image(
-                                image: AssetImage(
-                                    'assets/images/historypage/empty_history.png'),
-                                fit: BoxFit.cover,
+                              child: SvgPicture.asset('assets/images/historypage/empty_history1.svg',
+                              fit: BoxFit.cover,
                               ));
                         } else {
                           return ListView.separated(
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
                             controller: ScrollController(),
-                            separatorBuilder:
-                                (BuildContext context, int index) {
+                            reverse: true,
+                            separatorBuilder: (BuildContext context, index) {
                               if (status == 'all' &&
                                   snapshot.data!.data[index].status !=
                                       "waiting" &&
@@ -352,14 +355,6 @@ class _BodyState extends State<Body> {
         ]),
       ),
     );
-  }
-
-  setUpTimedFetch() {
-    Timer.periodic(Duration(seconds: 2), (timer) {
-      setState(() {
-        _appointment = APIservice().getDataAppointment();
-      });
-    });
   }
 
   Future<void> saveCount(appointmentcount, historycount) async {

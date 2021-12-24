@@ -22,7 +22,7 @@ class APIservice {
       final response =
           await http.get(Uri.parse('$baseUrl/api/appointments'), headers: {
         'Authorization': 'Bearer $loginToken',
-      });
+      }).timeout(Duration(seconds: 5));
       print(response.statusCode.toString());
 
       if (response.statusCode == 200) {
@@ -48,7 +48,7 @@ class APIservice {
       final response =
           await http.get(Uri.parse('$baseUrl/api/hosts'), headers: {
         'Authorization': 'Bearer $loginToken',
-      });
+      }).timeout(Duration(seconds: 5));
 
       if (response.statusCode == 200) {
         return Host.fromJson(jsonDecode(response.body)['data']);
@@ -82,7 +82,6 @@ class APIservice {
 
         sharedPreferences.setString("token", jsonData['token']);
         sharedPreferences.setInt("expiredtime", jsonData['expires_in']);
-        
 
         timeToken = sharedPreferences.getInt('expiredtime')!;
         print(timeToken);

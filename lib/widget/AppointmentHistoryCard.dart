@@ -30,6 +30,7 @@ class AppointmentHistoryCard extends StatefulWidget {
 class _AppointmentHistoryCardState extends State<AppointmentHistoryCard> {
   @override
   Widget build(BuildContext context) {
+    bool isPressed = false;
     Size size = MediaQuery.of(context).size;
 
     return Container(
@@ -54,7 +55,7 @@ class _AppointmentHistoryCardState extends State<AppointmentHistoryCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          topCard(),
+          topCard(isPressed, size),
           SizedBox(
             height: 24,
           ),
@@ -65,6 +66,7 @@ class _AppointmentHistoryCardState extends State<AppointmentHistoryCard> {
                 showDialog(
                     context: context,
                     builder: (context) {
+                      isPressed = true;
                       return Dialog(
                           backgroundColor: Colors.white,
                           insetPadding: EdgeInsets.only(left: 16, right: 16),
@@ -77,7 +79,7 @@ class _AppointmentHistoryCardState extends State<AppointmentHistoryCard> {
                                 padding: EdgeInsets.all(16),
                                 child: Column(
                                   children: [
-                                    topCard(),
+                                    topCard(isPressed, size),
                                     bottomCard(size, context)
                                   ],
                                 ),
@@ -158,7 +160,7 @@ class _AppointmentHistoryCardState extends State<AppointmentHistoryCard> {
         ));
   }
 
-  topCard() {
+  topCard(isPress, size) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -168,9 +170,13 @@ class _AppointmentHistoryCardState extends State<AppointmentHistoryCard> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  widget.guestName!,
-                  style: mainSTextStyle4,
+                SizedBox(
+                  width: size.width / 2,
+                  child: Text(
+                    widget.guestName!,
+                    style: mainSTextStyle4,
+                    softWrap: true,
+                  ),
                 ),
                 SizedBox(
                   height: 8,
@@ -333,10 +339,17 @@ class _AppointmentHistoryCardState extends State<AppointmentHistoryCard> {
         SizedBox(
           height: 4,
         ),
-        Text(
-          widget.guestPurpose!,
-          style: purposeTextStyle,
-        ),
+        isPress
+            ? Text(
+                widget.guestPurpose!,
+                style: purposeTextStyle,
+              )
+            : Text(
+                widget.guestPurpose!,
+                style: purposeTextStyle,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              )
       ],
     );
   }

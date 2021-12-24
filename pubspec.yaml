@@ -23,7 +23,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_svg: ^0.20.0-nullsafety.3
+  flutter_svg: ^1.0.0
   google_fonts: ^2.1.0
   flutter_swiper: ^1.1.6
   flutter_screenutil: ^5.0.0+2
@@ -41,15 +41,15 @@ dependencies:
   google_nav_bar: ^5.0.5
   persistent_bottom_nav_bar: ^4.0.2
   shared_preferences: ^2.0.7
-  bloc: ^7.2.1
-  flutter_bloc: ^7.3.0
+  bloc: ^8.0.1
+  flutter_bloc: ^8.0.0
   tree_view: ^0.0.5
   provider: ^6.0.1
-  firebase_messaging: ^10.0.9
+  firebase_messaging: ^11.2.4
   firebase_core: ^1.8.0
   flutter_local_notifications: ^9.0.2
   firebase_auth: ^3.1.4
-  cloud_firestore: ^2.5.4
+  cloud_firestore: ^3.1.5
   intl: ^0.17.0
   shimmer: ^2.0.0
   flutter_app_name: ^0.1.1
@@ -60,6 +60,9 @@ dependencies:
   lottie: ^1.2.1
   change_app_package_name: ^1.0.0
   bottom_nav_bar: ^1.0.3
+  delayed_display: ^2.0.0
+  
+  flutter_keyboard_visibility: ^5.1.0
 
 dev_dependencies:
   flutter_test:
@@ -93,7 +96,7 @@ flutter_native_splash:
 
   # The image parameter allows you to specify an image used in the splash screen.  It must be a 
   # png file and should be sized for 4x pixel density.
-  image: assets/icons/logo/splash_screen3.png
+  image: assets/icons/logo/splash_screen5.png
 
   # The color_dark, background_image_dark, and image_dark are parameters that set the background
   # and image when the device is in dark mode. If they are not specified, the app will use the

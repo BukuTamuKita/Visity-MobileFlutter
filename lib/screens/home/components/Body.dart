@@ -10,6 +10,7 @@ import 'package:bukutamu_android/model/host_model.dart';
 import 'package:bukutamu_android/widget/AppointmentCard.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -26,31 +27,27 @@ class _BodyState extends State<Body> {
   int historycount = 0;
   late String hour;
   bool isFirst = true;
-  bool isLoading = false;
+
   late String minutes;
 
   Future<Appointment> _appointment = APIservice().getDataAppointment();
   Future<Host> _host = APIservice().getDataHost();
+  late Timer appointTimer;
 
   @override
   void initState() {
-    _host = APIservice().getDataHost();
-    _appointment = APIservice().getDataAppointment();
-    Future.delayed(const Duration(seconds: 10), () {
-      setState(() {
-        isLoading = true;
-      });
-    });
-    super.initState();
-    setUpTimedFetch();
-  }
-
-  setUpTimedFetch() {
-    Timer.periodic(Duration(seconds: 2), (timer) {
+    appointTimer = Timer.periodic(Duration(seconds: 5), (timer) {
       setState(() {
         _appointment = APIservice().getDataAppointment();
       });
     });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    appointTimer.cancel();
+    super.dispose();
   }
 
   Future<void> saveCount(appointmentcount, historycount) async {
@@ -165,11 +162,10 @@ class _BodyState extends State<Body> {
                           return Container(
                               height: size.height / 1.8,
                               alignment: Alignment.center,
-                              child: Image(
-                                image: AssetImage(
-                                    'assets/images/mainpage/empty_appointment.png'),
+                              child: SvgPicture.asset(
+                                'assets/images/mainpage/noAppointment.svg',
                                 fit: BoxFit.cover,
-                              ));
+                                ),);
                         } else {
                           return ListView.separated(
                               controller: ScrollController(),

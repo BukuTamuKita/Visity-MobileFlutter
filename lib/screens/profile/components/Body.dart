@@ -7,6 +7,7 @@ import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/model/host_model.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Body extends StatefulWidget {
@@ -17,18 +18,32 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  late Future<Host> _host;
+  Future<Host> _host = APIservice().getDataHost();
   late String email;
   String pinpass = '';
   String pass = '';
   late String identifier;
   TextEditingController _newAuthController = TextEditingController();
+  late Timer passTimer;
+  late Timer hostTimer;
 
   @override
   void initState() {
-    _host = APIservice().getDataHost();
+    hostTimer = Timer.periodic(Duration(seconds: 2), (timer) {
+      setState(() {
+        _host = APIservice().getDataHost();
+      });
+    });
+
     getPassword();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    hostTimer.cancel();
+    passTimer.cancel();
+    super.dispose();
   }
 
   @override
@@ -139,8 +154,8 @@ class _BodyState extends State<Body> {
                                     );
                                   });
                                 },
-                                child: Image.asset(
-                                  'assets/images/profilepage/edit_icon.png',
+                                child: SvgPicture.asset(
+                                  "assets/images/profilepage/edit_icon2.svg",
                                   width: 24,
                                   height: 24,
                                   fit: BoxFit.cover,
@@ -185,8 +200,8 @@ class _BodyState extends State<Body> {
                                     );
                                   });
                                 },
-                                child: Image.asset(
-                                  'assets/images/profilepage/edit_icon.png',
+                                child: SvgPicture.asset(
+                                  "assets/images/profilepage/edit_icon2.svg",
                                   width: 24,
                                   height: 24,
                                   fit: BoxFit.cover,
@@ -223,10 +238,10 @@ class _BodyState extends State<Body> {
                                 style: lPTextStyle4,
                               ),
                               SizedBox(
-                                width: 4,
+                                width: 8,
                               ),
-                              Image.asset(
-                                'assets/images/profilepage/logout.png',
+                              SvgPicture.asset(
+                                "assets/images/profilepage/logout2.svg",
                                 width: 16,
                                 height: 16,
                                 fit: BoxFit.cover,
@@ -260,7 +275,8 @@ class _BodyState extends State<Body> {
     }
 
     convertPin();
-    Timer.periodic(Duration(seconds: 2), (timer) {
+
+    passTimer = Timer.periodic(Duration(seconds: 2), (timer) {
       setState(() {
         pass = sharedPreferences.getString('password').toString();
         if (pass.length == pinpass.length) {
@@ -370,15 +386,10 @@ class _BodyState extends State<Body> {
                                     : APIservice().updatePassword(
                                         _newAuthController.text, id);
 
-                                setState(() {
-                                  identifier == 'Email'
-                                      ? Timer(Duration(seconds: 1), () {
-                                          _host = APIservice().getDataHost();
-                                        })
-                                      : SizedBox();
-                                  updateAuth(_newAuthController.text);
-                                });
+                                updateAuth(_newAuthController.text);
+
                                 _newAuthController.clear();
+
                                 Navigator.pop(context);
                               },
                               style: ElevatedButton.styleFrom(

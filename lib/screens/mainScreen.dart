@@ -14,7 +14,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int currentIndex = 1;
+  PageController _pageController = PageController(initialPage: 1);
 
   @override
   void initState() {
@@ -22,6 +22,14 @@ class _MainScreenState extends State<MainScreen> {
 
     checkLoginStatus();
   }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  int currentIndex = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -32,23 +40,24 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Widget _body() => SizedBox.expand(
-        child: IndexedStack(
-          index: currentIndex,
-          children: <Widget>[
-            HistoryScreen(),
-            HomeScreen(),
-            ProfileScreen(),
-          ],
+        child: PageView(
+          onPageChanged: (index) {
+            setState(() => currentIndex = index);
+          },
+          controller: _pageController,
+          children: <Widget>[HistoryScreen(), HomeScreen(), ProfileScreen()],
         ),
       );
 
   Widget _bottomNavBar() => BottomNavBar(
+        containerHeight: 56,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         showElevation: true,
         selectedIndex: currentIndex,
-        animationDuration: const Duration(milliseconds: 0),
-        backgroundColor: Colors.grey.shade100,
+        animationDuration: const Duration(seconds: 0),
+        backgroundColor: primaryColor,
         onItemSelected: (index) {
-          setState(() => currentIndex = index);
+          _onItemTapped(index);
         },
         items: <BottomNavBarItem>[
           BottomNavBarItem(
@@ -56,27 +65,36 @@ class _MainScreenState extends State<MainScreen> {
             activeBackgroundColor: Colors.transparent,
             icon: const ImageIcon(
                 AssetImage('assets/images/mainpage/iconHistory.png')),
-            activeColor: blueColor,
-            inactiveColor: Colors.grey.shade600,
+            activeColor: Colors.white,
+            inactiveColor: primaryColor200,
           ),
           BottomNavBarItem(
             title: 'Home',
             activeBackgroundColor: Colors.transparent,
             icon: const ImageIcon(
                 AssetImage('assets/images/mainpage/iconHome.png')),
-            activeColor: blueColor,
-            inactiveColor: Colors.grey.shade600,
+            activeColor: Colors.white,
+            inactiveColor: primaryColor200,
           ),
           BottomNavBarItem(
             title: 'Profile',
             activeBackgroundColor: Colors.transparent,
             icon: const ImageIcon(
                 AssetImage('assets/images/mainpage/iconUser.png')),
-            activeColor: blueColor,
-            inactiveColor: Colors.grey.shade600,
+            activeColor: Colors.white,
+            inactiveColor: primaryColor200,
           ),
         ],
       );
+
+  void _onItemTapped(int index) {
+    setState(() {
+      currentIndex = index;
+
+      _pageController.animateToPage(index,
+          duration: Duration(milliseconds: 500), curve: Curves.easeOut);
+    });
+  }
 
   checkLoginStatus() async {
     DateTime expirytimes;

@@ -53,8 +53,9 @@ class _AppointmentCardState extends State<AppointmentCard> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Container(
-        padding: EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 16),
+        padding: EdgeInsets.only(left: 16, right: 0, top: 16, bottom: 16),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -78,9 +79,13 @@ class _AppointmentCardState extends State<AppointmentCard> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  widget.guestName!,
-                  style: mainSTextStyle4,
+                SizedBox(
+                  width: size.width / 1.75,
+                  child: Text(
+                    widget.guestName!,
+                    style: mainSTextStyle4,
+                    softWrap: true,
+                  ),
                 ),
                 SizedBox(
                   height: 8,
@@ -99,7 +104,14 @@ class _AppointmentCardState extends State<AppointmentCard> {
               ],
             ),
             SizedBox(
-              height: 16,
+              height: 20,
+            ),
+            Text(
+              'Purpose',
+              style: purposeTextStyle1,
+            ),
+            SizedBox(
+              height: 4,
             ),
             Text(
               widget.guestPurpose!,
@@ -121,7 +133,6 @@ class _AppointmentCardState extends State<AppointmentCard> {
                                 BorderRadius.all(Radius.circular(10)))),
                     onPressed: () async {
                       isAccepted = false;
-
                       isDone = await showCustomDialog(isAccepted);
                       isDone == 'true'
                           ? acceptedDialog(context)
@@ -134,6 +145,9 @@ class _AppointmentCardState extends State<AppointmentCard> {
                       style: buttonMainStyle2,
                     ),
                   ),
+                ),
+                SizedBox(
+                  width: 16,
                 ),
                 Expanded(
                   child: ElevatedButton(
@@ -291,11 +305,12 @@ class _AppointmentCardState extends State<AppointmentCard> {
               ),
             ],
           )));
+
   Future<void> acceptedDialog(BuildContext context) async => showDialog<void>(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        Future.delayed(Duration(seconds: 1), () {
+        Future.delayed(Duration(seconds: 3), () {
           Navigator.of(context, rootNavigator: true).pop(result);
         });
         return Dialog(
@@ -317,7 +332,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        Future.delayed(Duration(seconds: 1), () {
+        Future.delayed(Duration(seconds: 3), () {
           Navigator.of(context, rootNavigator: true).pop(result);
         });
         return Dialog(

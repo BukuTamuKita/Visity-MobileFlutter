@@ -16,8 +16,7 @@ int initScreen;
 String token;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(systemNavigationBarColor: Colors.black));
+  
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   token = sharedPreferences.getString('token');
   initScreen = sharedPreferences.getInt('initScreen');
