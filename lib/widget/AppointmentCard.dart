@@ -80,7 +80,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  width: size.width / 2,
+                  width: size.width / 1.75,
                   child: Text(
                     widget.guestName!,
                     style: mainSTextStyle4,
@@ -152,7 +152,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
                 Expanded(
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        primary: yellowColor300,
+                        primary: lightOrangeColor,
                         shape: RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(10)))),
@@ -286,7 +286,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
                             Navigator.pop(context, result);
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: yellowColor300,
+                            primary: lightOrangeColor,
                             minimumSize: Size(68, 38),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),
@@ -294,7 +294,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
                             shadowColor: Color.fromRGBO(0, 0, 0, 1),
                           ),
                           child: Text(
-                            isAccepted ? "Accept" : "Decline",
+                            'Send',
                             style: buttonMainStyle1,
                           ),
                         ),

@@ -26,8 +26,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(systemNavigationBarColor: Colors.black));
+  
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   token = sharedPreferences.getString('token');
   initScreen = sharedPreferences.getInt('initScreen');

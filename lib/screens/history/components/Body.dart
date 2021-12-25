@@ -22,22 +22,26 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  bool isLoading = false;
-  late Future<Appointment> _appointment;
+  Future<Appointment> _appointment = APIservice().getDataAppointment();
   int historycount = 0;
   int appointmentCount = 0;
   String status = 'all';
+  late Timer appointTimer;
 
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 10), () {
+    appointTimer = Timer.periodic(Duration(seconds: 5), (timer) {
       setState(() {
-        isLoading = true;
+        _appointment = APIservice().getDataAppointment();
       });
     });
-    _appointment = APIservice().getDataAppointment();
     super.initState();
-    setUpTimedFetch();
+  }
+
+  @override
+  void dispose() {
+    appointTimer.cancel();
+    super.dispose();
   }
 
   @override
@@ -239,8 +243,8 @@ class _BodyState extends State<Body> {
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
                             controller: ScrollController(),
-                            separatorBuilder:
-                                (BuildContext context, int index) {
+                            reverse: true,
+                            separatorBuilder: (BuildContext context, index) {
                               if (status == 'all' &&
                                   snapshot.data!.data[index].status !=
                                       "waiting" &&
@@ -351,14 +355,6 @@ class _BodyState extends State<Body> {
         ]),
       ),
     );
-  }
-
-  setUpTimedFetch() {
-    Timer.periodic(Duration(seconds: 2), (timer) {
-      setState(() {
-        _appointment = APIservice().getDataAppointment();
-      });
-    });
   }
 
   Future<void> saveCount(appointmentcount, historycount) async {
