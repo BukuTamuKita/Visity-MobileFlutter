@@ -90,7 +90,7 @@ class _AppointmentHistoryCardState extends State<AppointmentHistoryCard> {
               },
               child: Text(
                 'See More',
-                style: mainSTextStyle4,
+                style: seeTextStyle,
               ),
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(98, 38),
