@@ -144,7 +144,7 @@ class _OnBoardingState extends State<OnBoarding> {
                       ],
                     ),
                     SizedBox(
-                      height: getProportionateScreenHeight(16),
+                      height: getProportionateScreenHeight(14),
                     ),
                     InkWell(
                       onTap: () async {

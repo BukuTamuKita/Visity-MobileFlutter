@@ -6,6 +6,7 @@ import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 String? finalEmail;
@@ -62,61 +63,62 @@ class _BodyState extends State<Body> {
               Visibility(
                 visible: isVisibel,
                 child: Container(
-                  width: size.width,
-                  padding: EdgeInsets.only(
-                      left: 40, right: 40, top: size.height / 9),
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                    image: AssetImage('assets/images/loginpage/LPTopRight.png'),
-                    scale: 1 / size.height * 800,
-                    alignment: Alignment.topRight,
-                  )),
-                  child: Image.asset(
-                    'assets/images/loginpage/loginpage.png',
-                    fit: BoxFit.cover,
-                  ),
-                ),
+                    width: size.width,
+                    padding: EdgeInsets.only(
+                        left: 40, right: 40, top: size.height / 9),
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                      scale: 1 / size.height * 800,
+                      image:
+                          AssetImage('assets/images/loginpage/LPTopRight.png'),
+                      alignment: Alignment.topRight,
+                    )),
+                    child: SvgPicture.asset(
+                      'assets/images/loginpage/loginpage.svg',
+                      height: size.height / 4,
+                      fit: BoxFit.contain,
+                    )),
               ),
               Expanded(
-                
                 child: Container(
                     padding: EdgeInsets.all(16),
-                    margin: EdgeInsets.only(
-                        top: isVisibel ? size.height / 25 : size.height / 9),
+                    margin: EdgeInsets.only(top: size.height / 1000),
                     decoration: isVisibel
                         ? BoxDecoration(
                             image: DecorationImage(
+                            scale: 1 / size.height * 800,
                             image: AssetImage(
                                 'assets/images/loginpage/LPBottomLeft.png'),
-                            scale: 1 / size.height * 800,
                             alignment: Alignment.bottomLeft,
                           ))
                         : BoxDecoration(),
                     child: Column(
-
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          mainAxisSize: MainAxisSize.max,
-
-                          children: [
-                            Text(
-                              "Login",
-                              style: lPTextStyle1,
-                            ),
-                            !isVisibel
-                                ? Image.asset(
-                                    'assets/icons/logo/logo.png',
-                                    width: 48,
-                                    height: 48,
-                                  )
-                                : SizedBox()
-                          ],
+                        Container(
+                          padding: EdgeInsets.only(
+                              top: isVisibel ? 0 : size.height / 35),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Text(
+                                "Login",
+                                style: lPTextStyle1,
+                              ),
+                              !isVisibel
+                                  ? Image.asset(
+                                      'assets/icons/logo/logo.png',
+                                      width: 48,
+                                      height: 48,
+                                    )
+                                  : SizedBox()
+                            ],
+                          ),
                         ),
                         SizedBox(
-                          height: size.height / 25,
+                          height: size.height / 20,
                         ),
                         Text(
                           "Email",
@@ -250,8 +252,8 @@ class _BodyState extends State<Body> {
                           child: Container(
                               height: 40,
                               width: size.width,
-                              margin:
-                                  EdgeInsets.only(right: 20, left: 20, top: 48),
+                              margin: EdgeInsets.only(
+                                  right: 20, left: 20, top: size.height / 20),
                               decoration: BoxDecoration(
                                   color: Color.fromRGBO(46, 77, 167, 10),
                                   borderRadius: BorderRadius.circular(8)),
