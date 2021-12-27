@@ -192,7 +192,6 @@ class _BodyState extends State<Body> {
                     ],
                   ),
                 ),
-                SizedBox(height: 16),
                 FutureBuilder<Appointment>(
                     future: _appointment,
                     builder: (context, snapshot) {
@@ -235,8 +234,9 @@ class _BodyState extends State<Body> {
                           return Container(
                               height: size.height / 1.7,
                               alignment: Alignment.center,
-                              child: SvgPicture.asset('assets/images/historypage/empty_history1.svg',
-                              fit: BoxFit.cover,
+                              child: SvgPicture.asset(
+                                'assets/images/historypage/empty_history1.svg',
+                                fit: BoxFit.cover,
                               ));
                         } else {
                           return ListView.separated(
@@ -258,6 +258,17 @@ class _BodyState extends State<Body> {
                                 );
                               } else if (status != 'all' &&
                                   snapshot.data!.data[index].status == status &&
+                                  DateFormat('EEE, dd MMM yyyy')
+                                          .format(DateTime.now())
+                                          .toString() ==
+                                      snapshot.data!.data[index].dateTime[0]
+                                          .toString()) {
+                                return SizedBox(
+                                  height: 20,
+                                );
+                              } else if (status == 'all' &&
+                                  snapshot.data!.data[index].status !=
+                                      'waiting' &&
                                   DateFormat('EEE, dd MMM yyyy')
                                           .format(DateTime.now())
                                           .toString() ==

@@ -90,7 +90,7 @@ class _AppointmentHistoryCardState extends State<AppointmentHistoryCard> {
               },
               child: Text(
                 'See More',
-                style: mainSTextStyle4,
+                style: seeTextStyle,
               ),
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(98, 38),
@@ -200,7 +200,7 @@ class _AppointmentHistoryCardState extends State<AppointmentHistoryCard> {
                             size: 18,
                           ),
                           Text(
-                            " 0" +
+                            " " +
                                 (widget.hour! - 12).toString() +
                                 ":" +
                                 (widget.minute! == 0
@@ -208,7 +208,7 @@ class _AppointmentHistoryCardState extends State<AppointmentHistoryCard> {
                                     : widget.minute! < 10
                                         ? '0' + widget.minute!.toString()
                                         : widget.minute!.toString()) +
-                                " am",
+                                " pm",
                             style: timeTextStyle,
                           )
                         ],

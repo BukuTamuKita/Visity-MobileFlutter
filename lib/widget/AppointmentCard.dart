@@ -75,51 +75,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: size.width / 1.75,
-                  child: Text(
-                    widget.guestName!,
-                    style: mainSTextStyle4,
-                    softWrap: true,
-                  ),
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                widget.hour == '0'
-                    ? widget.minutes == '0'
-                        ? Text('a few seconds ago', style: mainSTextStyle5)
-                        : Text(
-                            widget.minutes! + ' minutes ago',
-                            style: mainSTextStyle5,
-                          )
-                    : Text(
-                        widget.hour! + ' hours ago',
-                        style: mainSTextStyle5,
-                      )
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Text(
-              'Purpose',
-              style: purposeTextStyle1,
-            ),
-            SizedBox(
-              height: 4,
-            ),
-            Text(
-              widget.guestPurpose!,
-              style: purposeTextStyle,
-            ),
-            SizedBox(
-              height: 16,
-            ),
+            topCard(size.width),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -133,7 +89,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
                                 BorderRadius.all(Radius.circular(10)))),
                     onPressed: () async {
                       isAccepted = false;
-                      isDone = await showCustomDialog(isAccepted);
+                      isDone = await showCustomDialog(isAccepted, size.width);
                       isDone == 'true'
                           ? acceptedDialog(context)
                           : isDone == 'false'
@@ -158,7 +114,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
                                 BorderRadius.all(Radius.circular(10)))),
                     onPressed: () async {
                       isAccepted = true;
-                      isDone = await showCustomDialog(isAccepted);
+                      isDone = await showCustomDialog(isAccepted, size.width);
                     },
                     child: Text(
                       "Accept",
@@ -175,7 +131,55 @@ class _AppointmentCardState extends State<AppointmentCard> {
         ));
   }
 
-  showCustomDialog(bool accepted) => showDialog(
+  topCard(width) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: width / 1.75,
+          child: Text(
+            widget.guestName!,
+            style: mainSTextStyle4,
+            softWrap: true,
+          ),
+        ),
+        SizedBox(
+          height: 8,
+        ),
+        widget.hour == '0'
+            ? widget.minutes == '0'
+                ? Text('a few seconds ago', style: mainSTextStyle5)
+                : Text(
+                    widget.minutes! + ' minutes ago',
+                    style: mainSTextStyle5,
+                  )
+            : Text(
+                widget.hour! + ' hours ago',
+                style: mainSTextStyle5,
+              ),
+        SizedBox(
+          height: 16,
+        ),
+        Text(
+          'Purpose',
+          style: purposeTextStyle1,
+        ),
+        SizedBox(
+          height: 4,
+        ),
+        Text(
+          widget.guestPurpose!,
+          style: purposeTextStyle,
+        ),
+        SizedBox(
+          height: 16,
+        ),
+      ],
+    );
+  }
+
+  showCustomDialog(bool accepted, width) => showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => Dialog(
@@ -190,39 +194,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      widget.guestName!,
-                      style: mainSTextStyle4,
-                    ),
-                    SizedBox(
-                      height: 4,
-                    ),
-                    widget.hour == '0'
-                        ? Text(
-                            widget.minutes! + ' minutes ago',
-                            style: timeTextStyle,
-                          )
-                        : Text(
-                            widget.hour! + ' hours ago',
-                            style: timeTextStyle,
-                          ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    Text(
-                      'Purpose',
-                      style: purposeTextStyle1,
-                    ),
-                    SizedBox(
-                      height: 4,
-                    ),
-                    Text(
-                      widget.guestPurpose!,
-                      style: purposeTextStyle,
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
+                    topCard(width),
                     Text(
                       'Type Your Note To Guest',
                       style: purposeTextStyle1,
@@ -294,7 +266,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
                             shadowColor: Color.fromRGBO(0, 0, 0, 1),
                           ),
                           child: Text(
-                            'Send',
+                            isAccepted ? 'Accept' : 'Decline',
                             style: buttonMainStyle1,
                           ),
                         ),
