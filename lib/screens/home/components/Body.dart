@@ -165,7 +165,8 @@ class _BodyState extends State<Body> {
                               child: SvgPicture.asset(
                                 'assets/images/mainpage/noAppointment.svg',
                                 fit: BoxFit.cover,
-                              ));
+                                ),
+                              );
                         } else {
                           return ListView.separated(
                               controller: ScrollController(),
