@@ -51,218 +51,221 @@ class _BodyState extends State<Body> {
     Size size = MediaQuery.of(context).size;
 
     return SafeArea(
-        child: Wrap(children: [
-      FutureBuilder<Host>(
-          future: _host,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              email = snapshot.data!.users.email;
-              return Container(
-                height: size.height / 1.3,
-                margin: EdgeInsets.only(
-                    left: 16, right: 16, top: 28, bottom: size.height / 9),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Profile",
-                      style: mainSTextStyle2,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Stack(
-                          children: <Widget>[
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(16),
-                              child: Image.network(
-                                snapshot.data!.users.photo == null
-                                    ? 'https://www.pinclipart.com/picdir/big/533-5337235_pink-running-clip-art-user-icon-png-transparent.png'
-                                    : 'https://api.visity.me/' +
-                                        snapshot.data!.users.photo,
-                                width: size.height / 6,
-                                height: size.height / 6,
-                                fit: BoxFit.cover,
-                                alignment: Alignment.topCenter,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Name',
-                          style: profileTextStyle3,
-                        ),
-                        Text(
-                          snapshot.data!.users.name,
-                          style: profileTextStyle2,
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(8),
-                          margin: EdgeInsets.only(top: 8, bottom: 8),
-                          height: 2,
-                          width: size.width,
-                          color: Colors.black26,
-                        ),
-                        Text(
-                          'Position',
-                          style: profileTextStyle3,
-                        ),
-                        Text(
-                          snapshot.data!.position,
-                          style: profileTextStyle2,
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(8),
-                          margin: EdgeInsets.only(top: 8, bottom: 8),
-                          height: 2,
-                          width: size.width,
-                          color: Colors.black26,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Email',
-                                  style: profileTextStyle3,
-                                ),
-                                Text(
-                                  snapshot.data!.users.email,
-                                  style: profileTextStyle2,
-                                ),
-                              ],
-                            ),
-                            BouncingWidget(
-                                duration: Duration(milliseconds: 150),
-                                scaleFactor: 1.5,
-                                onPressed: () {
-                                  Timer(Duration(milliseconds: 300), () {
-                                    identifier = 'Email';
-                                    resetAuthDialog(
-                                      context,
-                                      snapshot.data!.users.id.toString(),
-                                      snapshot.data!.users.email,
-                                    );
-                                  });
-                                },
-                                child: SvgPicture.asset(
-                                  "assets/images/profilepage/edit_icon2.svg",
-                                  width: 24,
-                                  height: 24,
-                                  fit: BoxFit.cover,
-                                )),
-                          ],
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(8),
-                          margin: EdgeInsets.only(top: 8, bottom: 8),
-                          height: 2,
-                          width: size.width,
-                          color: Colors.black26,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Password',
-                                  style: profileTextStyle3,
-                                ),
-                                Text(
-                                  pinpass,
-                                  style: profileTextStyle2,
-                                ),
-                              ],
-                            ),
-                            BouncingWidget(
-                                duration: Duration(milliseconds: 150),
-                                scaleFactor: 1.5,
-                                onPressed: () {
-                                  Timer(Duration(milliseconds: 300), () {
-                                    identifier = 'Password';
-
-                                    resetAuthDialog(
-                                      context,
-                                      snapshot.data!.users.id.toString(),
-                                      pass,
-                                    );
-                                  });
-                                },
-                                child: SvgPicture.asset(
-                                  "assets/images/profilepage/edit_icon2.svg",
-                                  width: 24,
-                                  height: 24,
-                                  fit: BoxFit.cover,
-                                )),
-                          ],
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(8),
-                          margin: EdgeInsets.only(top: 8, bottom: 8),
-                          height: 2,
-                          width: size.width,
-                          color: Colors.black26,
-                        ),
-                      ],
-                    ),
-                    Container(
-                      height: 40,
-                      margin: EdgeInsets.only(top: 30),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          logout();
-                        },
-                        style: ElevatedButton.styleFrom(
-                            primary: blueColor,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8)),
-                            elevation: 3,
-                            shadowColor: Color.fromRGBO(0, 0, 0, 1)),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Logout",
-                                style: lPTextStyle4,
-                              ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              SvgPicture.asset(
-                                "assets/images/profilepage/logout2.svg",
-                                width: 16,
-                                height: 16,
-                                fit: BoxFit.cover,
-                                color: WhiteColor,
-                              )
-                            ]),
+        child: SingleChildScrollView(
+          child: Wrap(children: [
+              FutureBuilder<Host>(
+            future: _host,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                email = snapshot.data!.users.email;
+                return Container(
+                  margin: EdgeInsets.only(
+                      left: 16, right: 16, top: 28, bottom: size.height / 9),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Profile",
+                        style: mainSTextStyle2,
                       ),
-                    ),
-                  ],
-                ),
-              );
-            } else {
-              return Container(
-                height: size.height / 1.3,
-                child: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
-            }
-          }),
-    ]));
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Stack(
+                            children: <Widget>[
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(16),
+                                child: Image.network(
+                                  snapshot.data!.users.photo == null
+                                      ? 'https://www.pinclipart.com/picdir/big/533-5337235_pink-running-clip-art-user-icon-png-transparent.png'
+                                      : 'https://api.visity.me/' +
+                                          snapshot.data!.users.photo,
+                                  width: size.height / 6,
+                                  height: size.height / 6,
+                                  fit: BoxFit.cover,
+                                  alignment: Alignment.topCenter,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Name',
+                            style: profileTextStyle3,
+                          ),
+                          Text(
+                            snapshot.data!.users.name,
+                            style: profileTextStyle2,
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(8),
+                            margin: EdgeInsets.only(top: 8, bottom: 8),
+                            height: 2,
+                            width: size.width,
+                            color: Colors.black26,
+                          ),
+                          Text(
+                            'Position',
+                            style: profileTextStyle3,
+                          ),
+                          Text(
+                            snapshot.data!.position,
+                            style: profileTextStyle2,
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(8),
+                            margin: EdgeInsets.only(top: 8, bottom: 8),
+                            height: 2,
+                            width: size.width,
+                            color: Colors.black26,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Email',
+                                    style: profileTextStyle3,
+                                  ),
+                                  Text(
+                                    snapshot.data!.users.email,
+                                    style: profileTextStyle2,
+                                  ),
+                                ],
+                              ),
+                              BouncingWidget(
+                                  duration: Duration(milliseconds: 150),
+                                  scaleFactor: 1.5,
+                                  onPressed: () {
+                                    Timer(Duration(milliseconds: 300), () {
+                                      identifier = 'Email';
+                                      resetAuthDialog(
+                                        context,
+                                        snapshot.data!.users.id.toString(),
+                                        snapshot.data!.users.email,
+                                      );
+                                    });
+                                  },
+                                  child: SvgPicture.asset(
+                                    "assets/images/profilepage/edit_icon2.svg",
+                                    width: 24,
+                                    height: 24,
+                                    fit: BoxFit.cover,
+                                  )),
+                            ],
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(8),
+                            margin: EdgeInsets.only(top: 8, bottom: 8),
+                            height: 2,
+                            width: size.width,
+                            color: Colors.black26,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Password',
+                                    style: profileTextStyle3,
+                                  ),
+                                  Text(
+                                    pinpass,
+                                    style: profileTextStyle2,
+                                  ),
+                                ],
+                              ),
+                              BouncingWidget(
+                                  duration: Duration(milliseconds: 150),
+                                  scaleFactor: 1.5,
+                                  onPressed: () {
+                                    Timer(Duration(milliseconds: 300), () {
+                                      identifier = 'Password';
+        
+                                      resetAuthDialog(
+                                        context,
+                                        snapshot.data!.users.id.toString(),
+                                        pass,
+                                      );
+                                    });
+                                  },
+                                  child: SvgPicture.asset(
+                                    "assets/images/profilepage/edit_icon2.svg",
+                                    width: 24,
+                                    height: 24,
+                                    fit: BoxFit.cover,
+                                  )),
+                            ],
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(8),
+                            margin: EdgeInsets.only(top: 8, bottom: 8),
+                            height: 2,
+                            width: size.width,
+                            color: Colors.black26,
+                          ),
+                        ],
+                      ),
+                      Container(
+                        height: 40,
+                        margin: EdgeInsets.only(top: 30),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            logout();
+                          },
+                          style: ElevatedButton.styleFrom(
+                              primary: blueColor,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8)),
+                              elevation: 3,
+                              shadowColor: Color.fromRGBO(0, 0, 0, 1)),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Logout",
+                                  style: lPTextStyle4,
+                                ),
+                                SizedBox(
+                                  width: 8,
+                                ),
+                                SvgPicture.asset(
+                                  "assets/images/profilepage/logout2.svg",
+                                  width: 16,
+                                  height: 16,
+                                  fit: BoxFit.cover,
+                                  color: WhiteColor,
+                                )
+                              ]),
+                        ),
+                      ),
+                      SizedBox(height: 16,)
+                    ],
+                    
+                  ),
+                );
+              } else {
+                return Container(
+                  height: size.height / 1.3,
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
+            }),
+            ]),
+        ));
   }
 
   Future<void> getPassword() async {
@@ -314,102 +317,104 @@ class _BodyState extends State<Body> {
               backgroundColor: Colors.white,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20)),
-              child: Wrap(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Edit Your ' + identifier, style: mainSTextStyle4),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text('Your Old ' + identifier,
-                            style: editMailTextStyle1),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Text(auth, style: editMailTextStyle2),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text('Your New ' + identifier,
-                            style: editMailTextStyle3),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        TextFormField(
-                            controller: _newAuthController,
-                            decoration: InputDecoration(
-                              fillColor: WhiteColor,
-                              filled: false,
-                              contentPadding: EdgeInsets.all(8),
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: lightGreyColor,
-                                    width: 1,
-                                  ),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8))),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: lightGreyColor,
-                                    width: 1,
-                                  ),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8))),
-                            )),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            TextButton(
+              child: SingleChildScrollView(
+                child: Wrap(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Edit Your ' + identifier, style: mainSTextStyle4),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text('Your Old ' + identifier,
+                              style: editMailTextStyle1),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Text(auth, style: editMailTextStyle2),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text('Your New ' + identifier,
+                              style: editMailTextStyle3),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          TextFormField(
+                              controller: _newAuthController,
+                              decoration: InputDecoration(
+                                fillColor: WhiteColor,
+                                filled: false,
+                                contentPadding: EdgeInsets.all(8),
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: lightGreyColor,
+                                      width: 1,
+                                    ),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(8))),
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: lightGreyColor,
+                                      width: 1,
+                                    ),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(8))),
+                              )),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              TextButton(
+                                  onPressed: () {
+                                    _newAuthController.clear();
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text(
+                                    'Cancel',
+                                    style: buttonMainStyle1,
+                                  )),
+                              SizedBox(
+                                width: 16,
+                              ),
+                              ElevatedButton(
                                 onPressed: () {
+                                  identifier == 'Email'
+                                      ? APIservice().updateEmail(
+                                          _newAuthController.text, id)
+                                      : APIservice().updatePassword(
+                                          _newAuthController.text, id);
+              
+                                  updateAuth(_newAuthController.text);
+              
                                   _newAuthController.clear();
+              
                                   Navigator.pop(context);
                                 },
+                                style: ElevatedButton.styleFrom(
+                                  primary: blueColor,
+                                  minimumSize: Size(91, 38),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10)),
+                                  elevation: 3,
+                                  shadowColor: Color.fromRGBO(0, 0, 0, 1),
+                                ),
                                 child: Text(
-                                  'Cancel',
-                                  style: buttonMainStyle1,
-                                )),
-                            SizedBox(
-                              width: 16,
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                identifier == 'Email'
-                                    ? APIservice().updateEmail(
-                                        _newAuthController.text, id)
-                                    : APIservice().updatePassword(
-                                        _newAuthController.text, id);
-
-                                updateAuth(_newAuthController.text);
-
-                                _newAuthController.clear();
-
-                                Navigator.pop(context);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                primary: blueColor,
-                                minimumSize: Size(91, 38),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                                elevation: 3,
-                                shadowColor: Color.fromRGBO(0, 0, 0, 1),
+                                  'Submit',
+                                  style: buttonMainStyle3,
+                                ),
                               ),
-                              child: Text(
-                                'Submit',
-                                style: buttonMainStyle3,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               )));
 }

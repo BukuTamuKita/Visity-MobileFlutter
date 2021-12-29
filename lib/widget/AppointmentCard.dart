@@ -187,95 +187,97 @@ class _AppointmentCardState extends State<AppointmentCard> {
           backgroundColor: Colors.white,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          child: Wrap(
-            children: [
-              Container(
-                padding: EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    topCard(width),
-                    Text(
-                      'Type Your Note To Guest',
-                      style: purposeTextStyle1,
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    TextFormField(
-                        controller: _notesControler,
-                        maxLines: 3,
-                        decoration: InputDecoration(
-                          hintText: 'Example.. Meet me at 07.00 am',
-                          hintStyle: hintTextStyle,
-                          fillColor: WhiteColor,
-                          filled: true,
-                          contentPadding: EdgeInsets.all(12),
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: lightGreyColor,
-                                width: 1,
-                              ),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8))),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: lightGreyColor,
-                                width: 1,
-                              ),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8))),
-                        )),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        TextButton(
-                            onPressed: () {
-                              result = 'null';
+          child: SingleChildScrollView(
+            child: Wrap(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      topCard(width),
+                      Text(
+                        'Type Your Note To Guest',
+                        style: purposeTextStyle1,
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      TextFormField(
+                          controller: _notesControler,
+                          maxLines: 3,
+                          decoration: InputDecoration(
+                            hintText: 'Example.. Meet me at 07.00 am',
+                            hintStyle: hintTextStyle,
+                            fillColor: WhiteColor,
+                            filled: true,
+                            contentPadding: EdgeInsets.all(12),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: lightGreyColor,
+                                  width: 1,
+                                ),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8))),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: lightGreyColor,
+                                  width: 1,
+                                ),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8))),
+                          )),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          TextButton(
+                              onPressed: () {
+                                result = 'null';
+                                Navigator.pop(context, result);
+                              },
+                              child: Text(
+                                'Cancel',
+                                style: buttonMainStyle2,
+                              )),
+                          SizedBox(
+                            width: 16,
+                          ),
+                          ElevatedButton(
+                            onPressed: () async {
+                              bool isUpdate = await APIservice().updateStatus(
+                                  widget.id, accepted, _notesControler, context);
+          
+                              Timer(Duration(seconds: 15), () {
+                                if (isUpdate) {
+                                  APIservice().sendEmail(widget.id);
+                                }
+                              });
+                              result = isUpdate.toString();
                               Navigator.pop(context, result);
                             },
+                            style: ElevatedButton.styleFrom(
+                              primary: lightOrangeColor,
+                              minimumSize: Size(68, 38),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                              elevation: 3,
+                              shadowColor: Color.fromRGBO(0, 0, 0, 1),
+                            ),
                             child: Text(
-                              'Cancel',
-                              style: buttonMainStyle2,
-                            )),
-                        SizedBox(
-                          width: 16,
-                        ),
-                        ElevatedButton(
-                          onPressed: () async {
-                            bool isUpdate = await APIservice().updateStatus(
-                                widget.id, accepted, _notesControler, context);
-
-                            Timer(Duration(seconds: 15), () {
-                              if (isUpdate) {
-                                APIservice().sendEmail(widget.id);
-                              }
-                            });
-                            result = isUpdate.toString();
-                            Navigator.pop(context, result);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            primary: lightOrangeColor,
-                            minimumSize: Size(68, 38),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                            elevation: 3,
-                            shadowColor: Color.fromRGBO(0, 0, 0, 1),
+                              isAccepted ? 'Accept' : 'Decline',
+                              style: buttonMainStyle1,
+                            ),
                           ),
-                          child: Text(
-                            isAccepted ? 'Accept' : 'Decline',
-                            style: buttonMainStyle1,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           )));
 
   Future<void> acceptedDialog(BuildContext context) async => showDialog<void>(

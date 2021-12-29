@@ -34,6 +34,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: _body(),
       bottomNavigationBar: _bottomNavBar(),
     );
