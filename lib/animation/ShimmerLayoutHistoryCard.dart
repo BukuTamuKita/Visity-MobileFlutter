@@ -1,4 +1,3 @@
-import 'package:bukutamu_android/size_config.dart';
 import 'package:bukutamu_android/widget/AppointmentHistoryCard.dart';
 import 'package:flutter/material.dart';
 

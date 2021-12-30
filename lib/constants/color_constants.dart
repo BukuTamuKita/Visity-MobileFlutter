@@ -27,5 +27,6 @@ const greyColor = Color.fromRGBO(191, 189, 197, 1);
 const navbarColor = Color.fromRGBO(251, 249, 255, 1);
 const unActiveceBar = Color.fromRGBO(195, 203, 231, 1);
 const primaryColor = Color.fromRGBO(52, 84, 177, 1);
+const primaryColor50 = Color.fromRGBO(231, 234, 245, 1);
 const primaryColor200 = Color.fromRGBO(156, 169, 215, 1);
 const yellowColor300 = Color.fromRGBO(255, 214, 98, 1);

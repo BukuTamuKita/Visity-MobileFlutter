@@ -69,6 +69,7 @@ class _BodyState extends State<Body> {
                         "Profile",
                         style: mainSTextStyle2,
                       ),
+                      SizedBox(height: 32,),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -91,6 +92,7 @@ class _BodyState extends State<Body> {
                           ),
                         ],
                       ),
+                      SizedBox(height: 32,),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -105,9 +107,9 @@ class _BodyState extends State<Body> {
                           Container(
                             padding: EdgeInsets.all(8),
                             margin: EdgeInsets.only(top: 8, bottom: 8),
-                            height: 2,
+                            height: 1,
                             width: size.width,
-                            color: Colors.black26,
+                            color: Colors.black12,
                           ),
                           Text(
                             'Position',
@@ -120,9 +122,9 @@ class _BodyState extends State<Body> {
                           Container(
                             padding: EdgeInsets.all(8),
                             margin: EdgeInsets.only(top: 8, bottom: 8),
-                            height: 2,
+                            height: 1,
                             width: size.width,
-                            color: Colors.black26,
+                            color: Colors.black12,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -165,9 +167,9 @@ class _BodyState extends State<Body> {
                           Container(
                             padding: EdgeInsets.all(8),
                             margin: EdgeInsets.only(top: 8, bottom: 8),
-                            height: 2,
+                            height: 1,
                             width: size.width,
-                            color: Colors.black26,
+                            color: Colors.black12,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -211,9 +213,9 @@ class _BodyState extends State<Body> {
                           Container(
                             padding: EdgeInsets.all(8),
                             margin: EdgeInsets.only(top: 8, bottom: 8),
-                            height: 2,
+                            height: 1,
                             width: size.width,
-                            color: Colors.black26,
+                            color: Colors.black12,
                           ),
                         ],
                       ),

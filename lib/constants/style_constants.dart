@@ -22,6 +22,12 @@ var lPTextStyle4 = GoogleFonts.inter(
     fontWeight: FontWeight.w700, color: textColor2, fontSize: 14);
 var lPTextStyle5 = GoogleFonts.inter(
     fontWeight: FontWeight.w500, color: textColor1, fontSize: 12);
+var lPTextStyle6 = GoogleFonts.inter(
+    fontWeight: FontWeight.bold, color: blueColor, fontSize: 24);
+var lPTextStyle7 = GoogleFonts.inter(
+    fontWeight: FontWeight.bold, color: blueColor, fontSize: 14);
+var lPTextStyle8 = GoogleFonts.inter(
+    fontWeight: FontWeight.w400, color: blueColor, fontSize: 14);
 
 //signup text
 var sUTextStyle1 = GoogleFonts.inter(

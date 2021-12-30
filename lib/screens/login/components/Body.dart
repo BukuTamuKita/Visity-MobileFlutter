@@ -73,16 +73,30 @@ class _BodyState extends State<Body> {
                           AssetImage('assets/images/loginpage/LPTopRight.png'),
                       alignment: Alignment.topRight,
                     )),
-                    child: SvgPicture.asset(
-                      'assets/images/loginpage/loginpage.svg',
-                      height: size.height / 4,
-                      fit: BoxFit.contain,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 64,
+                        ),
+                        Image(
+                          image: AssetImage(
+                              "assets/images/loginpage/LogoBaru.png"),
+                          height: size.height / 10,
+                          fit: BoxFit.contain,
+                        ),
+                        SizedBox(
+                          height: 12,
+                        ),
+                        Text(
+                          "Login to continue ",
+                          style: lPTextStyle6,
+                        )
+                      ],
                     )),
               ),
               Expanded(
                 child: Container(
-                    padding: EdgeInsets.all(16),
-                    margin: EdgeInsets.only(top: size.height / 1000),
+                    padding: EdgeInsets.only(left: 16, right: 16, top: 20),
                     decoration: isVisibel
                         ? BoxDecoration(
                             image: DecorationImage(
@@ -103,10 +117,6 @@ class _BodyState extends State<Body> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             mainAxisSize: MainAxisSize.max,
                             children: [
-                              Text(
-                                "Login",
-                                style: lPTextStyle1,
-                              ),
                               !isVisibel
                                   ? Image.asset(
                                       'assets/icons/logo/logo.png',
@@ -252,8 +262,7 @@ class _BodyState extends State<Body> {
                           child: Container(
                               height: 40,
                               width: size.width,
-                              margin: EdgeInsets.only(
-                                  right: 20, left: 20, top: size.height / 20),
+                              margin: EdgeInsets.only(top: size.height / 20),
                               decoration: BoxDecoration(
                                   color: Color.fromRGBO(46, 77, 167, 10),
                                   borderRadius: BorderRadius.circular(8)),
@@ -284,6 +293,50 @@ class _BodyState extends State<Body> {
                                       ),
                               )),
                         ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 60, right: 60,),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: primaryColor50,
+                              borderRadius: BorderRadiusDirectional.circular(8)
+                            ),
+                            height: 100,
+                            width: 20,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Testing Credentials",
+                                  style: lPTextStyle7,
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    RichText(
+                                    text: TextSpan(children: [
+                                  TextSpan(text: "Email :", style: lPTextStyle8),
+                                  TextSpan(
+                                      text: " host@example.com",
+                                      style: lPTextStyle7)
+                                ])),
+                                RichText(
+                                    text: TextSpan(children: [
+                                  TextSpan(text: "Password :", style: lPTextStyle8),
+                                  TextSpan(
+                                      text: " password",
+                                      style: lPTextStyle7)
+                                ]))
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        )
                       ],
                     )),
               )

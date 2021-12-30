@@ -62,7 +62,7 @@ class _BodyState extends State<Body> {
                   "History",
                   style: mainSTextStyle2,
                 ),
-                SizedBox(height: 19),
+                SizedBox(height: 24),
                 Container(
                   height: 48,
                   decoration: BoxDecoration(
@@ -188,10 +188,12 @@ class _BodyState extends State<Body> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12)),
                               ),
-                      ))
+                      )),
                     ],
                   ),
+                  
                 ),
+                SizedBox(height: 24,),
                 FutureBuilder<Appointment>(
                     future: _appointment,
                     builder: (context, snapshot) {
@@ -264,7 +266,6 @@ class _BodyState extends State<Body> {
                                       snapshot.data!.data[index].dateTime[0]
                                           .toString()) {
                                 return SizedBox(
-                                  height: 20,
                                 );
                               } else if (status == 'all' &&
                                   snapshot.data!.data[index].status !=
