@@ -200,15 +200,17 @@ class _AppointmentHistoryCardState extends State<AppointmentHistoryCard> {
                             size: 18,
                           ),
                           Text(
-                            " " +
-                                (widget.hour! - 12).toString() +
-                                ":" +
-                                (widget.minute! == 0
-                                    ? "00"
-                                    : widget.minute! < 10
-                                        ? '0' + widget.minute!.toString()
-                                        : widget.minute!.toString()) +
-                                " pm",
+                            widget.hour! < 22
+                                ? " 0"
+                                : ' ' +
+                                    (widget.hour! - 12).toString() +
+                                    ":" +
+                                    (widget.minute! == 0
+                                        ? "00"
+                                        : widget.minute! < 10
+                                            ? '0' + widget.minute!.toString()
+                                            : widget.minute!.toString()) +
+                                    " pm",
                             style: timeTextStyle,
                           )
                         ],
@@ -296,17 +298,20 @@ class _AppointmentHistoryCardState extends State<AppointmentHistoryCard> {
                                     size: 18,
                                   ),
                                   Text(
-                                    (widget.hour! < 10
-                                            ? ' 0' + widget.hour.toString()
-                                            : ' ' + widget.hour.toString()) +
-                                        ":" +
-                                        (widget.minute! == 0
-                                            ? "00"
-                                            : widget.minute! < 10
-                                                ? '0' +
-                                                    widget.minute!.toString()
-                                                : widget.minute!.toString()) +
-                                        " am",
+                                    widget.hour! < 10
+                                        ? ' 0'
+                                        : ' ' +
+                                            widget.hour.toString() +
+                                            ":" +
+                                            (widget.minute! == 0
+                                                ? "00"
+                                                : widget.minute! < 10
+                                                    ? '0' +
+                                                        widget.minute!
+                                                            .toString()
+                                                    : widget.minute!
+                                                        .toString()) +
+                                            " am",
                                     style: timeTextStyle,
                                   )
                                 ],

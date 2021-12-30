@@ -10,6 +10,7 @@ import 'package:bukutamu_android/model/host_model.dart';
 import 'package:bukutamu_android/widget/AppointmentCard.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:intl/intl.dart';
@@ -36,6 +37,10 @@ class _BodyState extends State<Body> {
 
   @override
   void initState() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     appointTimer = Timer.periodic(Duration(seconds: 5), (timer) {
       setState(() {
         _appointment = APIservice().getDataAppointment();
@@ -160,13 +165,14 @@ class _BodyState extends State<Body> {
                         saveCount(appointmentCount, historycount);
                         if (appointmentCount == 0) {
                           return Container(
-                              height: size.height / 1.8,
-                              alignment: Alignment.center,
-                              child: SvgPicture.asset(
-                                'assets/images/mainpage/noAppointment.svg',
-                                fit: BoxFit.cover,
-                                ),
-                              );
+                            height: size.height / 1.8,
+                            alignment: Alignment.center,
+                            child: SvgPicture.asset(
+                              'assets/images/mainpage/noAppointment.svg',
+                              height: size.height / 3,
+                              fit: BoxFit.cover,
+                            ),
+                          );
                         } else {
                           return ListView.separated(
                               controller: ScrollController(),
