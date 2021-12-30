@@ -7,6 +7,7 @@ import 'package:bukutamu_android/constants/style_constants.dart';
 import 'package:bukutamu_android/model/host_model.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -29,6 +30,10 @@ class _BodyState extends State<Body> {
 
   @override
   void initState() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     hostTimer = Timer.periodic(Duration(seconds: 2), (timer) {
       setState(() {
         _host = APIservice().getDataHost();
@@ -218,10 +223,7 @@ class _BodyState extends State<Body> {
                       Container(
                         height: 40,
                         margin: EdgeInsets.only(
-                            top: MediaQuery.of(context).orientation ==
-                                    Orientation.landscape
-                                ? 40
-                                : size.height / 16),
+                            top: size.height / 16),
                         child: ElevatedButton(
                           onPressed: () {
                             logout();

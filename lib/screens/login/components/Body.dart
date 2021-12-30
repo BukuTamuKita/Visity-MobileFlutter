@@ -49,12 +49,6 @@ class _BodyState extends State<Body> {
 
   @override
   void dispose() {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeRight,
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
     keyboardSubscription.cancel();
     super.dispose();
   }
