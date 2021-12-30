@@ -160,13 +160,14 @@ class _BodyState extends State<Body> {
                         saveCount(appointmentCount, historycount);
                         if (appointmentCount == 0) {
                           return Container(
-                              height: size.height / 1.8,
-                              alignment: Alignment.center,
-                              child: SvgPicture.asset(
-                                'assets/images/mainpage/noAppointment.svg',
-                                fit: BoxFit.cover,
-                                ),
-                              );
+                            height: size.height / 1.8,
+                            alignment: Alignment.center,
+                            child: SvgPicture.asset(
+                              'assets/images/mainpage/noAppointment.svg',
+                              height: size.height / 3,
+                              fit: BoxFit.cover,
+                            ),
+                          );
                         } else {
                           return ListView.separated(
                               controller: ScrollController(),

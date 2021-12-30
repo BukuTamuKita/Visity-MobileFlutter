@@ -191,9 +191,10 @@ class _BodyState extends State<Body> {
                       )),
                     ],
                   ),
-                  
                 ),
-                SizedBox(height: 24,),
+                SizedBox(
+                  height: 24,
+                ),
                 FutureBuilder<Appointment>(
                     future: _appointment,
                     builder: (context, snapshot) {
@@ -239,49 +240,14 @@ class _BodyState extends State<Body> {
                               child: SvgPicture.asset(
                                 'assets/images/historypage/empty_history1.svg',
                                 fit: BoxFit.cover,
+                                height: size.height / 3,
                               ));
                         } else {
-                          return ListView.separated(
+                          return ListView.builder(
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
                             controller: ScrollController(),
                             reverse: true,
-                            separatorBuilder: (BuildContext context, index) {
-                              if (status == 'all' &&
-                                  snapshot.data!.data[index].status !=
-                                      "waiting" &&
-                                  DateFormat('EEE, dd MMM yyyy')
-                                          .format(DateTime.now())
-                                          .toString() ==
-                                      snapshot.data!.data[index].dateTime[0]
-                                          .toString()) {
-                                return SizedBox(
-                                  height: 20,
-                                );
-                              } else if (status != 'all' &&
-                                  snapshot.data!.data[index].status == status &&
-                                  DateFormat('EEE, dd MMM yyyy')
-                                          .format(DateTime.now())
-                                          .toString() ==
-                                      snapshot.data!.data[index].dateTime[0]
-                                          .toString()) {
-                                return SizedBox(
-                                );
-                              } else if (status == 'all' &&
-                                  snapshot.data!.data[index].status !=
-                                      'waiting' &&
-                                  DateFormat('EEE, dd MMM yyyy')
-                                          .format(DateTime.now())
-                                          .toString() ==
-                                      snapshot.data!.data[index].dateTime[0]
-                                          .toString()) {
-                                return SizedBox(
-                                  height: 20,
-                                );
-                              } else {
-                                return SizedBox();
-                              }
-                            },
                             itemCount: snapshot.data!.data.length,
                             itemBuilder: (context, index) {
                               var appointment = snapshot.data!.data[index];
@@ -311,6 +277,9 @@ class _BodyState extends State<Body> {
                                           .parse(appointment.dateTime[0])
                                           .month,
                                       noted: appointment.notes,
+                                    ),
+                                    Container(
+                                      height: 16,
                                     )
                                   ],
                                 );
@@ -339,6 +308,9 @@ class _BodyState extends State<Body> {
                                           .parse(appointment.dateTime[0])
                                           .month,
                                       noted: appointment.notes,
+                                    ),
+                                    Container(
+                                      height: 16,
                                     )
                                   ],
                                 );

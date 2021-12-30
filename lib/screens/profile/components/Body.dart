@@ -51,9 +51,8 @@ class _BodyState extends State<Body> {
     Size size = MediaQuery.of(context).size;
 
     return SafeArea(
-        child: SingleChildScrollView(
-          child: Wrap(children: [
-              FutureBuilder<Host>(
+      child: SingleChildScrollView(
+        child: FutureBuilder<Host>(
             future: _host,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
@@ -63,36 +62,33 @@ class _BodyState extends State<Body> {
                       left: 16, right: 16, top: 28, bottom: size.height / 9),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         "Profile",
                         style: mainSTextStyle2,
                       ),
-                      SizedBox(height: 32,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Stack(
-                            children: <Widget>[
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(16),
-                                child: Image.network(
-                                  snapshot.data!.users.photo == null
-                                      ? 'https://www.pinclipart.com/picdir/big/533-5337235_pink-running-clip-art-user-icon-png-transparent.png'
-                                      : 'https://api.visity.me/' +
-                                          snapshot.data!.users.photo,
-                                  width: size.height / 6,
-                                  height: size.height / 6,
-                                  fit: BoxFit.cover,
-                                  alignment: Alignment.topCenter,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+                      SizedBox(
+                        height: size.height / 25,
                       ),
-                      SizedBox(height: 32,),
+                      Align(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: Image.network(
+                            snapshot.data!.users.photo == null
+                                ? 'https://www.pinclipart.com/picdir/big/533-5337235_pink-running-clip-art-user-icon-png-transparent.png'
+                                : 'https://api.visity.me/' +
+                                    snapshot.data!.users.photo,
+                            width: size.height / 6,
+                            height: size.height / 6,
+                            fit: BoxFit.cover,
+                            alignment: Alignment.topCenter,
+                          ),
+                        ),
+                        alignment: Alignment.topCenter,
+                      ),
+                      SizedBox(
+                        height: size.height / 25,
+                      ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -194,7 +190,7 @@ class _BodyState extends State<Body> {
                                   onPressed: () {
                                     Timer(Duration(milliseconds: 300), () {
                                       identifier = 'Password';
-        
+
                                       resetAuthDialog(
                                         context,
                                         snapshot.data!.users.id.toString(),
@@ -221,7 +217,11 @@ class _BodyState extends State<Body> {
                       ),
                       Container(
                         height: 40,
-                        margin: EdgeInsets.only(top: 30),
+                        margin: EdgeInsets.only(
+                            top: MediaQuery.of(context).orientation ==
+                                    Orientation.landscape
+                                ? 40
+                                : size.height / 16),
                         child: ElevatedButton(
                           onPressed: () {
                             logout();
@@ -252,9 +252,7 @@ class _BodyState extends State<Body> {
                               ]),
                         ),
                       ),
-                      SizedBox(height: 16,)
                     ],
-                    
                   ),
                 );
               } else {
@@ -266,8 +264,8 @@ class _BodyState extends State<Body> {
                 );
               }
             }),
-            ]),
-        ));
+      ),
+    );
   }
 
   Future<void> getPassword() async {
@@ -327,7 +325,8 @@ class _BodyState extends State<Body> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Edit Your ' + identifier, style: mainSTextStyle4),
+                          Text('Edit Your ' + identifier,
+                              style: mainSTextStyle4),
                           SizedBox(
                             height: 20,
                           ),
@@ -391,11 +390,11 @@ class _BodyState extends State<Body> {
                                           _newAuthController.text, id)
                                       : APIservice().updatePassword(
                                           _newAuthController.text, id);
-              
+
                                   updateAuth(_newAuthController.text);
-              
+
                                   _newAuthController.clear();
-              
+
                                   Navigator.pop(context);
                                 },
                                 style: ElevatedButton.styleFrom(

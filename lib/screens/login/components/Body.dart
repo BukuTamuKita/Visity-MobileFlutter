@@ -4,9 +4,9 @@ import 'package:bouncing_widget/bouncing_widget.dart';
 import 'package:bukutamu_android/api/api_service.dart';
 import 'package:bukutamu_android/constants/color_constants.dart';
 import 'package:bukutamu_android/constants/style_constants.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 String? finalEmail;
@@ -29,6 +29,10 @@ class _BodyState extends State<Body> {
 
   @override
   void initState() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     _loadUserEmailPassword();
     _keyboardVisibilityController = KeyboardVisibilityController();
     keyboardSubscription =
@@ -45,6 +49,12 @@ class _BodyState extends State<Body> {
 
   @override
   void dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     keyboardSubscription.cancel();
     super.dispose();
   }
@@ -65,7 +75,7 @@ class _BodyState extends State<Body> {
                 child: Container(
                     width: size.width,
                     padding: EdgeInsets.only(
-                        left: 40, right: 40, top: size.height / 9),
+                        left: 40, right: 40, top: size.height / 10),
                     decoration: BoxDecoration(
                         image: DecorationImage(
                       scale: 1 / size.height * 800,
@@ -75,9 +85,6 @@ class _BodyState extends State<Body> {
                     )),
                     child: Column(
                       children: [
-                        SizedBox(
-                          height: 64,
-                        ),
                         Image(
                           image: AssetImage(
                               "assets/images/loginpage/LogoBaru.png"),
@@ -96,7 +103,8 @@ class _BodyState extends State<Body> {
               ),
               Expanded(
                 child: Container(
-                    padding: EdgeInsets.only(left: 16, right: 16, top: 20),
+                    padding: EdgeInsets.only(
+                        left: 16, right: 16, top: size.height / 30),
                     decoration: isVisibel
                         ? BoxDecoration(
                             image: DecorationImage(
@@ -297,12 +305,15 @@ class _BodyState extends State<Body> {
                           height: 16,
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: 60, right: 60,),
+                          padding: EdgeInsets.only(
+                            left: 60,
+                            right: 60,
+                          ),
                           child: Container(
                             decoration: BoxDecoration(
-                              color: primaryColor50,
-                              borderRadius: BorderRadiusDirectional.circular(8)
-                            ),
+                                color: primaryColor50,
+                                borderRadius:
+                                    BorderRadiusDirectional.circular(8)),
                             height: 100,
                             width: 20,
                             child: Column(
@@ -318,19 +329,22 @@ class _BodyState extends State<Body> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     RichText(
-                                    text: TextSpan(children: [
-                                  TextSpan(text: "Email :", style: lPTextStyle8),
-                                  TextSpan(
-                                      text: " host@example.com",
-                                      style: lPTextStyle7)
-                                ])),
-                                RichText(
-                                    text: TextSpan(children: [
-                                  TextSpan(text: "Password :", style: lPTextStyle8),
-                                  TextSpan(
-                                      text: " password",
-                                      style: lPTextStyle7)
-                                ]))
+                                        text: TextSpan(children: <TextSpan>[
+                                      TextSpan(
+                                          text: "Email :", style: lPTextStyle8),
+                                      TextSpan(
+                                          text: " host@example.com",
+                                          style: lPTextStyle7)
+                                    ])),
+                                    RichText(
+                                        text: TextSpan(children: <TextSpan>[
+                                      TextSpan(
+                                          text: "Password :",
+                                          style: lPTextStyle8),
+                                      TextSpan(
+                                          text: " password",
+                                          style: lPTextStyle7)
+                                    ]))
                                   ],
                                 )
                               ],
