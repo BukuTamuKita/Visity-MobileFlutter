@@ -245,7 +245,7 @@ class _BodyState extends State<Body> {
                               child: SvgPicture.asset(
                                 'assets/images/historypage/empty_history1.svg',
                                 fit: BoxFit.cover,
-                                height: size.height / 3,
+                                height: size.height / 4.1,
                               ));
                         } else {
                           return ListView.builder(
